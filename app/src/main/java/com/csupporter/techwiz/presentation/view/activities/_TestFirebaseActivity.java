@@ -19,19 +19,16 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model._Note;
 import com.csupporter.techwiz.presentation.view.adapter._TestNoteAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
 
@@ -42,7 +39,6 @@ import java.util.UUID;
 public class _TestFirebaseActivity extends BaseActivity implements View.OnClickListener, _TestNoteAdapter.OnItemClickListener {
 
     private static final String TAG = "__TAG";
-    private FirebaseFirestore db;
     private EditText edtTitle, edtContent;
     private ImageView imgNote;
     private _TestNoteAdapter noteAdapter;
@@ -63,7 +59,6 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout._activity_test_firebase);
-        db = FirebaseFirestore.getInstance();
         initUi();
         loadNotes();
     }
@@ -111,12 +106,14 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
 
     private void loadNotes() {
         loading(true);
-        _Test.getData("notes", queryDocumentSnapshots -> {
+        FirebaseUtils.getData("notes", queryDocumentSnapshots -> {
             loading(false);
             List<_Note> noteList = new ArrayList<>();
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                 Log.d(TAG, document.getId() + " => " + document.getData());
-                noteList.add(document.toObject(_Note.class));
+                _Note note = document.toObject(_Note.class);
+                note.setId(document.getId());
+                noteList.add(note);
             }
             noteAdapter.setNotes(noteList);
         }, throwable -> loading(false));
@@ -133,49 +130,29 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
         loading(true);
         note.setTitle(title);
         note.setContent(content);
-        Consumer<Uri> consumer = imgUri -> {
-            note.setUrl(imgUri != null ? imgUri.toString() : note.getUrl());
-            db.collection("notes").document(note.getId()).set(note)
-                    .addOnSuccessListener(documentReference -> {
-                        toast("Success", ToastUtils.SUCCESS);
-                        loadNotes();
-                        refreshForm();
-                    }).addOnFailureListener(e -> {
-                        loading(false);
-                        toast("Failure", ToastUtils.ERROR);
-                    });
-        };
-        uploadImage(note.getId(), mUri, consumer);
-    }
 
-    private void uploadImage(String uuid, Uri uri, Consumer<Uri> onUploadSuccess) {
-        if (uri == null) {
-            onUploadSuccess.accept(null);
-            return;
-        }
-        StorageReference ref = FirebaseStorage.getInstance().getReference(uuid);
-        ref.putFile(uri).continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                throw task.getException() == null ?
-                        new NullPointerException("Task null") : task.getException();
-            }
-            // Continue with the task to get the download URL
-            return ref.getDownloadUrl();
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                onUploadSuccess.accept(task.getResult());
-            } else {
-                loading(false);
-                Toast.makeText(_TestFirebaseActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-            }
+        Runnable r = () -> FirebaseUtils.setData("notes", note.getId(), note, unused -> {
+            toast("Success", ToastUtils.SUCCESS);
+            loadNotes();
+            refreshForm();
+        }, throwable -> {
+            loading(false);
+            toast("Failure", ToastUtils.ERROR);
         });
+
+        if (mUri == null) {
+            r.run();
+        } else {
+            FirebaseUtils.uploadImage(note.getId(), mUri, uri -> {
+                note.setUrl(uri != null ? uri.toString() : note.getUrl());
+                r.run();
+            }, throwable -> loading(false));
+        }
     }
 
     private void deleteNote(@NonNull _Note note) {
-        FirebaseStorage.getInstance().getReference(note.getId()).delete();
-        db.collection("notes")
-                .document(note.getId()).delete()
-                .addOnSuccessListener(unused -> loadNotes());
+        FirebaseUtils.deleteImage(note.getId());
+        FirebaseUtils.deleteData("notes", note.getId(), unused -> loadNotes(), null);
     }
 
     private void refreshForm() {

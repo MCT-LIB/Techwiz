@@ -2,6 +2,8 @@ package com.csupporter.techwiz.domain.model;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class _Note implements Serializable {
@@ -14,13 +16,7 @@ public class _Note implements Serializable {
     public _Note() {
     }
 
-    public _Note(String id, String title, String content, String url) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.url = url;
-    }
-
+    @Exclude
     public String getId() {
         return id;
     }
