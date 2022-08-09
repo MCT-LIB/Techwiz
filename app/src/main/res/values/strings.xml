@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Techwiz</string>
+
+    <string name="content_desc_back">Back</string>
+
+    <string name="toast_back_press">Back again to exists</string>
+
+    <!-- fragment login   -->
+    <!-- <string name="text_login_back_to_exits">Back again to exists</string>-->
+
+
+</resources>

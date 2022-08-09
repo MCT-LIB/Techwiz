@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchView</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+        <item name="colorSurface">@color/white_smoke</item>
+    </style>
+
+    <style name="ActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:tint">@color/toolBarColor</item>
+        <item name="android:src">@drawable/ic_dot_menu</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+    </style>
+
+    <style name="SearchView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textColor">@color/toolBarColor</item>
+    </style>
+
+    <style name="AppToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="titleTextColor">@color/toolBarColor</item>
+        <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="AppToolbar.NavBack">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="navigationContentDescription">@string/content_desc_back</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:background">@color/separatorDivider</item>
+    </style>
+
+    <style name="Divider.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+    <style name="Divider.Horizontal.Medium">
+        <item name="android:layout_height">5dp</item>
+    </style>
+
+    <style name="Divider.Horizontal.Large">
+        <item name="android:layout_height">8dp</item>
+    </style>
+
+    <style name="Divider.Vertical">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="Divider.Vertical.Medium">
+        <item name="android:layout_width">5dp</item>
+    </style>
+
+    <style name="Divider.Vertical.Large">
+        <item name="android:layout_width">8dp</item>
+    </style>
+
+</resources>
