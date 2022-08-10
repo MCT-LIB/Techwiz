@@ -25,16 +25,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
+import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model._Note;
 import com.csupporter.techwiz.presentation.view.adapter._TestNoteAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.gson.JsonObject;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class _TestFirebaseActivity extends BaseActivity implements View.OnClickListener, _TestNoteAdapter.OnItemClickListener {
 
@@ -61,6 +67,25 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout._activity_test_firebase);
         initUi();
         loadNotes();
+        loading(true);
+//        DataInjection.provideDataService().sendMailOtp("son15052002@gmail.com", "Forgot password", "Your OTP to reset password is: ")
+//                .enqueue(new Callback<JsonObject>() {
+//                    @Override
+//                    public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+//                        loading(false);
+//                        if (response.isSuccessful()) {
+//                            Toast.makeText(_TestFirebaseActivity.this, "Success " + response.body(), Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(_TestFirebaseActivity.this, "False " + response.body(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+//                        loading(false);
+//                        Toast.makeText(_TestFirebaseActivity.this, "False " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 
     private void initUi() {
@@ -99,9 +124,11 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
             note.setId(UUID.randomUUID().toString());
             addOrUpdate(note);
         }
+
         if (id == R.id.btn_load) {
             loadNotes();
         }
+
     }
 
     private void loadNotes() {

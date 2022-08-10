@@ -2,11 +2,14 @@ package com.csupporter.techwiz.data.firebase_source;
 
 import android.net.Uri;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -20,16 +23,26 @@ public class FirebaseUtils {
         return UUID.randomUUID().toString();
     }
 
+    @NonNull
+    public static FirebaseStorage storage() {
+        return FirebaseStorage.getInstance();
+    }
+
+    @NonNull
+    public static FirebaseFirestore db() {
+        return FirebaseFirestore.getInstance();
+    }
+
     /**
-     * @param id        id === path
+     * @param path      path
      * @param uri       image uri
      * @param onSuccess listener
      * @param onError   listener
      */
-    public static void uploadImage(@NonNull String id, @NonNull Uri uri,
+    public static void uploadImage(@NonNull String path, @NonNull Uri uri,
                                    @Nullable Consumer<Uri> onSuccess,
                                    @Nullable Consumer<Throwable> onError) {
-        StorageReference ref = FirebaseStorage.getInstance().getReference(id);
+        StorageReference ref = storage().getReference(path);
         ref.putFile(uri).continueWithTask(task -> {
             if (!task.isSuccessful()) {
                 error(onError, task.getException());
@@ -46,19 +59,19 @@ public class FirebaseUtils {
     }
 
     /**
-     * @param id id === path
+     * @param path path
      */
-    public static void deleteImage(@NonNull String id) {
-        FirebaseStorage.getInstance().getReference(id).delete();
+    public static void deleteImage(@NonNull String path) {
+        storage().getReference(path).delete();
     }
 
     /**
-     * @param id id === path
+     * @param path path
      */
-    public static void deleteImage(@NonNull String id,
+    public static void deleteImage(@NonNull String path,
                                    @Nullable Consumer<Void> onSuccess,
                                    @Nullable Consumer<Throwable> onError) {
-        FirebaseStorage.getInstance().getReference(id).delete()
+        storage().getReference(path).delete()
                 .addOnSuccessListener(unused -> success(onSuccess, unused))
                 .addOnFailureListener(e -> error(onError, e));
     }
@@ -66,7 +79,7 @@ public class FirebaseUtils {
     public static void getData(@NonNull String path,
                                @Nullable Consumer<QuerySnapshot> onSuccess,
                                @Nullable Consumer<Throwable> onError) {
-        FirebaseFirestore.getInstance().collection(path).get()
+        db().collection(path).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful())
                         success(onSuccess, task.getResult());
@@ -79,34 +92,51 @@ public class FirebaseUtils {
     public static void setData(@NonNull String path, @NonNull String id, Object object,
                                @Nullable Consumer<Void> onSuccess,
                                @Nullable Consumer<Throwable> onError) {
-        FirebaseFirestore.getInstance().collection(path).document(id).set(object)
+        db().collection(path).document(id).set(object)
                 .addOnSuccessListener(unused -> success(onSuccess, unused))
                 .addOnFailureListener(e -> error(onError, e));
     }
 
     public static void deleteData(@NonNull String path, @NonNull String id) {
-        FirebaseFirestore.getInstance().collection(path).document(id).delete();
+        db().collection(path).document(id).delete();
     }
 
     public static void deleteData(@NonNull String path, @NonNull String id,
                                   @Nullable Consumer<Void> onSuccess,
                                   @Nullable Consumer<Throwable> onError) {
-        FirebaseFirestore.getInstance().collection(path).document(id).delete()
+        db().collection(path).document(id).delete()
                 .addOnSuccessListener(unused -> success(onSuccess, unused))
                 .addOnFailureListener(e -> error(onError, e));
     }
 
-    private static <T> void success(Consumer<T> consumer, T t) {
+    public static void checkFieldExits(@NonNull String path,
+                                       @NonNull String field,
+                                       @NonNull String text,
+                                       @Nullable Consumer<Boolean> onSuccess,
+                                       @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(path).whereEqualTo(field, text).addSnapshotListener((value, error) -> {
+            if (value != null) {
+                FirebaseUtils.success(onSuccess, !value.isEmpty());
+            } else {
+                FirebaseUtils.error(onError, error != null ? error.getCause() : null);
+            }
+        });
+    }
+
+    public static <T> void success(Consumer<T> consumer, T t) {
         if (consumer != null) {
             consumer.accept(t);
         }
     }
 
-    private static void error(Consumer<Throwable> onError, Throwable error) {
+    public static void error(Consumer<Throwable> onError, Throwable error) {
         if (onError != null) {
             if (error == null)
                 onError.accept(new RuntimeException("Error"));
             else onError.accept(error);
         }
+    }
+
+    private FirebaseUtils() {
     }
 }
