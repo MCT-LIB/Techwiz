@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,18 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     Button btnSubmit;
     EditText edtEnterEmail;
     TextView tvBackToLogin;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
 
     @Nullable
     @Override
@@ -47,7 +60,9 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_submit:
-                showToast(edtEnterEmail.getText().toString(), 1, false);
+
+
+
                 break;
             case R.id.tv_back_to_login:
                 replaceFragment(new LoginFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);

@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,19 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     EditText edtDigitCode_1,edtDigitCode_2,edtDigitCode_3,edtDigitCode_4,edtDigitCode_5,edtDigitCode_6;
     TextView tvResentOTP;
     Button btnVerifyCode;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
+
 
     @Nullable
     @Override

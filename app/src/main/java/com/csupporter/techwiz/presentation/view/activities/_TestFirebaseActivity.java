@@ -25,22 +25,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
-import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model._Note;
 import com.csupporter.techwiz.presentation.view.adapter._TestNoteAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.gson.JsonObject;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class _TestFirebaseActivity extends BaseActivity implements View.OnClickListener, _TestNoteAdapter.OnItemClickListener {
 

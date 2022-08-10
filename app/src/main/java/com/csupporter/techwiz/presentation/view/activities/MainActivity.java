@@ -3,11 +3,6 @@ package com.csupporter.techwiz.presentation.view.activities;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.core.util.Consumer;
-
-import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
-import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.view.fragment.LoginFragment;
 import com.mct.components.baseui.BaseActivity;
 

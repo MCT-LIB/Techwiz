@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,18 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     Button btnConfirm;
 
     View view;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+    }
 
     @Nullable
     @Override
