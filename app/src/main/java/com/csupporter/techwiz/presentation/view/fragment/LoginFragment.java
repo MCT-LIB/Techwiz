@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private TextInputLayout tvPassword;
     private TextView tvRegisterNow;
     private AppCompatButton btnLogin;
+    private TextView  tvForgotPassword;
+
 
     private LoginPresenter loginPresenter;
     @Override
@@ -59,7 +62,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         tvUserName = view.findViewById(R.id.login_username_layout);
         tvPassword = view.findViewById(R.id.login_password_layout);
         tvRegisterNow = view.findViewById(R.id.tv_register_now);
+        tvForgotPassword = view.findViewById(R.id.tv_forgot_password);
         tvRegisterNow.setOnClickListener(this);
+        tvForgotPassword.setOnClickListener(this);
         btnLogin = view.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
     }
@@ -69,6 +74,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         int id = view.getId();
         if (id == R.id.tv_register_now) {
             replaceFragment(new ChooseObjectFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        }else if(id == R.id.tv_forgot_password){
+            replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
         } else if (id == R.id.tv_forgot_password) {
 
         }else if(id == R.id.btn_login){
