@@ -1,12 +1,9 @@
 package com.csupporter.techwiz.presentation.presenter;
 
-import android.widget.Toast;
-
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 

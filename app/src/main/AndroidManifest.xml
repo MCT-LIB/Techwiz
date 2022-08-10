@@ -22,8 +22,9 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.view.activities.MainActivity"
-            android:exported="true">
+            android:name=".presentation.view.activities.AuthenticateActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

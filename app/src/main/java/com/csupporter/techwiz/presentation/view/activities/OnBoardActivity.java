@@ -14,7 +14,7 @@ public class OnBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_board);
 
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, AuthenticateActivity.class);
         startActivity(i);
         finish();
     }
