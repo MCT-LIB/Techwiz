@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="100dp"
         android:gravity="center"
-        android:text="@string/you_are"
+        android:text="@string/choose_object_you_are"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -45,7 +45,7 @@
             android:background="@drawable/layout_radius"
             android:elevation="5dp"
             android:gravity="center"
-            android:text="@string/doctor"
+            android:text="@string/choose_object_doctor"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -58,7 +58,7 @@
             android:background="@drawable/layout_radius"
             android:elevation="5dp"
             android:gravity="center"
-            android:text="@string/user"
+            android:text="@string/choose_object_user"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />

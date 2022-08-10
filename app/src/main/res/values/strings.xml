@@ -4,41 +4,39 @@
     <string name="content_desc_back">Back</string>
 
     <string name="toast_back_press">Back again to exists</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--    fragment login-->
     <string name="login_header_text">My Health Record</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="forgot_password">Forgot Password ?</string>
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_forgot_password">Forgot Password ?</string>
     <string name="login">Login</string>
-    <string name="new_user_question">New user? Register now.</string>
+    <string name="login_new_user_question">New user? Register now.</string>
 
     <!--    fragment_register-->
     <string name="register_header_text">Here\'s your first step with us</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="contact_number">Contact Number</string>
-    <string name="gender">Gender</string>
-    <string name="age">Age</string>
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_contact_number">Contact Number</string>
+    <string name="register_gender">Gender</string>
+    <string name="register_age">Age</string>
     <string name="register">Register</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="username">Username</string>
-<!--    choose_object_fragment-->
-    <string name="you_are">You are.....?</string>
-    <string name="doctor">Doctor</string>
-    <string name="user_app">User App</string>
+    <string name="register_male">Male</string>
+    <string name="register_female">Female</string>
+    <string name="register_username">Username</string>
+    <!--    choose_object_fragment-->
+    <string name="choose_object_you_are">You are.....?</string>
+    <string name="choose_object_doctor">Doctor</string>
+    <string name="choose_object_user">User</string>
 
-<!--    fragment forgot password-->
+    <!--    fragment forgot password-->
     <string name="forgot_pw_forgot_password">Forgot Password</string>
     <string name="forgot_pw_email">Email:</string>
     <string name="forgot_pw_email_hint">Enter your email</string>
     <string name="forgot_pw_btn_submit">Get OTP</string>
     <string name="forgot_pw_back_to_login">Back to login</string>
-    
-<!--    fragment enter OPT-->
+
+    <!--    fragment enter OPT-->
     <string name="enter_otp_enter_otp">Enter OTP</string>
     <string name="enter_otp_content">An 6 digit code has been sent to</string>
     <string name="enter_otp_btn_verify">Verify Code</string>
@@ -47,7 +45,7 @@
     <string name="enter_otp_msg">OTP code is only valid for</string>
     <string name="enter_otp_duration_of_otp">60s</string>
 
-<!--    fragment reset password-->
+    <!--    fragment reset password-->
     <string name="reset_pw_reset_password">Reset Password</string>
     <string name="reset_pw_enter_old_pw">Enter old password</string>
     <string name="reset_pw_enter_new_pw">Enter new password</string>
