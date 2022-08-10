@@ -25,7 +25,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
         init(view);
         return view;
     }
-
     private void init(View view){
         tvRegisterNow = view.findViewById(R.id.tv_register_now);
         tvRegisterNow.setOnClickListener(this);
