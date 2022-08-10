@@ -1,12 +1,9 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -18,27 +15,26 @@ import com.csupporter.techwiz.R;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
-
 public class ChooseObjectFragment extends BaseFragment implements View.OnClickListener {
 
-    private AppCompatButton radioDoctor;
-    private AppCompatButton radioUser;
+    private AppCompatButton btnDoctor;
+    private AppCompatButton btnUser;
     private Toolbar toolbar;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_object, container, false);
         init(view);
@@ -46,22 +42,22 @@ public class ChooseObjectFragment extends BaseFragment implements View.OnClickLi
         return view;
     }
 
-    private void init(View view) {
-        radioDoctor = view.findViewById(R.id.btn_doctor);
-        radioUser = view.findViewById(R.id.btn_user);
+    private void init(@NonNull View view) {
+        btnDoctor = view.findViewById(R.id.btn_doctor);
+        btnUser = view.findViewById(R.id.btn_user);
         toolbar = view.findViewById(R.id.toolbar);
     }
 
     private void eventOnClick() {
-        radioUser.setOnClickListener(this);
+        btnUser.setOnClickListener(this);
 
-        radioDoctor.setOnClickListener(this);
+        btnDoctor.setOnClickListener(this);
 
         toolbar.setNavigationOnClickListener(view -> popLastFragment());
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         int id = view.getId();
         if (id == R.id.btn_doctor) {
 

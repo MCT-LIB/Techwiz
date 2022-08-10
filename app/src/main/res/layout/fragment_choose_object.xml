@@ -30,36 +30,38 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_doctor"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/header_choose_text"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
-        android:background="@drawable/layout_radius"
-        android:elevation="5dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="@string/doctor"
-        android:textColor="@color/blue"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_user"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/btn_doctor"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/layout_radius"
-        android:button="@drawable/img_person"
-        android:elevation="5dp"
-        android:gravity="center"
-        android:text="@string/user_app"
-        android:textColor="@color/blue"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_doctor"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/layout_radius"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:text="@string/doctor"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_user"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/layout_radius"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:text="@string/user"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>
