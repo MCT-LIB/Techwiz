@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/choose_object_background"
+    tools:context=".presentation.view.fragment.ChooseObjectFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A3646465"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppToolbar.NavBack"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/transparent" />
+
+    <TextView
+        android:id="@+id/header_choose_text"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="100dp"
+        android:gravity="center"
+        android:text="@string/you_are"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_doctor"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/header_choose_text"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:background="@drawable/layout_radius"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="@string/doctor"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_user"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/btn_doctor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/layout_radius"
+        android:button="@drawable/img_person"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="@string/user_app"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</RelativeLayout>

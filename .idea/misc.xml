@@ -24,12 +24,19 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_number.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_note.xml" value="0.25" />
         <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/layout_radius.xml" value="0.1715" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/radio_normal.xml" value="0.1715" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/radio_selected.xml" value="0.1715" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/radio_selector.xml" value="0.1715" />
         <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ripple_rectangle_corn_16.xml" value="0.1715" />
         <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/text_input_layout_selector.xml" value="0.1715" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/text_radio_color.xml" value="0.1715" />
         <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/top_layout_radius.xml" value="0.1715" />
         <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/vc_rtc_ripple_rectangle.xml" value="0.1715" />
-        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_login.xml" value="0.2484375" />
-        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_register.xml" value="0.12979591836734694" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/_activity_test_firebase.xml" value="0.2484375" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/_test_item_note.xml" value="0.2484375" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_choose_object.xml" value="0.2484375" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_login.xml" value="0.176" />
+        <entry key="..\:/Users/Van Luan Nguyen/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_register.xml" value="0.2" />
       </map>
     </option>
   </component>
