@@ -27,7 +27,7 @@
 <!--    choose_object_fragment-->
     <string name="choose_object_you_are">You are.....?</string>
     <string name="choose_object_doctor">Doctor</string>
-    <string name="choose_object_user_app">User App</string>
+    <string name="choose_object_user">User</string>
 
 <!--    fragment forgot password-->
     <string name="forgot_pw_forgot_password">Forgot Password</string>
