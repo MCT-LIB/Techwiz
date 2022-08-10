@@ -44,6 +44,8 @@
     <string name="enter_otp_btn_verify">Verify Code</string>
     <string name="enter_otp_don_not_receiver_otp">Don\'t receiver the OTP?</string>
     <string name="enter_otp_resent_opt">Resent otp</string>
+    <string name="enter_otp_msg">OTP code is only valid for</string>
+    <string name="enter_otp_duration_of_otp">60s</string>
 
 <!--    fragment reset password-->
     <string name="reset_pw_reset_password">Reset Password</string>

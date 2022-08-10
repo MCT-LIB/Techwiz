@@ -13,4 +13,18 @@ public abstract class ViewCallback {
         void registerError();
     }
 
+    public interface ForgotPasswordCallBack{
+        void emailExist();
+
+        void emailNull();
+
+        void emailNotExist();
+    }
+
+    public interface EnterOTPCallBack{
+        void onSentOTPSuccess(int OTP);
+
+        void onSentOTPFailure();
+
+    }
 }

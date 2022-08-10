@@ -3,37 +3,53 @@ package com.csupporter.techwiz.presentation.view.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.presentation.presenter.ForgotPasswordPresenter;
+import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
-public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener{
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener,ViewCallback.ForgotPasswordCallBack {
     View view;
     Button btnSubmit;
     EditText edtEnterEmail;
     TextView tvBackToLogin;
 
+    private ForgotPasswordPresenter forgotPasswordPresenter;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        forgotPasswordPresenter = new ForgotPasswordPresenter(this);
+        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
     }
 
     @Nullable
@@ -59,9 +75,10 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_submit:
+            case R.id.btn_get_otp:
 
-
+                String email = edtEnterEmail.getText().toString().trim();
+                forgotPasswordPresenter.checkEmailExist(email, this);
 
                 break;
             case R.id.tv_back_to_login:
@@ -71,8 +88,25 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     private void initView(View view) {
-        btnSubmit = view.findViewById(R.id.btn_submit);
+        btnSubmit = view.findViewById(R.id.btn_get_otp);
         edtEnterEmail = view.findViewById(R.id.edt_enter_email);
         tvBackToLogin = view.findViewById(R.id.tv_back_to_login);
+    }
+
+    @Override
+    public void emailExist() {
+        String email = edtEnterEmail.getText().toString().trim();
+        Fragment fragment = EnterOTPFragment.newInstance(email);
+        replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+    }
+
+    @Override
+    public void emailNull() {
+        Toast.makeText(getActivity(), "Email cannot be blank!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void emailNotExist() {
+        Toast.makeText(getActivity(), "Email not exits!", Toast.LENGTH_SHORT).show();
     }
 }
