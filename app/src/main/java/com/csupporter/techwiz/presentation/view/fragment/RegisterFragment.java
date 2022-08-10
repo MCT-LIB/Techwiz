@@ -10,22 +10,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
+import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 import java.time.LocalDateTime;
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener, ViewCallback.RegisterCallBack {
 
 
     private Toolbar toolbar;
@@ -92,8 +96,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         int id = view.getId();
         switch (id) {
             case R.id.btn_register:
-
-//                registerPresenter.register();
+                Account account = getDataFromForm();
+                registerPresenter.register(account, this);
                 break;
         }
     }
@@ -104,20 +108,52 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         String lastName = txtLastName.getEditText().getText().toString().trim();
         String userName = txtUserName.getEditText().getText().toString().trim();
         String email = txtEmail.getEditText().getText().toString().trim();
-        String contactName = txtContactNumber.getEditText().toString().trim();
-        int gender;
+        String contactPhone = txtContactNumber.getEditText().getText().toString().trim();
+        int gender = 2;
         if (radioMale.isChecked()) {
             gender = 0;
         } else if (radioFemale.isChecked()) {
             gender = 1;
         }
-        String age = txtAge.getEditText().getText().toString().trim();
-        String password = txtPassword.getEditText().toString().trim();
+        int age ;
+
+        if(TextUtils.isEmpty(txtAge.getEditText().getText().toString())){
+             age = 0;
+        }else{
+            age = Integer.parseInt(txtAge.getEditText().getText().toString().trim());
+        }
+        String password = txtPassword.getEditText().getText().toString().trim();
 
         Account acc = new Account();
         acc.setId(FirebaseUtils.uniqueId());
-
+        acc.setFirstName(firstName);
+        acc.setLastName(lastName);
+        acc.setUserName(userName);
+        acc.setEmail(email);
+        acc.setPhone(contactPhone);
+        acc.setGender(gender);
+        acc.setAge(age);
+        acc.setType(2);
+        acc.setPassword(password);
         return acc;
+    }
+
+    @Override
+    public void dataInvalid(String alert) {
+
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,alert+"",true).show();
+    }
+
+    @Override
+    public void registerSuccess() {
+        hideLoading();
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Register Success!",true).show();
+    }
+
+    @Override
+    public void registerError() {
+        hideLoading();
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,"Register Fail!",true).show();
     }
 
     @Override
@@ -126,6 +162,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             dialog.dismiss();
         }
         dialog = new LoadingDialog(getContext());
+        dialog.create(null);
     }
 
     @Override

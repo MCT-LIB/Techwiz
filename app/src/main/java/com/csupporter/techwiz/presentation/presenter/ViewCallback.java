@@ -1,8 +1,16 @@
 package com.csupporter.techwiz.presentation.presenter;
 
 public abstract class ViewCallback {
-    public interface RegisterCallBack{
 
+    public  interface Login{
+        void dataInvalid(String alert);
+        void loginSuccess();
+        void loginError();
+    }
+    public interface RegisterCallBack {
+        void dataInvalid(String alert);
+        void registerSuccess();
+        void registerError();
     }
 
 }

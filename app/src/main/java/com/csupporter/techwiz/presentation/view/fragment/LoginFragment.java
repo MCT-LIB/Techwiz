@@ -14,23 +14,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.presentation.presenter.LoginPresenter;
+import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener {
+public class LoginFragment extends BaseFragment implements View.OnClickListener , ViewCallback.Login {
 
     private TextInputLayout tvUserName;
     private TextInputLayout tvPassword;
     private TextView tvRegisterNow;
     private AppCompatButton btnLogin;
 
+    private LoginPresenter loginPresenter;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        loginPresenter = new LoginPresenter(this);
         getActivity().getWindow().setBackgroundDrawableResource(R.drawable.login_background);
     }
 
@@ -54,6 +60,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         tvPassword = view.findViewById(R.id.login_password_layout);
         tvRegisterNow = view.findViewById(R.id.tv_register_now);
         tvRegisterNow.setOnClickListener(this);
+        btnLogin = view.findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +71,25 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             replaceFragment(new ChooseObjectFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
         } else if (id == R.id.tv_forgot_password) {
 
+        }else if(id == R.id.btn_login){
+            String userName = tvUserName.getEditText().getText().toString();
+            String password = tvPassword.getEditText().getText().toString();
+            loginPresenter.login(userName,password,this);
         }
+    }
+
+    @Override
+    public void dataInvalid(String alert) {
+
+    }
+
+    @Override
+    public void loginSuccess() {
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Login Success!",true).show();
+    }
+
+    @Override
+    public void loginError() {
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,"Login Fail!",true).show();
     }
 }

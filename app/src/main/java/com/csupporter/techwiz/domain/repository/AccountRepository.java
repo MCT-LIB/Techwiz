@@ -8,6 +8,10 @@ import com.csupporter.techwiz.domain.model.Account;
 
 public interface AccountRepository {
 
+    void checkUserNameAndPassword(String username, String password,
+                                  @Nullable Consumer<Account> onSuccess,
+                                  @Nullable Consumer<Throwable> onError);
+
     void addAccount(Account account,
                     @Nullable Consumer<Void> onSuccess,
                     @Nullable Consumer<Throwable> onError);
