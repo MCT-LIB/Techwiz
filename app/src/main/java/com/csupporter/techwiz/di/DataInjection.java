@@ -31,7 +31,7 @@ public class DataInjection {
     ///////////////////////////////////////////////////////////////////////////
 
     @NonNull
-    private static Repository provideRepository() {
+    public static Repository provideRepository() {
         return new RepositoryImpl();
     }
 

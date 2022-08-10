@@ -73,8 +73,16 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
 //                    @Override
 //                    public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
 //                        loading(false);
-//                        if (response.isSuccessful()) {
-//                            Toast.makeText(_TestFirebaseActivity.this, "Success " + response.body(), Toast.LENGTH_SHORT).show();
+//                        if (response.isSuccessful() && response.body() != null) {
+//                            int status = response.body().get("status").getAsInt();
+//                            // 200 is success
+//                            if (status == 200) {
+//                                int otp = response.body().get("data").getAsInt();
+//                                Toast.makeText(_TestFirebaseActivity.this, "OTP: " + otp, Toast.LENGTH_SHORT).show();
+//                                Log.e(TAG, "onResponse: OTP " + otp);
+//                            } else {
+//                                Toast.makeText(_TestFirebaseActivity.this, "Success " + response.body().get("message"), Toast.LENGTH_SHORT).show();
+//                            }
 //                        } else {
 //                            Toast.makeText(_TestFirebaseActivity.this, "False " + response.body(), Toast.LENGTH_SHORT).show();
 //                        }

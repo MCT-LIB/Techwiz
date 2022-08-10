@@ -8,11 +8,11 @@ public class Account extends BaseModel {
     private String password;
     private String email;
     private String phone;
-    private int gender;
+    private int gender;     // 0 -> male, 1 -> female
     private int age;
     private String avatar;
-    private int type;
-    private int status;
+    private int type;       // 0 -> admin, 1 -> user, 2 -> doctor
+    private int status;     // 0 -> inactive, 1 -> active
     private String department;
     private String certificationUrl;
 
