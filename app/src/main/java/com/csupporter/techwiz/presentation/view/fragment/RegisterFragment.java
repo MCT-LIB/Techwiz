@@ -31,20 +31,10 @@ import java.time.LocalDateTime;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, ViewCallback.RegisterCallBack {
 
-
-    private Toolbar toolbar;
-
-    private TextInputLayout txtUserName;
     private TextInputLayout txtFirstName;
     private TextInputLayout txtLastName;
     private TextInputLayout txtEmail;
-    private TextInputLayout txtContactNumber;
-    private TextInputLayout txtAge;
     private TextInputLayout txtPassword;
-    private AppCompatButton btnRegister;
-
-    private RadioButton radioMale;
-    private RadioButton radioFemale;
 
     private LoadingDialog dialog;
 
@@ -66,73 +56,46 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         init(view);
         return view;
     }
 
-    private void init(View view) {
+    private void init(@NonNull View view) {
 
-        toolbar = view.findViewById(R.id.toolbar);
-        txtUserName = view.findViewById(R.id.register_username_layout);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
         txtEmail = view.findViewById(R.id.register_email_layout);
         txtFirstName = view.findViewById(R.id.register_firstname_layout);
         txtLastName = view.findViewById(R.id.register_lastname_layout);
-        txtContactNumber = view.findViewById(R.id.register_contact_number_layout);
         txtPassword = view.findViewById(R.id.register_password_layout);
-        txtAge = view.findViewById(R.id.register_age_layout);
-        radioMale = view.findViewById(R.id.radio_male);
-        radioFemale = view.findViewById(R.id.radio_female);
-        btnRegister = view.findViewById(R.id.btn_register);
+        AppCompatButton btnRegister = view.findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(this);
 
-        toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.btn_register:
-                Account account = getDataFromForm();
-                registerPresenter.register(account, this);
-                break;
+        if (id == R.id.btn_register) {
+            Account account = getDataFromForm();
+            registerPresenter.register(account, this);
         }
     }
 
+    @NonNull
     private Account getDataFromForm() {
-
         String firstName = txtFirstName.getEditText().getText().toString().trim();
         String lastName = txtLastName.getEditText().getText().toString().trim();
-        String userName = txtUserName.getEditText().getText().toString().trim();
         String email = txtEmail.getEditText().getText().toString().trim();
-        String contactPhone = txtContactNumber.getEditText().getText().toString().trim();
-        int gender = 2;
-        if (radioMale.isChecked()) {
-            gender = 0;
-        } else if (radioFemale.isChecked()) {
-            gender = 1;
-        }
-        int age ;
-
-        if(TextUtils.isEmpty(txtAge.getEditText().getText().toString())){
-             age = 0;
-        }else{
-            age = Integer.parseInt(txtAge.getEditText().getText().toString().trim());
-        }
         String password = txtPassword.getEditText().getText().toString().trim();
-
         Account acc = new Account();
         acc.setId(FirebaseUtils.uniqueId());
         acc.setFirstName(firstName);
         acc.setLastName(lastName);
-        acc.setUserName(userName);
         acc.setEmail(email);
-        acc.setPhone(contactPhone);
-        acc.setGender(gender);
-        acc.setAge(age);
         acc.setType(2);
         acc.setPassword(password);
         return acc;
@@ -141,23 +104,24 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void dataInvalid(String alert) {
 
-        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,alert+"",true).show();
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, alert + "", true).show();
     }
 
     @Override
     public void registerSuccess() {
         hideLoading();
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Register Success!",true).show();
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Register Success!", true).show();
     }
 
     @Override
     public void registerError() {
         hideLoading();
-        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,"Register Fail!",true).show();
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, "Register Fail!", true).show();
     }
 
     @Override
     public void showLoading() {
+        if (getContext() == null) return;
         if (dialog != null) {
             dialog.dismiss();
         }
