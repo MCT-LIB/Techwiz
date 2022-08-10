@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/choose_object_background"
     tools:context=".presentation.view.fragment.ChooseObjectFragment">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A3646465"/>
+        android:background="#A3646465" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

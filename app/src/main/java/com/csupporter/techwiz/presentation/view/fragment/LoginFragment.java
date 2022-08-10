@@ -1,7 +1,11 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +23,17 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     private TextView tvRegisterNow;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.login_background);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.login_background);
+    }
 
 
     @Override

@@ -25,6 +25,7 @@
     <string name="register">Register</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="username">Username</string>
 <!--    choose_object_fragment-->
     <string name="you_are">You are.....?</string>
     <string name="doctor">Doctor</string>

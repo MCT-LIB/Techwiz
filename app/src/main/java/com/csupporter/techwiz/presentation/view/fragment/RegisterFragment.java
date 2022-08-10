@@ -1,7 +1,12 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.LayoutInflater;
@@ -15,6 +20,20 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
 
     private Toolbar toolbar;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

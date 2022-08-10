@@ -1,7 +1,12 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +24,18 @@ public class ChooseObjectFragment extends BaseFragment implements View.OnClickLi
     private AppCompatButton radioDoctor;
     private AppCompatButton radioUser;
     private Toolbar toolbar;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
