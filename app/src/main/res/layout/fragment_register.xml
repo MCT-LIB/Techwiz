@@ -37,13 +37,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/header_text"
             android:gravity="center"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/lg_email_layout"
+                android:id="@+id/register_username_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -57,7 +57,6 @@
                 app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/lg_phone_number_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
@@ -67,6 +66,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -88,7 +88,59 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="35dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_firstname_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/first_name"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:hintTextColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_lastname_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/last_name"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:hintTextColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_contact_number_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -105,7 +157,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:inputType="phone"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />
 
@@ -120,23 +171,26 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/radio_male"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:buttonTint="@color/white"
                     android:text="@string/male"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:buttonTint="@color/white"/>
+                    android:textStyle="bold" />
 
                 <RadioButton
+                    android:id="@+id/radio_female"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:buttonTint="@color/white"
                     android:text="@string/female"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:buttonTint="@color/white"/>
+                    android:textStyle="bold" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_age_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -185,6 +239,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="30dp"

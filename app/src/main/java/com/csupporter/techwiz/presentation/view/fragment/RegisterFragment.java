@@ -7,32 +7,58 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
+import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseFragment;
+
+import java.time.LocalDateTime;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener {
 
 
     private Toolbar toolbar;
 
+    private TextInputLayout txtUserName;
+    private TextInputLayout txtFirstName;
+    private TextInputLayout txtLastName;
+    private TextInputLayout txtEmail;
+    private TextInputLayout txtContactNumber;
+    private TextInputLayout txtAge;
+    private TextInputLayout txtPassword;
+    private AppCompatButton btnRegister;
+
+    private RadioButton radioMale;
+    private RadioButton radioFemale;
+
+    private LoadingDialog dialog;
+
+    private RegisterPresenter registerPresenter;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        registerPresenter = new RegisterPresenter(this);
         getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
     }
-
 
 
     @Override
@@ -44,13 +70,69 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void init(View view) {
+
         toolbar = view.findViewById(R.id.toolbar);
+        txtUserName = view.findViewById(R.id.register_username_layout);
+        txtEmail = view.findViewById(R.id.register_email_layout);
+        txtFirstName = view.findViewById(R.id.register_firstname_layout);
+        txtLastName = view.findViewById(R.id.register_lastname_layout);
+        txtContactNumber = view.findViewById(R.id.register_contact_number_layout);
+        txtPassword = view.findViewById(R.id.register_password_layout);
+        txtAge = view.findViewById(R.id.register_age_layout);
+        radioMale = view.findViewById(R.id.radio_male);
+        radioFemale = view.findViewById(R.id.radio_female);
+        btnRegister = view.findViewById(R.id.btn_register);
+        btnRegister.setOnClickListener(this);
+
         toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        switch (id) {
+            case R.id.btn_register:
 
+//                registerPresenter.register();
+                break;
+        }
+    }
+
+    private Account getDataFromForm() {
+
+        String firstName = txtFirstName.getEditText().getText().toString().trim();
+        String lastName = txtLastName.getEditText().getText().toString().trim();
+        String userName = txtUserName.getEditText().getText().toString().trim();
+        String email = txtEmail.getEditText().getText().toString().trim();
+        String contactName = txtContactNumber.getEditText().toString().trim();
+        int gender;
+        if (radioMale.isChecked()) {
+            gender = 0;
+        } else if (radioFemale.isChecked()) {
+            gender = 1;
+        }
+        String age = txtAge.getEditText().getText().toString().trim();
+        String password = txtPassword.getEditText().toString().trim();
+
+        Account acc = new Account();
+        acc.setId(FirebaseUtils.uniqueId());
+
+        return acc;
+    }
+
+    @Override
+    public void showLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        dialog = new LoadingDialog(getContext());
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }
