@@ -62,8 +62,12 @@ public class AccountRepositoryImpl implements AccountRepository {
     public void findAccountByEmail(String text, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH).whereEqualTo("email", text).addSnapshotListener((value, error) -> {
             if (value != null && !value.isEmpty()) {
-                Account acc = value.getDocuments().get(0).toObject(Account.class);
-                FirebaseUtils.success(onSuccess, acc);
+                DocumentSnapshot snapshot = value.getDocuments().get(0);
+                Account acc = snapshot.toObject(Account.class);
+                if (acc != null) {
+                    acc.setId(snapshot.getId());
+                    FirebaseUtils.success(onSuccess, acc);
+                }
             } else {
                 FirebaseUtils.error(onError, error != null ? error.getCause() : null);
             }
