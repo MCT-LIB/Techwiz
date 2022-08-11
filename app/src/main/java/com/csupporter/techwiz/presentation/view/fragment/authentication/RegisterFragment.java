@@ -22,8 +22,8 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
-import com.csupporter.techwiz.presentation.presenter.SendOtpPresenter;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
@@ -32,7 +32,7 @@ import com.mct.components.toast.ToastUtils;
 
 import java.time.LocalDateTime;
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener, ViewCallback.EnterOTPCallBack, ViewCallback.VerifyAccountCallBack {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.EnterOTPCallBack, AuthenticationCallback.VerifyAccountCallBack {
 
     public static final String KEY_TYPE = "key_type";
     private TextInputLayout txtFirstName;
@@ -133,7 +133,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void dataInvalid(String alert, @NonNull ViewCallback.ErrorTo errorTo) {
+    public void dataInvalid(String alert, @NonNull AuthenticationCallback.ErrorTo errorTo) {
         if (getContext() == null) return;
         switch (errorTo) {
             case NONE:

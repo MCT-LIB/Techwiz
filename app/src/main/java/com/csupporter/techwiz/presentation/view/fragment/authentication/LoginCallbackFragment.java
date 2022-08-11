@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.LoginPresenter;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,7 +24,7 @@ import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
 
-public class LoginCallbackFragment extends BaseFragment implements View.OnClickListener, ViewCallback.LoginCallback {
+public class LoginCallbackFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.LoginCallback {
 
     private TextInputLayout tvUserName;
     private TextInputLayout tvPassword;

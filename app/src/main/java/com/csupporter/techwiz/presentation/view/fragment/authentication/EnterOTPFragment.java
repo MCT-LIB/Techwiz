@@ -19,14 +19,14 @@ import androidx.fragment.app.Fragment;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
-import com.csupporter.techwiz.presentation.presenter.SendOtpPresenter;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
-public class EnterOTPFragment extends BaseFragment implements View.OnClickListener, ViewCallback.EnterOTPCallBack, ViewCallback.RegisterCallBack {
+public class EnterOTPFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.EnterOTPCallBack, AuthenticationCallback.RegisterCallBack {
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
     private static final String KEY_OTP = "KEY_OTP";
     private static final String KEY_FROM = "KEY_FROM";

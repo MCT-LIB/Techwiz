@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.utils;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.csupporter.techwiz.App;
@@ -45,13 +46,17 @@ public class SettingPreferences {
     ///////////////////////////////////////////////////////////////////////////
 
     public void setToken(String userId) {
+        if (TextUtils.isEmpty(userId)){
+            editor().putString(KEY_TOKEN, "").apply();
+            return;
+        }
         byte[] token = Base64.encode(userId.getBytes(StandardCharsets.UTF_8), 0);
         editor().putString(KEY_TOKEN, new String(token)).apply();
     }
 
     public String getToken() {
         String token = mSharedPreferences.getString(KEY_TOKEN, null);
-        if (token == null) {
+        if (TextUtils.isEmpty(token)) {
             return null;
         }
         byte[] jsonByte = Base64.decode(token.getBytes(StandardCharsets.UTF_8), 0);

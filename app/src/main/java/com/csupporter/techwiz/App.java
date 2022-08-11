@@ -9,8 +9,6 @@ public class App extends Application {
 
     private static App sInstance;
 
-    private Account account;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,11 +23,4 @@ public class App extends Application {
         return getApp().getApplicationContext();
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }

@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.presentation.presenter.main.NavUserInfoPresenter;
+import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
+import com.mct.components.baseui.BaseView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NavUserInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NavUserInfoFragment extends Fragment implements View.OnClickListener{
+public class NavUserInfoFragment extends Fragment implements View.OnClickListener, BaseView {
+
+    private NavUserInfoPresenter navUserInfoPresenter;
 
     View view;
     TextView tvName, tvEmail;
@@ -75,6 +81,7 @@ public class NavUserInfoFragment extends Fragment implements View.OnClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navUserInfoPresenter = new NavUserInfoPresenter(this);
         initView(view);
         eventClick();
     }
@@ -86,14 +93,35 @@ public class NavUserInfoFragment extends Fragment implements View.OnClickListene
     private void initView(View view) {
         tvName  = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
+        itemLogout = view.findViewById(R.id.item_logout);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.item_logout:
-                Toast.makeText(getContext(), "log out", Toast.LENGTH_SHORT).show();
+                if (getActivity() != null){
+                    navUserInfoPresenter.logOut();
+                    Intent intent = new Intent(getContext(), AuthenticateActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
                 break;
         }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onFalse(Throwable t) {
+
     }
 }

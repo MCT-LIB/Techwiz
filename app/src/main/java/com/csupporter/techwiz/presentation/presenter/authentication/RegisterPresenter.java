@@ -9,7 +9,7 @@ import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback.ErrorTo;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback.ErrorTo;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -24,7 +24,7 @@ public class RegisterPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void verifyAccount(@NonNull Account account, String confPass, ViewCallback.VerifyAccountCallBack callBack) {
+    public void verifyAccount(@NonNull Account account, String confPass, AuthenticationCallback.VerifyAccountCallBack callBack) {
         if (TextUtils.isEmpty(account.getFirstName())) {
             callBack.dataInvalid("Please enter your first name", ErrorTo.FIRST_NAME);
             return;
@@ -74,7 +74,7 @@ public class RegisterPresenter extends BasePresenter {
     }
 
 
-    public void register(Account account, ViewCallback.RegisterCallBack callBack) {
+    public void register(Account account, AuthenticationCallback.RegisterCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideRepository().account.addAccount(account,
                 unused -> {
