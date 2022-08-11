@@ -97,7 +97,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_resent_otp:
                 if (from == FROM_FORGOT_PW) {
-                    sendOTPPresenter.sentOTP(account.getEmail(), this);
+                    sendOTPPresenter.sentOTP(account, this);
                 } else {
 
                 }
@@ -105,7 +105,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void intiView(View view) {
+    private void intiView(@NonNull View view) {
         edtDigitCode_1 = view.findViewById(R.id.edt_digit_code_1);
         edtDigitCode_2 = view.findViewById(R.id.edt_digit_code_2);
         edtDigitCode_3 = view.findViewById(R.id.edt_digit_code_3);
@@ -131,9 +131,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onSentOTPSuccess(int OTP) {
-        Toast.makeText(getActivity(), "sent otp success" + OTP, Toast.LENGTH_SHORT).show();
-//        replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+    public void onSentOTPSuccess(int otp) {
+        this.otp = otp;
+        Toast.makeText(getActivity(), "sent otp success" + otp, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.domain.model.Account;
 import com.google.gson.JsonObject;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
@@ -15,13 +16,16 @@ import retrofit2.Response;
 
 public class SendOtpPresenter extends BasePresenter {
 
+    public static final int TYPE_FORGOT_PASS = 1;
+    public static final int TYPE_VERIFICATION = 2;
+
     public SendOtpPresenter(BaseView baseView) {
         super(baseView);
     }
 
-    public void sentOTP(String email, ViewCallback.EnterOTPCallBack callBack) {
+    public void sentOTP(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
         getBaseView().showLoading();
-        DataInjection.provideDataService().sendMailOtp(email, "Forgot Password", "The OTP authentication code of your is: ")
+        DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_FORGOT_PASS, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
