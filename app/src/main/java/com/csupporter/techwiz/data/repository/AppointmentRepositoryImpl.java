@@ -21,6 +21,4 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
         FirebaseUtils.setData(DEFAULT_PATH, appointment.getId(), appointment, onSuccess, onError);
     }
 
-
-
 }
