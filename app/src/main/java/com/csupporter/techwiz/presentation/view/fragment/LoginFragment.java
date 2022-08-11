@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,22 +21,24 @@ import android.widget.Toast;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.LoginPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener , ViewCallback.Login {
+public class LoginFragment extends BaseFragment implements View.OnClickListener, ViewCallback.Login {
 
     private TextInputLayout tvUserName;
     private TextInputLayout tvPassword;
     private TextView tvRegisterNow;
     private AppCompatButton btnLogin;
-    private TextView  tvForgotPassword;
+    private TextView tvForgotPassword;
 
 
     private LoginPresenter loginPresenter;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -74,29 +77,34 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         int id = view.getId();
         if (id == R.id.tv_register_now) {
             replaceFragment(new ChooseObjectFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
-        }else if(id == R.id.tv_forgot_password){
-            replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
         } else if (id == R.id.tv_forgot_password) {
-
-        }else if(id == R.id.btn_login){
+            replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        } else if (id == R.id.btn_login) {
             String userName = tvUserName.getEditText().getText().toString();
             String password = tvPassword.getEditText().getText().toString();
-            loginPresenter.login(userName,password,this);
+            loginPresenter.login(userName, password, this);
         }
     }
 
     @Override
     public void dataInvalid(String alert) {
-
+        ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, alert + "", true).show();
     }
 
     @Override
     public void loginSuccess() {
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Login Success!",true).show();
+        if(getActivity() == null){
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Login Success!", true).show();
     }
 
     @Override
     public void loginError() {
-        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT,"Login Fail!",true).show();
+        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, "Login Fail!", true).show();
     }
 }

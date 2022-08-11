@@ -1,8 +1,13 @@
 package com.csupporter.techwiz.utils;
 
 import android.content.SharedPreferences;
+import android.util.Base64;
 
 import com.csupporter.techwiz.App;
+import com.csupporter.techwiz.domain.model.Account;
+import com.google.gson.Gson;
+
+import java.nio.charset.StandardCharsets;
 
 public class SettingPreferences {
 
@@ -11,6 +16,7 @@ public class SettingPreferences {
     ///////////////////////////////////////////////////////////////////////////
 
     private static final String PREF_NAME = "setting_preferences";
+    private static final String KEY_TOKEN = "key_tokens";
 
     ///////////////////////////////////////////////////////////////////////////
     // INSTANCE
@@ -38,4 +44,17 @@ public class SettingPreferences {
     // SETTING HERE
     ///////////////////////////////////////////////////////////////////////////
 
+    public void setToken(String userId) {
+        byte[] token = Base64.encode(userId.getBytes(StandardCharsets.UTF_8), 0);
+        editor().putString(KEY_TOKEN, new String(token)).apply();
+    }
+
+    public String getToken() {
+        String token = mSharedPreferences.getString(KEY_TOKEN, null);
+        if (token == null) {
+            return null;
+        }
+        byte[] jsonByte = Base64.decode(token.getBytes(StandardCharsets.UTF_8), 0);
+        return new String(jsonByte);
+    }
 }

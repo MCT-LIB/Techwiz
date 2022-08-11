@@ -8,6 +8,7 @@ import androidx.core.util.Consumer;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.repository.AccountRepository;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -17,9 +18,9 @@ public class AccountRepositoryImpl implements AccountRepository {
     private final static String DEFAULT_PATH = "accounts";
 
     @Override
-    public void checkUserNameAndPassword(String username, String password, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void checkUserNameAndPassword(String email, String password, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereEqualTo("userName", username)
+                .whereEqualTo("email", email)
                 .whereEqualTo("password", password)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -34,8 +35,12 @@ public class AccountRepositoryImpl implements AccountRepository {
                             if (value.getDocuments().isEmpty()) {
                                 FirebaseUtils.error(onError, null);
                             } else {
-                                Account account = value.getDocuments().get(0).toObject(Account.class);
-                                FirebaseUtils.success(onSuccess, account);
+                                DocumentSnapshot snapshot = value.getDocuments().get(0);
+                                Account account = snapshot.toObject(Account.class);
+                                if (account != null) {
+                                    account.setId(snapshot.getId());
+                                    FirebaseUtils.success(onSuccess, account);
+                                }
                             }
                         }
                     }

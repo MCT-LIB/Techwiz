@@ -179,6 +179,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/layout_radius"
                 android:elevation="5dp"
+                android:textColor="@color/blue"
                 android:text="@string/register" />
 
             <TextView
