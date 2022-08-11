@@ -36,4 +36,12 @@ public abstract class ViewCallback {
         void onSentOTPFailure();
 
     }
+
+    public interface ResetPasswordCallBack{
+        void onSuccess();
+
+        void onFailure();
+
+        void onEmptyValue();
+    }
 }

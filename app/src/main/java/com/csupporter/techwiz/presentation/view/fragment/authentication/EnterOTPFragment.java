@@ -80,11 +80,12 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_verify_code:
-                showToast("verify code", 2, false);
+
+                replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
             case R.id.tv_resent_otp:
                 enterOTPPresenter.sentOTP(email, this);
-                Toast.makeText(getActivity(), "Resented OTP", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Resented OTP to : " + email, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -101,15 +102,27 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         btnVerifyCode = view.findViewById(R.id.btn_verify_code);
     }
 
+    public int getOTPCode(){
+        int OTP_user = 0;
+
+        String otp_1 = edtDigitCode_1.getText().toString().trim();
+        String otp_2 = edtDigitCode_2.getText().toString().trim();
+        String otp_3 = edtDigitCode_3.getText().toString().trim();
+        String otp_4 = edtDigitCode_4.getText().toString().trim();
+        String otp_5 = edtDigitCode_5.getText().toString().trim();
+        String otp_6 = edtDigitCode_6.getText().toString().trim();
+
+        return OTP_user;
+    }
+
     @Override
     public void onSentOTPSuccess(int OTP) {
-        Toast.makeText(getActivity(), "sent otp success", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(getActivity(), "sent otp success" + OTP, Toast.LENGTH_SHORT).show();
+//        replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
     }
 
     @Override
     public void onSentOTPFailure() {
         Toast.makeText(getActivity(), "sent otp failure", Toast.LENGTH_SHORT).show();
-
     }
 }
