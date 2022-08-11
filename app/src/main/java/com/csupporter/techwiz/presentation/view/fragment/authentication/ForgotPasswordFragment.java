@@ -93,7 +93,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void emailExist(Account account) {
         this.account = account;
-        sendOtpPresenter.sentOTP(account.getEmail(), this);
+        sendOtpPresenter.sentOTP(account, this);
 
     }
 

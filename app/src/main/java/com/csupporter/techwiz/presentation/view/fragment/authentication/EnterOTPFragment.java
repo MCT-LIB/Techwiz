@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
@@ -94,7 +95,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
             case R.id.btn_verify_code:
                 if (getOTPCodeUser() == otp){
                     Fragment fragment = ResetPasswordFragment.newInstance(account);
-                    replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                    replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 }
                 break;
             case R.id.tv_resent_otp:
