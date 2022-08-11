@@ -22,25 +22,22 @@ public class AccountRepositoryImpl implements AccountRepository {
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo("email", email)
                 .whereEqualTo("password", password)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            FirebaseUtils.error(onError, error.getCause());
-                            return;
-                        }
-                        if (value == null) {
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        FirebaseUtils.error(onError, error.getCause());
+                        return;
+                    }
+                    if (value == null) {
+                        FirebaseUtils.error(onError, null);
+                    } else {
+                        if (value.getDocuments().isEmpty()) {
                             FirebaseUtils.error(onError, null);
                         } else {
-                            if (value.getDocuments().isEmpty()) {
-                                FirebaseUtils.error(onError, null);
-                            } else {
-                                DocumentSnapshot snapshot = value.getDocuments().get(0);
-                                Account account = snapshot.toObject(Account.class);
-                                if (account != null) {
-                                    account.setId(snapshot.getId());
-                                    FirebaseUtils.success(onSuccess, account);
-                                }
+                            DocumentSnapshot snapshot = value.getDocuments().get(0);
+                            Account account = snapshot.toObject(Account.class);
+                            if (account != null) {
+                                account.setId(snapshot.getId());
+                                FirebaseUtils.success(onSuccess, account);
                             }
                         }
                     }
