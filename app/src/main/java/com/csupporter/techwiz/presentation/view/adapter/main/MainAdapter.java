@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.adapter;
+package com.csupporter.techwiz.presentation.view.adapter.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
