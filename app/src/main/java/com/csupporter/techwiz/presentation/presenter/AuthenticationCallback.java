@@ -61,8 +61,7 @@ public abstract class AuthenticationCallback {
         void onFailure();
     }
 
-
     public interface UserHomeCallBack {
-        void onClickCategoryItem(String typeDoctor);
+
     }
 }

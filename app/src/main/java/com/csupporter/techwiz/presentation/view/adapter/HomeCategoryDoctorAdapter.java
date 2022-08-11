@@ -14,13 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+
+
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategoryDoctorAdapter.HomeCategoryDoctorViewHolder> {
 
     private Departments[] departments;
+    private OnClickCategoryItems callback;
+
+    public HomeCategoryDoctorAdapter(OnClickCategoryItems callback){
+        this.callback = callback;
+    }
 
     public void setCategoryDoctorList() {
         this.departments = Departments.values();
@@ -59,7 +65,7 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
         holder.name.setText(depart.getCategory());
 
         holder.layout.setOnClickListener(view ->{
-            callBack.onClickCategoryItem(type);
+            callback.onClickCategoryItem(type);
         });
     }
 
@@ -79,5 +85,8 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
             name = itemView.findViewById(R.id.category_doctor_type);
             layout = itemView.findViewById(R.id.nav_home_category_items_layout);
         }
+    }
+    public interface OnClickCategoryItems{
+        void onClickCategoryItem(String typeDoctor);
     }
 }

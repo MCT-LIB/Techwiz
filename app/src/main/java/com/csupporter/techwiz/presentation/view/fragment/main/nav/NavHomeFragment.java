@@ -17,14 +17,15 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
-import com.csupporter.techwiz.presentation.view.adapter.main.HomeCategoryDoctorAdapter;
+
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 
 
-public class NavHomeFragment extends BaseFragment implements ViewCallback.UserHomeCallBack{
+public class NavHomeFragment extends BaseFragment implements AuthenticationCallback.UserHomeCallBack,
+HomeCategoryDoctorAdapter.OnClickCategoryItems{
 
     private SearchView txtSearch;
     private TextView txtMyAppointment;
@@ -36,8 +37,7 @@ public class NavHomeFragment extends BaseFragment implements ViewCallback.UserHo
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
 
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(getActivity(),this);
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter();
+        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this);
         init(view);
         setDataCategoryDoctor();
         eventClickItem();

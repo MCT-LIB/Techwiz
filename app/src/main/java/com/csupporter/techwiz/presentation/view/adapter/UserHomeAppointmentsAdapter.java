@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.adapter.main;
+package com.csupporter.techwiz.presentation.view.adapter;
 
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +15,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserHomeAppointmentsAdapter {
+
 
     public static class UserHomeAppointments_ViewHolder extends RecyclerView.ViewHolder {
         private final CircleImageView avatar;
