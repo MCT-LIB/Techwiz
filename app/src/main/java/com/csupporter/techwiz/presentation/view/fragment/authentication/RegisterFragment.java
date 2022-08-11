@@ -75,7 +75,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         txtConfPassword = view.findViewById(R.id.register_cf_password_layout);
         AppCompatButton btnRegister = view.findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(this);
-        txtFirstName.setError("Please enter your first name");
     }
 
     @Override
@@ -90,7 +89,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @NonNull
     private Account getDataFromForm() {
-
         String firstName = txtFirstName.getEditText().getText().toString().trim();
         String lastName = txtLastName.getEditText().getText().toString().trim();
         String email = txtEmail.getEditText().getText().toString().trim();
@@ -107,18 +105,16 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
 
     @Override
-    public void dataInvalid(String alert, ViewCallback.ErrorTo errorTo, boolean showToast) {
-        if (showToast) {
-            showToast(alert, ToastUtils.ERROR, true);
-        } else {
-            switch (errorTo){
-                case NONE:
-                    return;
-                case FIRST_NAME:
+    public void dataInvalid(String alert, @NonNull ViewCallback.ErrorTo errorTo) {
+        showToast(alert, ToastUtils.ERROR, true);
+        switch (errorTo) {
+            case NONE:
+                return;
+            case FIRST_NAME:
 
-            }
         }
     }
+
 
     @Override
     public void registerSuccess() {

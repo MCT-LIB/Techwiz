@@ -40,35 +40,35 @@ public class RegisterPresenter extends BasePresenter {
 
     private boolean isValidateOk(@NonNull Account account, String confPass, ViewCallback.RegisterCallBack callBack) {
         if (TextUtils.isEmpty(account.getFirstName())) {
-            callBack.dataInvalid("Please enter your first name", ErrorTo.FIRST_NAME, false);
+            callBack.dataInvalid("Please enter your first name", ErrorTo.FIRST_NAME);
             return false;
         }
         if (TextUtils.isEmpty(account.getEmail())) {
-            callBack.dataInvalid("Please enter your email", ErrorTo.EMAIL, false);
+            callBack.dataInvalid("Please enter your email", ErrorTo.EMAIL);
             return false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(account.getEmail()).matches()) {
-            callBack.dataInvalid("Email is invalid!", ErrorTo.EMAIL, false);
+            callBack.dataInvalid("Email is invalid!", ErrorTo.EMAIL);
             return false;
         }
         if (TextUtils.isEmpty(account.getPassword())) {
-            callBack.dataInvalid("Please enter your password", ErrorTo.PASSWORD, false);
+            callBack.dataInvalid("Please enter your password", ErrorTo.PASSWORD);
             return false;
         }
         if (!Pattern.matches(PASSWORD_REGEX, account.getPassword())) {
-            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD, true);
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD);
             return false;
         }
         if (TextUtils.isEmpty(confPass)) {
-            callBack.dataInvalid("Please confirm your password", ErrorTo.PASSWORD, false);
+            callBack.dataInvalid("Please confirm your password", ErrorTo.PASSWORD);
             return false;
         }
         if (!Pattern.matches(PASSWORD_REGEX, confPass)) {
-            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD, true);
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD);
             return false;
         }
         if (!account.getPassword().equals(confPass)) {
-            callBack.dataInvalid("Password and confirm password are not the same", ErrorTo.NONE, true);
+            callBack.dataInvalid("Password and confirm password are not the same", ErrorTo.NONE);
             return false;
         }
         return true;

@@ -15,7 +15,7 @@ public abstract class ViewCallback {
     }
 
     public interface RegisterCallBack {
-        void dataInvalid(String alert, ErrorTo errorTo, boolean showToast);
+        void dataInvalid(String alert, ErrorTo errorTo);
 
         void registerSuccess();
 
