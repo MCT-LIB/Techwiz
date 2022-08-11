@@ -74,16 +74,15 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         btnConfirm.setOnClickListener(this);
     }
 
-    private void intiView(View view) {
+    private void intiView(@NonNull View view) {
         edtEnterNewPw = view.findViewById(R.id.edt_enter_new_pw);
         edtReenterNewPw = view.findViewById(R.id.edt_reenter_new_pw);
         btnConfirm = view.findViewById(R.id.btn_confirm);
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         if (v.getId() == R.id.btn_confirm) {
-
             String newPass = edtEnterNewPw.getText().toString().trim();
             String reNewPass = edtReenterNewPw.getText().toString().trim();
             resetPasswordPresenter.checkReEnterPassword(newPass, reNewPass, this);

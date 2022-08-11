@@ -36,7 +36,6 @@ public abstract class ViewCallback {
         void onSentOTPSuccess(int OTP);
 
         void onSentOTPFailure();
-
     }
 
     public interface ResetPasswordCallBack{
@@ -46,4 +45,6 @@ public abstract class ViewCallback {
 
         void onEmptyValue();
     }
+
+
 }

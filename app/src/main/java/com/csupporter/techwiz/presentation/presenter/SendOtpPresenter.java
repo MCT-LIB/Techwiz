@@ -23,9 +23,36 @@ public class SendOtpPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void sentOTP(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
+    public void sentForgotPassOtp(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_FORGOT_PASS, account.getEmail())
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                        getBaseView().hideLoading();
+                        if (response.isSuccessful() && response.body() != null) {
+                            int status = response.body().get("status").getAsInt();
+                            // 200 is success
+                            if (status == 200) {
+                                int otp = response.body().get("data").getAsInt();
+                                callBack.onSentOTPSuccess(otp);
+                            } else {
+                                callBack.onSentOTPFailure();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                        getBaseView().hideLoading();
+                        callBack.onSentOTPFailure();
+                    }
+                });
+    }
+
+    public void sendVerificationOtp(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
+        getBaseView().showLoading();
+        DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_VERIFICATION, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {

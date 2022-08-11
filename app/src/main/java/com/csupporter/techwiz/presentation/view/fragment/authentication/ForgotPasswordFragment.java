@@ -73,7 +73,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_get_otp:
-
+                hideSoftInput();
                 String email = edtEnterEmail.getText().toString().trim();
                 forgotPasswordPresenter.checkEmailExist(email, this);
 
@@ -93,8 +93,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void emailExist(Account account) {
         this.account = account;
-        sendOtpPresenter.sentOTP(account, this);
-
+        sendOtpPresenter.sentForgotPassOtp(account, this);
     }
 
     @Override
@@ -109,8 +108,10 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onSentOTPSuccess(int OTP) {
-        Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_FORGOT_PW);
-        replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        if (getContext() != null) {
+            Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_FORGOT_PW);
+            replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        }
     }
 
     @Override
@@ -121,8 +122,8 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void showLoading() {
         if (getContext() == null) return;
-        if (dialog != null) {
-            dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);

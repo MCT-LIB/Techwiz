@@ -17,13 +17,18 @@ public class ForgotPasswordPresenter extends BasePresenter {
             callBack.emailNull();
             return;
         }
+        getBaseView().showLoading();
         DataInjection.provideRepository().account.findAccountByEmail(Email, account -> {
             if (account != null) {
                 callBack.emailExist(account);
             } else {
+                getBaseView().hideLoading();
                 callBack.emailNotExist();
             }
-        }, throwable -> callBack.emailNotExist());
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callBack.emailNotExist();
+        });
     }
 
 }

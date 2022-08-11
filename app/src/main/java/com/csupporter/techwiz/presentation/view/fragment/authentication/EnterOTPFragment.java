@@ -2,7 +2,10 @@ package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 public class EnterOTPFragment extends BaseFragment implements View.OnClickListener, ViewCallback.EnterOTPCallBack {
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
@@ -34,12 +38,29 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     private View view;
     private EditText edtDigitCode_1, edtDigitCode_2, edtDigitCode_3, edtDigitCode_4, edtDigitCode_5, edtDigitCode_6;
     private TextView tvResentOTP;
+    private TextView tvDurationOfOtp;
     private Button btnVerifyCode;
     private SendOtpPresenter sendOTPPresenter;
     private LoadingDialog dialog;
     private Account account;
     private int otp;
     private int from;
+    private int timeless;
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable r = new Runnable() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void run() {
+            tvDurationOfOtp.setText(--timeless + "s");
+            if (timeless <= 0) {
+                btnVerifyCode.setEnabled(false);
+                handler.removeCallbacks(this);
+            } else {
+                handler.postDelayed(this, 1000);
+            }
+        }
+    };
 
     @NonNull
     public static EnterOTPFragment newInstance(Account account, int otp, int from) {
@@ -81,6 +102,13 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         intiView(view);
         eventClick();
+        startTimer();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopTimer();
     }
 
     private void eventClick() {
@@ -93,14 +121,16 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.btn_verify_code:
-                if (getOTPCodeUser() == otp){
+                if (getOTPCodeUser() == otp) {
                     Fragment fragment = ResetPasswordFragment.newInstance(account);
                     replaceFragment(fragment, false, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                }else {
+                    showToast("OTP is invalid!", ToastUtils.ERROR,true);
                 }
                 break;
             case R.id.tv_resent_otp:
                 if (from == FROM_FORGOT_PW) {
-                    sendOTPPresenter.sentOTP(account, this);
+                    sendOTPPresenter.sentForgotPassOtp(account, this);
                 } else {
 
                 }
@@ -108,7 +138,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void intiView(View view) {
+    private void intiView(@NonNull View view) {
         edtDigitCode_1 = view.findViewById(R.id.edt_digit_code_1);
         edtDigitCode_2 = view.findViewById(R.id.edt_digit_code_2);
         edtDigitCode_3 = view.findViewById(R.id.edt_digit_code_3);
@@ -117,6 +147,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         edtDigitCode_6 = view.findViewById(R.id.edt_digit_code_6);
 
         tvResentOTP = view.findViewById(R.id.tv_resent_otp);
+        tvDurationOfOtp = view.findViewById(R.id.tv_duration_of_otp);
         btnVerifyCode = view.findViewById(R.id.btn_verify_code);
     }
 
@@ -133,15 +164,24 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         return Integer.parseInt(otp);
     }
 
+    private void startTimer() {
+        timeless = 60;
+        btnVerifyCode.setEnabled(true);
+        handler.post(r);
+    }
+
+    private void stopTimer() {
+        handler.removeCallbacks(r);
+    }
+
     @Override
     public void onSentOTPSuccess(int otp) {
         this.otp = otp;
-        Toast.makeText(getActivity(), "sent otp success" + otp, Toast.LENGTH_SHORT).show();
+        startTimer();
     }
 
     @Override
     public void onSentOTPFailure() {
-        Toast.makeText(getActivity(), "sent otp failure", Toast.LENGTH_SHORT).show();
     }
 
     @Override
