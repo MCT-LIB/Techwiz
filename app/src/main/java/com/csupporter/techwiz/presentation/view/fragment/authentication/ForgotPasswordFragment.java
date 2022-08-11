@@ -20,6 +20,7 @@ import com.csupporter.techwiz.presentation.presenter.authentication.ForgotPasswo
 import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.WindowUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -39,13 +40,13 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         super.onAttach(context);
         forgotPasswordPresenter = new ForgotPasswordPresenter(this);
         sendOtpPresenter = new SendOtpPresenter(this);
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
     @Nullable

@@ -15,6 +15,7 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.authentication.ResetPasswordPresenter;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.utils.WindowUtils;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
@@ -41,13 +42,13 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         resetPasswordPresenter = new ResetPasswordPresenter(this);
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
     @Nullable

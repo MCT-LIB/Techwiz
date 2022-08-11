@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Consumer;
 
 import android.content.Intent;
 import android.os.Bundle;

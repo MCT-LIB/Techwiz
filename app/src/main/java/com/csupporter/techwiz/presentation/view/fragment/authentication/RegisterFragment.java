@@ -1,36 +1,28 @@
 package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.Toast;
-
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.WindowUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
-
-import java.time.LocalDateTime;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.EnterOTPCallBack, AuthenticationCallback.VerifyAccountCallBack {
 
@@ -63,13 +55,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         registerPresenter = new RegisterPresenter(this);
         sendOtpPresenter = new SendOtpPresenter(this);
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.register_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().setBackgroundDrawableResource(R.drawable.register_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.register_background);
     }
 
 

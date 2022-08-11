@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.utils.WindowUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
@@ -26,13 +27,13 @@ public class ChooseObjectFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.choose_object_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.choose_object_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.choose_object_background);
     }
 
     @Override

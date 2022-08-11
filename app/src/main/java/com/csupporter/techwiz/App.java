@@ -5,9 +5,12 @@ import android.content.Context;
 
 import com.csupporter.techwiz.domain.model.Account;
 
+import javax.annotation.Nullable;
+
 public class App extends Application {
 
     private static App sInstance;
+    private Account account;
 
     @Override
     public void onCreate() {
@@ -23,4 +26,12 @@ public class App extends Application {
         return getApp().getApplicationContext();
     }
 
+    @Nullable
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

@@ -14,4 +14,6 @@ public interface AppointmentRepository {
     void updateAppointment(Appointment appointment,
                            @Nullable Consumer<Void> onSuccess,
                            @Nullable Consumer<Throwable> onError);
+
+//    void getAppointments()
 }

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#66444444">
+        android:background="@drawable/register_background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

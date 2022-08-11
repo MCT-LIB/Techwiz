@@ -22,6 +22,7 @@ import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.WindowUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -78,13 +79,13 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         sendOTPPresenter = new SendOtpPresenter(this);
         registerPresenter = new RegisterPresenter(this);
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().getWindow().setBackgroundDrawableResource(R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
 
 
