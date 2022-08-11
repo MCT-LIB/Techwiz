@@ -15,8 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.main.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
+import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseView;
 
 /**
@@ -24,9 +28,13 @@ import com.mct.components.baseui.BaseView;
  * Use the {@link NavUserInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NavUserInfoFragment extends Fragment implements View.OnClickListener, BaseView {
+public class NavUserInfoFragment extends Fragment implements View.OnClickListener, BaseView, MainViewCallBack.NavUserInfoCallBack{
+
 
     private NavUserInfoPresenter navUserInfoPresenter;
+    private ConfirmDialog dialog;
+
+
 
     View view;
     TextView tvName, tvEmail;
@@ -91,20 +99,35 @@ public class NavUserInfoFragment extends Fragment implements View.OnClickListene
     }
 
     private void initView(View view) {
-        tvName  = view.findViewById(R.id.tv_name);
+        tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
         itemLogout = view.findViewById(R.id.item_logout);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.item_logout:
-                if (getActivity() != null){
-                    navUserInfoPresenter.logOut();
-                    Intent intent = new Intent(getContext(), AuthenticateActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                if (getActivity() != null) {
+
+                    dialog = new ConfirmDialog(getActivity(), new ConfirmDialog.ShowConfirmDialog() {
+                        @Override
+                        public void onConfirm() {
+                            navUserInfoPresenter.logOut();
+                            Intent intent = new Intent(getContext(), AuthenticateActivity.class);
+                            startActivity(intent);
+                            if (getActivity() != null) {
+                                getActivity().finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.create(null);
+
                 }
                 break;
         }
@@ -124,4 +147,5 @@ public class NavUserInfoFragment extends Fragment implements View.OnClickListene
     public void onFalse(Throwable t) {
 
     }
+
 }

@@ -48,6 +48,32 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_reset_password.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.16822916666666668" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_note.xml" value="0.25" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/bg_boder_radius_16.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/bg_border_radius_16.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/bg_border_radius_24.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/bg_btn_confirm.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/bg_radius_20.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ic_feed_back.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ic_log_out.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ic_notify_setting.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ic_rate.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/layout_border.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/layout_radius.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ripple_rectangle.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/ripple_rectangle_corn_16.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/drawable/top_layout_radius.xml" value="0.1645" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/dialog_cofirm_logout.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/dialog_loading.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_enter_otp.xml" value="0.25" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_forgot_password.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_home.xml" value="0.2" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_search.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_user_info.xml" value="0.264" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_reset_password.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/nav_home_category_items.xml" value="0.10989583333333333" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/nav_home_category_items.xml" value="0.16822916666666668" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/mipmap-anydpi-v26/app_launcher.xml" value="0.1965" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/mipmap-anydpi-v26/app_logo.xml" value="0.1905" />
