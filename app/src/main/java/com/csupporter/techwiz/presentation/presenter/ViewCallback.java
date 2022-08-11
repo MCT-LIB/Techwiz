@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.presentation.presenter;
 
+import com.csupporter.techwiz.domain.model.Account;
+
 public abstract class ViewCallback {
 
     public enum ErrorTo {
@@ -23,7 +25,7 @@ public abstract class ViewCallback {
     }
 
     public interface ForgotPasswordCallBack {
-        void emailExist();
+        void emailExist(Account account);
 
         void emailNull();
 

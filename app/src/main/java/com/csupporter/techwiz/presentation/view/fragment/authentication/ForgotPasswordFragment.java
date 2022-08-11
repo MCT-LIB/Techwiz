@@ -16,12 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.ForgotPasswordPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
-public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener,ViewCallback.ForgotPasswordCallBack {
+public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, ViewCallback.ForgotPasswordCallBack {
     View view;
     Button btnSubmit;
     EditText edtEnterEmail;
@@ -64,7 +65,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_get_otp:
 
                 String email = edtEnterEmail.getText().toString().trim();
@@ -84,11 +85,11 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
-    public void emailExist() {
+    public void emailExist(Account account) {
         String email = edtEnterEmail.getText().toString().trim();
 
-        Fragment fragment = EnterOTPFragment.newInstance(email);
-        replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+//        Fragment fragment = EnterOTPFragment.newInstance(email);
+//        replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
     }
 
     @Override

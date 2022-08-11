@@ -20,12 +20,8 @@ public interface AccountRepository {
                        @Nullable Consumer<Void> onSuccess,
                        @Nullable Consumer<Throwable> onError);
 
-    void checkUserNameExits(String text,
-                            @Nullable Consumer<Boolean> onSuccess,
+    void findAccountByEmail(String text,
+                            @Nullable Consumer<Account> onSuccess,
                             @Nullable Consumer<Throwable> onError);
-
-    void checkEmailExits(String text,
-                         @Nullable Consumer<Boolean> onSuccess,
-                         @Nullable Consumer<Throwable> onError);
 
 }

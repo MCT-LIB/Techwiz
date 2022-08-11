@@ -1,6 +1,8 @@
 package com.csupporter.techwiz.domain.model;
 
-public class Account extends BaseModel {
+import java.io.Serializable;
+
+public class Account extends BaseModel implements Serializable {
 
     private String firstName;
     private String lastName;

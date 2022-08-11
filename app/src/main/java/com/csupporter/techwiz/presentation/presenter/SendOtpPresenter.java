@@ -13,17 +13,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterOTPPresenter extends BasePresenter {
+public class SendOtpPresenter extends BasePresenter {
 
-    public EnterOTPPresenter(BaseView baseView){
+    public SendOtpPresenter(BaseView baseView) {
         super(baseView);
     }
 
     public void sentOTP(String email, ViewCallback.EnterOTPCallBack callBack) {
+        getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(email, "Forgot Password", "The OTP authentication code of your is: ")
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                        getBaseView().hideLoading();
                         if (response.isSuccessful() && response.body() != null) {
                             int status = response.body().get("status").getAsInt();
                             // 200 is success
@@ -38,8 +40,10 @@ public class EnterOTPPresenter extends BasePresenter {
 
                     @Override
                     public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                        getBaseView().hideLoading();
                         callBack.onSentOTPFailure();
                     }
                 });
     }
+
 }

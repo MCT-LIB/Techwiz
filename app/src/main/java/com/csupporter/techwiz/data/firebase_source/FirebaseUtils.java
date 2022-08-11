@@ -109,20 +109,6 @@ public class FirebaseUtils {
                 .addOnFailureListener(e -> error(onError, e));
     }
 
-    public static void checkFieldExits(@NonNull String path,
-                                       @NonNull String field,
-                                       @NonNull String text,
-                                       @Nullable Consumer<Boolean> onSuccess,
-                                       @Nullable Consumer<Throwable> onError) {
-        FirebaseUtils.db().collection(path).whereEqualTo(field, text).addSnapshotListener((value, error) -> {
-            if (value != null) {
-                FirebaseUtils.success(onSuccess, !value.isEmpty());
-            } else {
-                FirebaseUtils.error(onError, error != null ? error.getCause() : null);
-            }
-        });
-    }
-
     public static <T> void success(Consumer<T> consumer, T t) {
         if (consumer != null) {
             consumer.accept(t);

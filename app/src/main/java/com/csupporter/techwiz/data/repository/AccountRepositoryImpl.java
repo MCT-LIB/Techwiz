@@ -57,14 +57,17 @@ public class AccountRepositoryImpl implements AccountRepository {
         FirebaseUtils.setData(DEFAULT_PATH, account.getId(), account, onSuccess, onError);
     }
 
-    @Override
-    public void checkUserNameExits(String text, @Nullable Consumer<Boolean> onSuccess, @Nullable Consumer<Throwable> onError) {
-        FirebaseUtils.checkFieldExits(DEFAULT_PATH, "userName", text, onSuccess, onError);
-    }
 
     @Override
-    public void checkEmailExits(String text, @Nullable Consumer<Boolean> onSuccess, @Nullable Consumer<Throwable> onError) {
-        FirebaseUtils.checkFieldExits(DEFAULT_PATH, "email", text, onSuccess, onError);
+    public void findAccountByEmail(String text, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH).whereEqualTo("email", text).addSnapshotListener((value, error) -> {
+            if (value != null && !value.isEmpty()) {
+                Account acc = value.getDocuments().get(0).toObject(Account.class);
+                FirebaseUtils.success(onSuccess, acc);
+            } else {
+                FirebaseUtils.error(onError, error != null ? error.getCause() : null);
+            }
+        });
     }
 
 }
