@@ -7,7 +7,7 @@
     tools:context=".presentation.view.fragment.main.nav.NavHomeFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/nav_home_img_user"
+        android:id="@+id/img_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -15,24 +15,41 @@
         android:layout_margin="25dp"
         android:src="@mipmap/app_launcher_round" />
 
-    <TextView
-        android:id="@+id/nav_home_username"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/nav_home_img_user"
-        android:gravity="center|end"
-        android:paddingEnd="30dp"
-        android:text="Hi, Tran Trung"
-        android:textColor="@color/blue"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_toStartOf="@+id/img_avatar"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:gravity="center|right"
+            android:text="@string/nav_home_fragment_be_healthy"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center|end"
+            android:text="Tran Trung"
+            android:textColor="@color/blue"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/nav_home_search_bar"
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/nav_home_username"
-        android:layout_margin="20dp"
+        android:layout_below="@id/img_avatar"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_radius_20"
         android:backgroundTint="@color/gray"
         android:drawableEnd="@drawable/ic_baseline_search_24"
@@ -45,17 +62,20 @@
         tools:targetApi="m" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/nav_home_category_doctor"
+        android:id="@+id/category_doctor_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nav_home_search_bar"
-        android:layout_margin="10dp" />
+        android:layout_below="@+id/search_bar"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/nav_home_text"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/nav_home_category_doctor"
+        android:layout_below="@+id/category_doctor_list"
         android:gravity="center|start"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"

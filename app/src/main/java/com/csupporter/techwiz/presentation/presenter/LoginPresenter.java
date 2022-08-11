@@ -20,9 +20,10 @@ public class LoginPresenter extends BasePresenter {
     }
 
     public void login(String userName, String password, ViewCallback.LoginCallback callback) {
-        getBaseView().showLoading();
 
         if (verifyDataInputLogin(userName, password, callback)) {
+            getBaseView().showLoading();
+
             DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, new Consumer<Account>() {
                 @Override
                 public void accept(Account account) {

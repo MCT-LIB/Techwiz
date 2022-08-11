@@ -58,6 +58,7 @@
 <!--    nav_home_fragment-->
     <string name="nav_home_fragment_hint_search_bar">Find a doctor or speciality</string>
     <string name="nav_home_fragment_my_appointment">My Appointment</string>
+    <string name="nav_home_fragment_be_healthy">Be healthy</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -8,6 +8,12 @@ public abstract class ViewCallback {
         FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CF_PASSWORD, NONE
     }
 
+    public interface DrawableClickListener {
+        enum DrawablePosition {TOP, BOTTOM, LEFT, RIGHT}
+
+        void onClick(DrawablePosition target);
+    }
+
     public interface LoginCallback {
         void dataInvalid(String alert);
 

@@ -9,15 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.view.adapter.main.HomeCategoryDoctorAdapter;
-import com.csupporter.techwiz.presentation.view.adapter.main.MainAdapter;
 
 
 public class NavHomeFragment extends Fragment {
 
-
+    private EditText txtSearch;
+    private TextView txtMyAppointment;
     private RecyclerView categoryDoctor;
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
 
@@ -33,7 +35,9 @@ public class NavHomeFragment extends Fragment {
     }
 
     private void init(View view) {
-        categoryDoctor = view.findViewById(R.id.nav_home_category_doctor);
+        categoryDoctor = view.findViewById(R.id.category_doctor_list);
+        txtSearch = view.findViewById(R.id.search_bar);
+        txtMyAppointment = view.findViewById(R.id.nav_home_text);
     }
 
     private void setDataCategoryDoctor() {
@@ -41,5 +45,9 @@ public class NavHomeFragment extends Fragment {
         categoryDoctor.setLayoutManager(linearLayoutManager);
         homeCategoryDoctorAdapter.setCategoryDoctorList();
         categoryDoctor.setAdapter(homeCategoryDoctorAdapter);
+    }
+
+    private void eventClickItem(){
+        
     }
 }

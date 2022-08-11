@@ -54,5 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
 
+    //Calendar
+    implementation 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v1.0.3'
+
 
 }
