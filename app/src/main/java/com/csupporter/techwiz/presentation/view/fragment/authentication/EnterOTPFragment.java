@@ -17,10 +17,12 @@ import androidx.annotation.Nullable;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.EnterOTPPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
 public class EnterOTPFragment extends BaseFragment implements View.OnClickListener, ViewCallback.EnterOTPCallBack {
     private static final String EMAIL_KEY = "EMAIL_KEY";
+    private int otpSource;
 
     private String email;
     View view;
@@ -80,7 +82,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_verify_code:
-
+                if (getOTPCodeUser() == otpSource)
                 replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
             case R.id.tv_resent_otp:
@@ -102,8 +104,8 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         btnVerifyCode = view.findViewById(R.id.btn_verify_code);
     }
 
-    public int getOTPCode(){
-        int OTP_user = 0;
+    public int getOTPCodeUser(){
+        int input;
 
         String otp_1 = edtDigitCode_1.getText().toString().trim();
         String otp_2 = edtDigitCode_2.getText().toString().trim();
@@ -112,11 +114,16 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         String otp_5 = edtDigitCode_5.getText().toString().trim();
         String otp_6 = edtDigitCode_6.getText().toString().trim();
 
-        return OTP_user;
+        String otp = otp_1 + otp_2 + otp_3 + otp_4 + otp_5 + otp_6;
+
+        input = Integer.parseInt(otp);
+
+        return input;
     }
 
     @Override
     public void onSentOTPSuccess(int OTP) {
+
         Toast.makeText(getActivity(), "sent otp success" + OTP, Toast.LENGTH_SHORT).show();
 //        replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
     }

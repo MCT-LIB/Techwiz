@@ -86,6 +86,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void emailExist() {
         String email = edtEnterEmail.getText().toString().trim();
+
         Fragment fragment = EnterOTPFragment.newInstance(email);
         replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
     }
