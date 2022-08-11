@@ -29,10 +29,10 @@ public class LoginPresenter extends BasePresenter {
                 @Override
                 public void accept(Account account) {
                     getBaseView().hideLoading();
-                    if(account != null){
+                    if (account != null) {
                         DataInjection.provideSettingPreferences().setToken(account.getId());
                         callback.loginSuccess();
-                    }else{
+                    } else {
                         callback.dataInvalid("Email or password is wrong !");
                     }
                 }

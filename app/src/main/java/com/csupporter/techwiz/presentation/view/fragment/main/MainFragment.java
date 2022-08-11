@@ -47,6 +47,11 @@ public class MainFragment extends BaseFragment {
 
     @SuppressLint("NonConstantResourceId")
     private void setDataViewPager2() {
+
+//        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.user_info);
+//        badgeDrawable.setVisible(true);
+//        badgeDrawable.setNumber(5);
+
         viewPager2.setAdapter(mainAdapter);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {

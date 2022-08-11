@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
+import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -56,6 +57,10 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
 
         holder.image.setImageResource(depart.getResourceFile());
         holder.name.setText(depart.getCategory());
+
+        holder.layout.setOnClickListener(view ->{
+            callBack.onClickCategoryItem(type);
+        });
     }
 
     @Override

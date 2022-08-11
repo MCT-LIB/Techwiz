@@ -8,11 +8,6 @@ public abstract class AuthenticationCallback {
         FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CF_PASSWORD, NONE
     }
 
-    public interface DrawableClickListener {
-        enum DrawablePosition {TOP, BOTTOM, LEFT, RIGHT}
-
-        void onClick(DrawablePosition target);
-    }
 
     public interface LoginCallback {
         void dataInvalid(String alert);
@@ -60,12 +55,14 @@ public abstract class AuthenticationCallback {
         void onEmptyValue();
     }
 
-    public interface ChangePassCallback{
+    public interface ChangePassCallback {
         void onSuccess(Account account);
 
         void onFailure();
     }
 
 
-
+    public interface UserHomeCallBack {
+        void onClickCategoryItem(String typeDoctor);
+    }
 }
