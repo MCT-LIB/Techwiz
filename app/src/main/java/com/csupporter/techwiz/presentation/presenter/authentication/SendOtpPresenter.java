@@ -1,11 +1,10 @@
-package com.csupporter.techwiz.presentation.presenter;
-
-import android.widget.Toast;
+package com.csupporter.techwiz.presentation.presenter.authentication;
 
 import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.google.gson.JsonObject;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
@@ -23,7 +22,7 @@ public class SendOtpPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void sentForgotPassOtp(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
+    public void sentForgotPassOtp(@NonNull Account account, AuthenticationCallback.EnterOTPCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_FORGOT_PASS, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {
@@ -50,7 +49,7 @@ public class SendOtpPresenter extends BasePresenter {
                 });
     }
 
-    public void sendVerificationOtp(@NonNull Account account, ViewCallback.EnterOTPCallBack callBack) {
+    public void sendVerificationOtp(@NonNull Account account, AuthenticationCallback.EnterOTPCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_VERIFICATION, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {

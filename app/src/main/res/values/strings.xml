@@ -49,6 +49,21 @@
     <string name="reset_pw_enter_new_pw">Enter new password</string>
     <string name="reset_pw_reenter_new_pw">ReEnter new password</string>
     <string name="reset_pw_btn_confirm">Confirm</string>
+
+    <!-- fragment navigation user information   -->
+    <string name="user_inf_email">nam.td.986@aptechlearning.edu.vn</string>
+    <string name="user_inf_phone_numb">0123456789</string>
+    <string name="user_inf_see_health">See detail your health</string>
+    <string name="user_inf_setting_notify">Setting notification</string>
+    <string name="user_inf_feed_back">Share your feedback</string>
+    <string name="user_inf_rate">Rate us fire</string>
+    <string name="user_inf_log_out">Log out</string>
+    <string name="user_inf_hint_health">Health</string>
+    <string name="user_inf_hint_notify">Notify</string>
+    <string name="user_inf_hint_rate">Rate</string>
+    <string name="user_inf_hint_feedback">Feedback</string>
+    <string name="user_inf_hint_logout">Log out</string>
+
     <!--    bottom_navigation-->
     <string name="bottom_navigation_home">Home</string>
     <string name="bottom_navigation_user">User</string>

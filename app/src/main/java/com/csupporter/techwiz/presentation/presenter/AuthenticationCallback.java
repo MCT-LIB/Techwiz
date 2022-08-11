@@ -2,7 +2,7 @@ package com.csupporter.techwiz.presentation.presenter;
 
 import com.csupporter.techwiz.domain.model.Account;
 
-public abstract class ViewCallback {
+public abstract class AuthenticationCallback {
 
     public enum ErrorTo {
         FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CF_PASSWORD, NONE
@@ -49,6 +49,7 @@ public abstract class ViewCallback {
         void onSentOTPSuccess(int OTP);
 
         void onSentOTPFailure();
+
     }
 
     public interface ResetPasswordCallBack {
@@ -58,6 +59,13 @@ public abstract class ViewCallback {
 
         void onEmptyValue();
     }
+
+    public interface ChangePassCallback{
+        void onSuccess(Account account);
+
+        void onFailure();
+    }
+
 
 
 }

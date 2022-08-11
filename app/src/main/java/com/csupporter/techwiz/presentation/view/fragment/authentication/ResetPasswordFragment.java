@@ -7,22 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.repository.AccountRepository;
-import com.csupporter.techwiz.presentation.presenter.ResetPasswordPresenter;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.csupporter.techwiz.presentation.presenter.authentication.ResetPasswordPresenter;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
-public class ResetPasswordFragment extends BaseFragment implements View.OnClickListener, ViewCallback.ResetPasswordCallBack {
+public class ResetPasswordFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.ResetPasswordCallBack {
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
 
     private ResetPasswordPresenter resetPasswordPresenter;
@@ -92,15 +88,15 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onSuccess(String pw) {
         account.setPassword(pw);
-        DataInjection.provideRepository().account.updateAccount(account, new Consumer<Void>() {
+        resetPasswordPresenter.resetPassword(account, new AuthenticationCallback.ChangePassCallback() {
             @Override
-            public void accept(Void unused) {
+            public void onSuccess(Account account) {
                 showToast("Change password successfully", ToastUtils.SUCCESS);
                 clearBackStack();
             }
-        }, new Consumer<Throwable>() {
+
             @Override
-            public void accept(Throwable throwable) {
+            public void onFailure() {
                 showToast("Some thing wrong!! Let's try again! ", ToastUtils.ERROR);
             }
         });

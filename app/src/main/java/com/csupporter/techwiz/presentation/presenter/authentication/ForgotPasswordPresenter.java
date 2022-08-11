@@ -1,8 +1,7 @@
-package com.csupporter.techwiz.presentation.presenter;
-
-import androidx.core.util.Consumer;
+package com.csupporter.techwiz.presentation.presenter.authentication;
 
 import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -12,7 +11,7 @@ public class ForgotPasswordPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void checkEmailExist(String Email, ViewCallback.ForgotPasswordCallBack callBack) {
+    public void checkEmailExist(String Email, AuthenticationCallback.ForgotPasswordCallBack callBack) {
         if (Email.trim().isEmpty()) {
             callBack.emailNull();
             return;

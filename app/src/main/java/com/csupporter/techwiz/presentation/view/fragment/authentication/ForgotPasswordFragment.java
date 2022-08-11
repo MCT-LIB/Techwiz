@@ -17,14 +17,14 @@ import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.presentation.presenter.ForgotPasswordPresenter;
-import com.csupporter.techwiz.presentation.presenter.SendOtpPresenter;
-import com.csupporter.techwiz.presentation.presenter.ViewCallback;
+import com.csupporter.techwiz.presentation.presenter.authentication.ForgotPasswordPresenter;
+import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
-public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, ViewCallback.ForgotPasswordCallBack, ViewCallback.EnterOTPCallBack {
+public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.ForgotPasswordCallBack, AuthenticationCallback.EnterOTPCallBack {
     private LoadingDialog dialog;
     private View view;
     private Button btnSubmit;
