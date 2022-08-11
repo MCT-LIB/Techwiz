@@ -35,15 +35,6 @@
             android:theme="@style/FullScreenTheme">
 
         </activity>
-        <activity
-            android:name=".presentation.view.activities._TestFirebaseActivity"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
     </application>
 
 </manifest>

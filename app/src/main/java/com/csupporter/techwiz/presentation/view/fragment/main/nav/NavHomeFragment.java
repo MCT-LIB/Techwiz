@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.presentation.view.adapter.main.HomeCategoryDoctorAdapter;
+import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 
 
 public class NavHomeFragment extends Fragment {
@@ -28,7 +28,7 @@ public class NavHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
 
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(getActivity());
+        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter();
         init(view);
         setDataCategoryDoctor();
         return view;

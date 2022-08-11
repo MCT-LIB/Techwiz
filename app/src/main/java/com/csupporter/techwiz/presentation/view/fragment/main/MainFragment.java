@@ -1,27 +1,19 @@
 package com.csupporter.techwiz.presentation.view.fragment.main;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.presentation.view.adapter.main.HomeCategoryDoctorAdapter;
-import com.csupporter.techwiz.presentation.view.adapter.main.MainAdapter;
+import com.csupporter.techwiz.presentation.view.adapter.MainAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainFragment extends BaseFragment {
@@ -53,6 +45,7 @@ public class MainFragment extends BaseFragment {
         btnMakeAppointment = view.findViewById(R.id.btn_appointment);
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void setDataViewPager2() {
         viewPager2.setAdapter(mainAdapter);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -76,7 +69,7 @@ public class MainFragment extends BaseFragment {
         btnMakeAppointment.setOnClickListener(view -> {
             viewPager2.setCurrentItem(2, false);
         });
-
+        bottomNavigationView.getMenu().findItem(R.id.user_placeholder).setEnabled(false);
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {

@@ -5,6 +5,7 @@ import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.domain.model.Account;
 
+import java.util.List;
 
 public interface AccountRepository {
 
@@ -20,8 +21,14 @@ public interface AccountRepository {
                        @Nullable Consumer<Void> onSuccess,
                        @Nullable Consumer<Throwable> onError);
 
-    void findAccountByEmail(String text,
+    void findAccountByEmail(String email,
                             @Nullable Consumer<Account> onSuccess,
                             @Nullable Consumer<Throwable> onError);
 
+    void findAccountById(String id,
+                         @Nullable Consumer<Account> onSuccess,
+                         @Nullable Consumer<Throwable> onError);
+
+    void getAllDoctor(@Nullable Consumer<List<Account>> onSuccess,
+                      @Nullable Consumer<Throwable> onError);
 }

@@ -32,7 +32,7 @@ public class DataInjection {
 
     @NonNull
     public static Repository provideRepository() {
-        return new RepositoryImpl();
+        return RepositoryImpl.getInstance();
     }
 
     ///////////////////////////////////////////////////////////////////////////

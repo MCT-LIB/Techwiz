@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.presenter;
+package com.csupporter.techwiz.presentation.presenter.authentication;
 
 import android.util.Patterns;
 
@@ -6,6 +6,7 @@ import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 

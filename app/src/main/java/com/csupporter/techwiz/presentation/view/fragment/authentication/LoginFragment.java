@@ -2,6 +2,7 @@ package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
-import com.csupporter.techwiz.presentation.presenter.LoginPresenter;
+import com.csupporter.techwiz.presentation.presenter.authentication.LoginPresenter;
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,13 +25,10 @@ import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
 
-public class LoginCallbackFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.LoginCallback {
+public class LoginFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.LoginCallback {
 
     private TextInputLayout tvUserName;
     private TextInputLayout tvPassword;
-    private TextView tvRegisterNow;
-    private AppCompatButton btnLogin;
-    private TextView tvForgotPassword;
     private LoadingDialog dialog;
 
     private LoginPresenter loginPresenter;
@@ -50,26 +48,28 @@ public class LoginCallbackFragment extends BaseFragment implements View.OnClickL
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         init(view);
         return view;
     }
 
-    private void init(View view) {
+    private void init(@NonNull View view) {
         tvUserName = view.findViewById(R.id.login_username_layout);
         tvPassword = view.findViewById(R.id.login_password_layout);
-        tvRegisterNow = view.findViewById(R.id.tv_register_now);
-        tvForgotPassword = view.findViewById(R.id.tv_forgot_password);
-        tvRegisterNow.setOnClickListener(this);
+        TextView tvForgotPassword = view.findViewById(R.id.tv_forgot_password);
+        TextView tvRegisterNow = view.findViewById(R.id.tv_register_now);
         tvForgotPassword.setOnClickListener(this);
-        btnLogin = view.findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(this);
+        tvRegisterNow.setOnClickListener(this);
+        tvForgotPassword.setPaintFlags(tvForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvRegisterNow.setPaintFlags(tvRegisterNow.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        
+        view.findViewById(R.id.btn_login).setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         int id = view.getId();
         if (id == R.id.tv_register_now) {
             replaceFragment(new ChooseObjectFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);

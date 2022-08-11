@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,10 +22,10 @@ import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.ForgotPasswordCallBack, AuthenticationCallback.EnterOTPCallBack {
     private LoadingDialog dialog;
-    private View view;
     private Button btnSubmit;
     private EditText edtEnterEmail;
     private TextView tvBackToLogin;
@@ -52,8 +51,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
     }
 
     @Override
@@ -79,7 +77,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
                 break;
             case R.id.tv_back_to_login:
-                replaceFragment(new LoginCallbackFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);
+                replaceFragment(new LoginFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);
                 break;
         }
     }
@@ -98,12 +96,12 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void emailNull() {
-        Toast.makeText(getActivity(), "Email cannot be blank!", Toast.LENGTH_SHORT).show();
+        showToast("Email cannot be blank!", ToastUtils.WARNING);
     }
 
     @Override
     public void emailNotExist() {
-        Toast.makeText(getActivity(), "Email not exits!", Toast.LENGTH_SHORT).show();
+        showToast("Email not exits!", ToastUtils.ERROR);
     }
 
     @Override

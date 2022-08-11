@@ -1,9 +1,6 @@
-package com.csupporter.techwiz.presentation.view.adapter.main;
+package com.csupporter.techwiz.presentation.view.adapter;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
-
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategoryDoctorAdapter.HomeCategoryDoctorViewHolder> {
 
     private Departments[] departments;
-    private Context context;
-
-    public HomeCategoryDoctorAdapter(Context context) {
-        this.context = context;
-    }
 
     public void setCategoryDoctorList() {
         this.departments = Departments.values();
@@ -48,14 +39,19 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
 
         String type = depart.getCategory();
 
-        if (type.equals("Dentist")) {
-            holder.layout.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.blue), PorterDuff.Mode.MULTIPLY);
-        } else if (type.equals("Pediatrician")) {
-            holder.layout.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.green_light), PorterDuff.Mode.MULTIPLY);
-        } else if (type.equals("Cardiologist")) {
-            holder.layout.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.red_slight), PorterDuff.Mode.MULTIPLY);
-        } else if (type.equals("Beauty surgeon")) {
-            holder.layout.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.purple_slight), PorterDuff.Mode.MULTIPLY);
+        switch (type) {
+            case "Dentist":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.blue), PorterDuff.Mode.MULTIPLY);
+                break;
+            case "Pediatrician":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.green_light), PorterDuff.Mode.MULTIPLY);
+                break;
+            case "Cardiologist":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.red_slight), PorterDuff.Mode.MULTIPLY);
+                break;
+            case "Beauty surgeon":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.purple_slight), PorterDuff.Mode.MULTIPLY);
+                break;
         }
 
         holder.image.setImageResource(depart.getResourceFile());
