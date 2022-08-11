@@ -20,6 +20,7 @@ import com.csupporter.techwiz.domain.repository.AccountRepository;
 import com.csupporter.techwiz.presentation.presenter.ResetPasswordPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 public class ResetPasswordFragment extends BaseFragment implements View.OnClickListener, ViewCallback.ResetPasswordCallBack {
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
@@ -95,12 +96,13 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         DataInjection.provideRepository().account.updateAccount(account, new Consumer<Void>() {
             @Override
             public void accept(Void unused) {
-                showToast("Change password successfully", 1);
+                showToast("Change password successfully", ToastUtils.SUCCESS);
+                clearBackStack();
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) {
-                showToast("Some thing wrong!! Let's try again! ", 1);
+                showToast("Some thing wrong!! Let's try again! ", ToastUtils.ERROR);
             }
         });
     }

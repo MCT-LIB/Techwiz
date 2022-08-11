@@ -95,7 +95,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
             case R.id.btn_verify_code:
                 if (getOTPCodeUser() == otp){
                     Fragment fragment = ResetPasswordFragment.newInstance(account);
-                    replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                    replaceFragment(fragment, false, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 }
                 break;
             case R.id.tv_resent_otp:
