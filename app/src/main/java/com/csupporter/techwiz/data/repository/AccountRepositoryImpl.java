@@ -31,7 +31,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                         FirebaseUtils.error(onError, null);
                     } else {
                         if (value.getDocuments().isEmpty()) {
-                            FirebaseUtils.error(onError, null);
+                            FirebaseUtils.success(onSuccess, null);
                         } else {
                             DocumentSnapshot snapshot = value.getDocuments().get(0);
                             Account account = snapshot.toObject(Account.class);
@@ -58,12 +58,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void findAccountByEmail(String text, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH).whereEqualTo("email", text).addSnapshotListener((value, error) -> {
-            if (value != null && !value.isEmpty()) {
-                DocumentSnapshot snapshot = value.getDocuments().get(0);
-                Account acc = snapshot.toObject(Account.class);
-                if (acc != null) {
-                    acc.setId(snapshot.getId());
-                    FirebaseUtils.success(onSuccess, acc);
+            if (value != null) {
+                if (!value.isEmpty()) {
+                    DocumentSnapshot snapshot = value.getDocuments().get(0);
+                    Account acc = snapshot.toObject(Account.class);
+                    if (acc != null) {
+                        acc.setId(snapshot.getId());
+                        FirebaseUtils.success(onSuccess, acc);
+                    }
+                } else {
+                    FirebaseUtils.success(onSuccess, null);
                 }
             } else {
                 FirebaseUtils.error(onError, error != null ? error.getCause() : null);

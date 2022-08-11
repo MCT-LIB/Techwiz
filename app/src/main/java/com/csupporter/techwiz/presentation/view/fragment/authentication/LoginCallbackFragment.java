@@ -24,7 +24,7 @@ import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, ViewCallback.Login {
+public class LoginCallbackFragment extends BaseFragment implements View.OnClickListener, ViewCallback.LoginCallback {
 
     private TextInputLayout tvUserName;
     private TextInputLayout tvPassword;

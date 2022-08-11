@@ -19,7 +19,7 @@ public class LoginPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void login(String userName, String password, ViewCallback.Login callback) {
+    public void login(String userName, String password, ViewCallback.LoginCallback callback) {
         getBaseView().showLoading();
 
         if (verifyDataInputLogin(userName, password, callback)) {
@@ -38,7 +38,7 @@ public class LoginPresenter extends BasePresenter {
     }
 
 
-    private boolean verifyDataInputLogin(String userName, String password, ViewCallback.Login callback) {
+    private boolean verifyDataInputLogin(String userName, String password, ViewCallback.LoginCallback callback) {
         if (userName.isEmpty() || password.isEmpty()) {
             callback.dataInvalid("Please complete the input field !");
             return false;

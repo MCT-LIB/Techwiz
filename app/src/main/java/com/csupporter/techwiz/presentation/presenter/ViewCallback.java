@@ -8,7 +8,7 @@ public abstract class ViewCallback {
         FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CF_PASSWORD, NONE
     }
 
-    public interface Login {
+    public interface LoginCallback {
         void dataInvalid(String alert);
 
         void loginSuccess();
@@ -16,8 +16,15 @@ public abstract class ViewCallback {
         void loginError();
     }
 
-    public interface RegisterCallBack {
+    public interface VerifyAccountCallBack {
+        boolean isDispose();
+
         void dataInvalid(String alert, ErrorTo errorTo);
+
+        void verified();
+    }
+
+    public interface RegisterCallBack {
 
         void registerSuccess();
 
@@ -38,7 +45,7 @@ public abstract class ViewCallback {
         void onSentOTPFailure();
     }
 
-    public interface ResetPasswordCallBack{
+    public interface ResetPasswordCallBack {
         void onSuccess(String pw);
 
         void onFailure();

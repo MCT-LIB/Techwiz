@@ -165,7 +165,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -175,8 +176,8 @@
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_resent_otp"
+            <Button
+                android:id="@+id/btn_resent_otp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple_rectangle_corn_12"

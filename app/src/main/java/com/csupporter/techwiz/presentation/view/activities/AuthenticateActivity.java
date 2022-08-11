@@ -2,7 +2,7 @@ package com.csupporter.techwiz.presentation.view.activities;
 
 import android.os.Bundle;
 
-import com.csupporter.techwiz.presentation.view.fragment.authentication.LoginFragment;
+import com.csupporter.techwiz.presentation.view.fragment.authentication.LoginCallbackFragment;
 import com.mct.components.baseui.BaseActivity;
 
 public class AuthenticateActivity extends BaseActivity {
@@ -11,7 +11,7 @@ public class AuthenticateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        replaceFragment(new LoginFragment());
+        replaceFragment(new LoginCallbackFragment());
     }
 
     @Override

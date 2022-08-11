@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 public class Account extends BaseModel implements Serializable {
 
+    public static final int TYPE_USER = 1;
+    public static final int TYPE_DOCTOR = 2;
+
     private String firstName;
     private String lastName;
     private String password;

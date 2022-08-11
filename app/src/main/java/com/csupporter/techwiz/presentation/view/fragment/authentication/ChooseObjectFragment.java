@@ -6,12 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
@@ -59,11 +61,15 @@ public class ChooseObjectFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(@NonNull View view) {
         int id = view.getId();
+        Fragment fragment = null;
         if (id == R.id.btn_doctor) {
-
-        } else if (id == R.id.btn_user) {
-            replaceFragment(new RegisterFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+            fragment = RegisterFragment.newInstance(Account.TYPE_DOCTOR);
         }
-
+        if (id == R.id.btn_user) {
+            fragment = RegisterFragment.newInstance(Account.TYPE_USER);
+        }
+        if (fragment != null) {
+            replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        }
     }
 }

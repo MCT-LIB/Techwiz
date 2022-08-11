@@ -79,7 +79,7 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
                 break;
             case R.id.tv_back_to_login:
-                replaceFragment(new LoginFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);
+                replaceFragment(new LoginCallbackFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);
                 break;
         }
     }
