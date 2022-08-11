@@ -103,16 +103,25 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         return acc;
     }
 
-
     @Override
     public void dataInvalid(String alert, @NonNull ViewCallback.ErrorTo errorTo) {
-        showToast(alert, ToastUtils.ERROR, true);
         switch (errorTo) {
             case NONE:
-                return;
+                break;
             case FIRST_NAME:
-
+                showSoftInput(txtFirstName.getEditText());
+                break;
+            case EMAIL:
+                showSoftInput(txtEmail.getEditText());
+                break;
+            case PASSWORD:
+                showSoftInput(txtPassword.getEditText());
+                break;
+            case CF_PASSWORD:
+                showSoftInput(txtConfPassword.getEditText());
+                break;
         }
+        showToast(alert, ToastUtils.ERROR, true);
     }
 
 

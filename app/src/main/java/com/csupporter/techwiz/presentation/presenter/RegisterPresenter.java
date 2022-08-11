@@ -60,11 +60,11 @@ public class RegisterPresenter extends BasePresenter {
             return false;
         }
         if (TextUtils.isEmpty(confPass)) {
-            callBack.dataInvalid("Please confirm your password", ErrorTo.PASSWORD);
+            callBack.dataInvalid("Please confirm your password", ErrorTo.CF_PASSWORD);
             return false;
         }
         if (!Pattern.matches(PASSWORD_REGEX, confPass)) {
-            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD);
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.CF_PASSWORD);
             return false;
         }
         if (!account.getPassword().equals(confPass)) {
