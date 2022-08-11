@@ -28,8 +28,12 @@ public class LoginPresenter extends BasePresenter {
                 @Override
                 public void accept(Account account) {
                     getBaseView().hideLoading();
-                    DataInjection.provideSettingPreferences().setToken(account.getId());
-                    callback.loginSuccess();
+                    if(account != null){
+                        DataInjection.provideSettingPreferences().setToken(account.getId());
+                        callback.loginSuccess();
+                    }else{
+                        callback.dataInvalid("Email or password is wrong !");
+                    }
                 }
             }, throwable -> {
                 getBaseView().hideLoading();
