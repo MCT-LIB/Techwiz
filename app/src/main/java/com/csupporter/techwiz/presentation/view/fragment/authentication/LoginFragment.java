@@ -17,6 +17,7 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.LoginPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
@@ -30,7 +31,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private TextView tvRegisterNow;
     private AppCompatButton btnLogin;
     private TextView tvForgotPassword;
-
+    private LoadingDialog dialog;
 
     private LoginPresenter loginPresenter;
 
@@ -88,7 +89,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void loginSuccess() {
-        if(getActivity() == null){
+        if (getActivity() == null) {
             return;
         }
 
@@ -101,5 +102,23 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void loginError() {
         ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, "Login Fail!", true).show();
+    }
+
+    @Override
+    public void showLoading() {
+        if (getContext() == null) return;
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        dialog = new LoadingDialog(getContext());
+        dialog.create(null);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }

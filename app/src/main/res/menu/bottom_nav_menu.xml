@@ -13,9 +13,9 @@
         android:id="@+id/user_placeholder"
         android:title="" />
     <item
-        android:id="@+id/user_calendar"
-        android:icon="@drawable/ic_baseline_calendar_month_24"
-        android:title="@string/bottom_navigation_calendar" />
+        android:id="@+id/user_history"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/bottom_navigation_history" />
     <item
         android:id="@+id/user_info"
         android:icon="@drawable/ic_baseline_person_24"

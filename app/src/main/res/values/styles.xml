@@ -8,6 +8,8 @@
         <item name="autoCompleteTextViewStyle">@style/SearchView</item>
         <item name="actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
         <item name="colorSurface">@color/transparent</item>
+        <!-- Customize colorSecondary to change icon/text of FAB (maps to tint and rippleColor) -->
+        <item name="colorOnSecondary">@android:color/white</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme">

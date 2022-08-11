@@ -30,12 +30,9 @@ public class LoginPresenter extends BasePresenter {
                     DataInjection.provideSettingPreferences().setToken(account.getId());
                     callback.loginSuccess();
                 }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) {
-                    getBaseView().hideLoading();
-                    callback.loginError();
-                }
+            }, throwable -> {
+                getBaseView().hideLoading();
+                callback.loginError();
             });
         }
     }

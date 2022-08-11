@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.view.fragment.main.nav.NavHomeFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/nav_home_img_user"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="25dp"
+        android:src="@mipmap/app_launcher_round" />
+
+    <TextView
+        android:id="@+id/nav_home_username"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/nav_home_img_user"
+        android:gravity="center|end"
+        android:paddingEnd="30dp"
+        android:text="Hi, Tran Trung"
+        android:textColor="@color/blue"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/nav_home_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/nav_home_username"
+        android:layout_margin="20dp"
+        android:background="@drawable/layout_radius"
+        android:backgroundTint="@color/gray"
+        android:drawableRight="@drawable/ic_baseline_search_24"
+        android:drawableTint="@color/blue"
+        android:hint="Find a doctor or speciality"
+        android:paddingStart="15dp"
+        android:paddingEnd="20dp"
+        android:textColor="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nav_home_category_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/nav_home_search_bar" />
+
+    <TextView
+        android:id="@+id/nav_home_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/nav_home_category_doctor"
+        android:gravity="center|start"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="My Appointment"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:drawableRightCompat="@drawable/ic_baseline_navigate_next_24"
+        app:drawableTint="@color/blue" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_list_appointment_of_day"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_home_text" />
+
+</RelativeLayout>
