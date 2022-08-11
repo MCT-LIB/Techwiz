@@ -40,7 +40,7 @@ public abstract class ViewCallback {
     }
 
     public interface ResetPasswordCallBack{
-        void onSuccess();
+        void onSuccess(String pw);
 
         void onFailure();
 

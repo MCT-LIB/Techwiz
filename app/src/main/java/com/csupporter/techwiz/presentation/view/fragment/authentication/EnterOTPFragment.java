@@ -92,8 +92,10 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.btn_verify_code:
-                if (getOTPCodeUser() == otp)
+                if (getOTPCodeUser() == otp){
+                    Fragment fragment = ResetPasswordFragment.newInstance(account);
                     replaceFragment(new ResetPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                }
                 break;
             case R.id.tv_resent_otp:
                 if (from == FROM_FORGOT_PW) {
@@ -105,7 +107,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void intiView(@NonNull View view) {
+    private void intiView(View view) {
         edtDigitCode_1 = view.findViewById(R.id.edt_digit_code_1);
         edtDigitCode_2 = view.findViewById(R.id.edt_digit_code_2);
         edtDigitCode_3 = view.findViewById(R.id.edt_digit_code_3);
