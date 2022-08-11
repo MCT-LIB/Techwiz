@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.fragment;
+package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.content.Context;
 import android.os.Bundle;

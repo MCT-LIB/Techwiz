@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.WindowManager;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
@@ -17,6 +18,7 @@ public class OnBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_board);
+
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override

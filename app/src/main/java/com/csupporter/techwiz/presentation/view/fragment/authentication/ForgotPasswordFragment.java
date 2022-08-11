@@ -1,9 +1,8 @@
-package com.csupporter.techwiz.presentation.view.fragment;
+package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.presentation.presenter.ForgotPasswordPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.JsonObject;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
-
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener,ViewCallback.ForgotPasswordCallBack {
     View view;

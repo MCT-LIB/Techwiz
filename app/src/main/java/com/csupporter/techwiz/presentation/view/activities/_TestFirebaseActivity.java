@@ -59,6 +59,8 @@ public class _TestFirebaseActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout._activity_test_firebase);
+
+
         initUi();
         loadNotes();
         loading(true);

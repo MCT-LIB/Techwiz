@@ -1,11 +1,8 @@
-package com.csupporter.techwiz.presentation.view.fragment;
+package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +17,7 @@ import androidx.annotation.Nullable;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.EnterOTPPresenter;
 import com.csupporter.techwiz.presentation.presenter.ViewCallback;
-import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
-
-import org.w3c.dom.Text;
 
 public class EnterOTPFragment extends BaseFragment implements View.OnClickListener, ViewCallback.EnterOTPCallBack {
     private static final String EMAIL_KEY = "EMAIL_KEY";
