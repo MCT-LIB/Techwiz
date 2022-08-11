@@ -18,6 +18,7 @@
         android:layout_gravity="bottom"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="20dp"
+        android:background="@color/white"
         app:fabCradleVerticalOffset="5dp"
         tools:ignore="BottomAppBar">
 
@@ -31,6 +32,7 @@
             app:itemIconSize="30dp"
             android:elevation="6dp"
             android:background="@drawable/transparent_background"
+            android:backgroundTint="@color/white"
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
