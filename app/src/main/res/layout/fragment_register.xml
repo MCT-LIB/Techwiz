@@ -60,6 +60,7 @@
                     android:textSize="18sp"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/white"
+                    app:errorEnabled="true"
                     app:hintTextColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -126,10 +127,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/gray"
                 android:textSize="18sp"
                 app:endIconMode="password_toggle"
-                app:endIconTint="@color/gray"
+                app:endIconTint="@color/white"
                 app:hintTextAppearance="@style/TextAppearance.AppCompat"
                 app:hintTextColor="@color/white">
 
@@ -138,6 +139,31 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:hint="@string/login_hint_password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLength="20"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_cf_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textColorHint="@color/gray"
+                android:textSize="18sp"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/white"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat"
+                app:hintTextColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:hint="@string/login_hint_re_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLength="20"

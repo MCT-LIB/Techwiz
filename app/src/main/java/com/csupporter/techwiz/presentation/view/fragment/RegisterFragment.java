@@ -35,6 +35,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     private TextInputLayout txtLastName;
     private TextInputLayout txtEmail;
     private TextInputLayout txtPassword;
+    private TextInputLayout txtConfPassword;
 
     private LoadingDialog dialog;
 
@@ -71,9 +72,10 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         txtFirstName = view.findViewById(R.id.register_firstname_layout);
         txtLastName = view.findViewById(R.id.register_lastname_layout);
         txtPassword = view.findViewById(R.id.register_password_layout);
+        txtConfPassword = view.findViewById(R.id.register_cf_password_layout);
         AppCompatButton btnRegister = view.findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(this);
-
+        txtFirstName.setError("Please enter your first name");
     }
 
     @Override
@@ -81,12 +83,14 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         int id = view.getId();
         if (id == R.id.btn_register) {
             Account account = getDataFromForm();
-            registerPresenter.register(account, this);
+            String confPass = txtConfPassword.getEditText().getText().toString();
+            registerPresenter.register(account, confPass, this);
         }
     }
 
     @NonNull
     private Account getDataFromForm() {
+
         String firstName = txtFirstName.getEditText().getText().toString().trim();
         String lastName = txtLastName.getEditText().getText().toString().trim();
         String email = txtEmail.getEditText().getText().toString().trim();
@@ -101,10 +105,19 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         return acc;
     }
 
-    @Override
-    public void dataInvalid(String alert) {
 
-        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, alert + "", true).show();
+    @Override
+    public void dataInvalid(String alert, ViewCallback.ErrorTo errorTo, boolean showToast) {
+        if (showToast) {
+            showToast(alert, ToastUtils.ERROR, true);
+        } else {
+            switch (errorTo){
+                case NONE:
+                    return;
+                case FIRST_NAME:
+
+            }
+        }
     }
 
     @Override
@@ -136,4 +149,5 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             dialog = null;
         }
     }
+
 }

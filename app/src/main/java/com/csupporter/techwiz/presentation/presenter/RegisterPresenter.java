@@ -1,9 +1,13 @@
 package com.csupporter.techwiz.presentation.presenter;
 
+import android.text.TextUtils;
 import android.util.Patterns;
+
+import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.ViewCallback.ErrorTo;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -18,42 +22,55 @@ public class RegisterPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void register(Account account, ViewCallback.RegisterCallBack callBack) {
+    public void register(Account account, String confPass, ViewCallback.RegisterCallBack callBack) {
         getBaseView().showLoading();
-        verifyData(account, callBack);
-
-        DataInjection.provideRepository().account.addAccount(account, unused ->
-                {
+        if (!isValidateOk(account, confPass, callBack)) {
+            getBaseView().hideLoading();
+            return;
+        }
+        DataInjection.provideRepository().account.addAccount(account,
+                unused -> {
                     getBaseView().hideLoading();
                     callBack.registerSuccess();
-                },
-                throwable -> {
+                }, throwable -> {
                     getBaseView().hideLoading();
                     callBack.registerError();
                 });
     }
 
-    private void verifyData(Account account, ViewCallback.RegisterCallBack callBack) {
-        if (account.getEmail().isEmpty() ||
-                account.getFirstName().isEmpty() ||
-                account.getLastName().isEmpty() ||
-                account.getPassword().isEmpty()) {
-            getBaseView().hideLoading();
-            callBack.dataInvalid("Input field must be fill !");
-            return;
+    private boolean isValidateOk(@NonNull Account account, String confPass, ViewCallback.RegisterCallBack callBack) {
+        if (TextUtils.isEmpty(account.getFirstName())) {
+            callBack.dataInvalid("Please enter your first name", ErrorTo.FIRST_NAME, false);
+            return false;
         }
-
+        if (TextUtils.isEmpty(account.getEmail())) {
+            callBack.dataInvalid("Please enter your email", ErrorTo.EMAIL, false);
+            return false;
+        }
         if (!Patterns.EMAIL_ADDRESS.matcher(account.getEmail()).matches()) {
-            getBaseView().hideLoading();
-            callBack.dataInvalid("Email is invalid !");
-            return;
+            callBack.dataInvalid("Email is invalid!", ErrorTo.EMAIL, false);
+            return false;
         }
-
+        if (TextUtils.isEmpty(account.getPassword())) {
+            callBack.dataInvalid("Please enter your password", ErrorTo.PASSWORD, false);
+            return false;
+        }
         if (!Pattern.matches(PASSWORD_REGEX, account.getPassword())) {
-            getBaseView().hideLoading();
-            callBack.dataInvalid("Password is invalid !");
-            return;
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD, true);
+            return false;
         }
-
+        if (TextUtils.isEmpty(confPass)) {
+            callBack.dataInvalid("Please confirm your password", ErrorTo.PASSWORD, false);
+            return false;
+        }
+        if (!Pattern.matches(PASSWORD_REGEX, confPass)) {
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", ErrorTo.PASSWORD, true);
+            return false;
+        }
+        if (!account.getPassword().equals(confPass)) {
+            callBack.dataInvalid("Password and confirm password are not the same", ErrorTo.NONE, true);
+            return false;
+        }
+        return true;
     }
 }

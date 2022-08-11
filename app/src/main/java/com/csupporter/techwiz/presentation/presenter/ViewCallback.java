@@ -2,18 +2,27 @@ package com.csupporter.techwiz.presentation.presenter;
 
 public abstract class ViewCallback {
 
-    public  interface Login{
+    public enum ErrorTo {
+        FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CF_PASSWORD, NONE
+    }
+
+    public interface Login {
         void dataInvalid(String alert);
+
         void loginSuccess();
+
         void loginError();
     }
+
     public interface RegisterCallBack {
-        void dataInvalid(String alert);
+        void dataInvalid(String alert, ErrorTo errorTo, boolean showToast);
+
         void registerSuccess();
+
         void registerError();
     }
 
-    public interface ForgotPasswordCallBack{
+    public interface ForgotPasswordCallBack {
         void emailExist();
 
         void emailNull();
@@ -21,7 +30,7 @@ public abstract class ViewCallback {
         void emailNotExist();
     }
 
-    public interface EnterOTPCallBack{
+    public interface EnterOTPCallBack {
         void onSentOTPSuccess(int OTP);
 
         void onSentOTPFailure();
