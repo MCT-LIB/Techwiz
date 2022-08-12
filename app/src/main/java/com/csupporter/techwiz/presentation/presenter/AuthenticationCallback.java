@@ -15,7 +15,7 @@ public abstract class AuthenticationCallback {
     public interface LoginCallback {
         void dataInvalid(String alert);
 
-        void loginSuccess();
+        void loginSuccess(Account account);
 
         void loginError();
     }

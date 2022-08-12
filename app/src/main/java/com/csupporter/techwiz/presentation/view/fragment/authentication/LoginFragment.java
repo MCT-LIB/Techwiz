@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.authentication.LoginPresenter;
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
@@ -87,20 +88,17 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(Account account) {
         if (getActivity() == null) {
             return;
         }
-
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+        MainActivity.startActivity(getActivity(), account);
         getActivity().finish();
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Login Success!", true).show();
     }
 
     @Override
     public void loginError() {
-        ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, "Login Fail!", true).show();
+        showToast("Login Fail!", ToastUtils.ERROR, true);
     }
 
     @Override

@@ -20,23 +20,28 @@ public class OnBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_board);
 
-
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getApplicationContext() == null) {
-                    return;
-                }
-                Intent intent;
-                String id = DataInjection.provideSettingPreferences().getToken();
-                if (id == null) {
-                    intent = new Intent(getApplicationContext(), AuthenticateActivity.class);
-                } else {
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
-                }
-                startActivity(intent);
-                finish();
+        new Handler(getMainLooper()).postDelayed(() -> {
+            if (getApplicationContext() == null) {
+                return;
+            }
+            String id = DataInjection.provideSettingPreferences().getToken();
+            if (id == null) {
+                gotoLogin();
+            } else {
+                DataInjection.provideRepository().account.findAccountById(id, account -> {
+                    if (account != null) {
+                        MainActivity.startActivity(OnBoardActivity.this, account);
+                    } else {
+                        gotoLogin();
+                    }
+                }, throwable -> gotoLogin());
             }
         }, 1000);
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent(getApplicationContext(), AuthenticateActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

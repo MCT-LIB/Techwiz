@@ -31,7 +31,7 @@ public class LoginPresenter extends BasePresenter {
                     getBaseView().hideLoading();
                     if (account != null) {
                         DataInjection.provideSettingPreferences().setToken(account.getId());
-                        callback.loginSuccess();
+                        callback.loginSuccess(account);
                     } else {
                         callback.dataInvalid("Email or password is wrong !");
                     }
