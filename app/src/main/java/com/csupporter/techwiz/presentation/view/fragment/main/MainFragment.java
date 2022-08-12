@@ -53,6 +53,7 @@ public class MainFragment extends BaseFragment {
 //        badgeDrawable.setNumber(5);
 
         viewPager2.setAdapter(mainAdapter);
+        viewPager2.setUserInputEnabled(false);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.user_home:

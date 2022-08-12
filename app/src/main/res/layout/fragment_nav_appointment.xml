@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.fragment.main.nav.NavAppointmentFragment">
 
-
+    <GridView
+        android:layout_margin="20dp"
+        android:id="@+id/doctor_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:numColumns="2" />
 
 </RelativeLayout>
