@@ -1,9 +1,7 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,7 +17,7 @@ import android.widget.TextView;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.main.NavUserInfoPresenter;
+import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.mct.components.baseui.BaseActivity;

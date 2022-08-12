@@ -6,17 +6,16 @@
     tools:context=".presentation.view.fragment.main.nav.NavSearchFragment">
 
     <SearchView
-        android:id="@+id/search_bar"
+        android:id="@+id/fragment_search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/img_avatar"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:background="@drawable/bg_radius_20"
         android:backgroundTint="@color/gray"
         android:hint="@string/nav_home_fragment_hint_search_bar"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:elevation="2dp"
         android:textColor="@color/black" />
 
 

@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.presenter.main;
+package com.csupporter.techwiz.presentation.presenter.authentication;
 
 import android.Manifest;
 import android.content.Context;
