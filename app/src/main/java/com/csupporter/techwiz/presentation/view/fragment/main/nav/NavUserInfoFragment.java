@@ -90,19 +90,5 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         }
     }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void onFalse(Throwable t) {
-
-    }
 
 }

@@ -75,7 +75,7 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
                 txtSearch.onActionViewExpanded();
                 break;
             case R.id.img_avatar:
-                MainFragment.viewPager2.setCurrentItem(4,false);
+
                 break;
         }
     }

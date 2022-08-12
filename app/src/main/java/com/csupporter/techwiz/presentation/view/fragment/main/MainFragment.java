@@ -15,6 +15,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
 
+import java.util.Stack;
+
 
 public class MainFragment extends BaseFragment {
 
@@ -77,6 +79,7 @@ public class MainFragment extends BaseFragment {
             viewPager2.setCurrentItem(2, false);
         });
         bottomNavigationView.getMenu().findItem(R.id.user_placeholder).setEnabled(false);
+
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -120,5 +123,15 @@ public class MainFragment extends BaseFragment {
         if (viewPager2 != null) {
             viewPager2.setCurrentItem(index, smooth);
         }
+    }
+    @Override
+    public boolean onBackPressed() {
+        if (viewPager2 != null) {
+            if (viewPager2.getCurrentItem() != 0) {
+                viewPager2.setCurrentItem(0, false);
+                return true;
+            }
+        }
+        return false;
     }
 }
