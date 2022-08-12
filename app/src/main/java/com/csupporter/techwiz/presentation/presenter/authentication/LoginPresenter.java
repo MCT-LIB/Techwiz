@@ -1,11 +1,12 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import static com.csupporter.techwiz.utils.Const.PASSWORD_REGEX;
+
 import android.util.Patterns;
 
-import androidx.core.util.Consumer;
+import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
@@ -13,8 +14,6 @@ import com.mct.components.baseui.BaseView;
 import java.util.regex.Pattern;
 
 public class LoginPresenter extends BasePresenter {
-
-    private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
 
     public LoginPresenter(BaseView baseView) {
         super(baseView);
@@ -25,16 +24,13 @@ public class LoginPresenter extends BasePresenter {
         if (verifyDataInputLogin(userName, password, callback)) {
             getBaseView().showLoading();
 
-            DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, new Consumer<Account>() {
-                @Override
-                public void accept(Account account) {
-                    getBaseView().hideLoading();
-                    if (account != null) {
-                        DataInjection.provideSettingPreferences().setToken(account.getId());
-                        callback.loginSuccess(account);
-                    } else {
-                        callback.dataInvalid("Email or password is wrong !");
-                    }
+            DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, account -> {
+                getBaseView().hideLoading();
+                if (account != null) {
+                    DataInjection.provideSettingPreferences().setToken(account.getId());
+                    callback.loginSuccess(account);
+                } else {
+                    callback.dataInvalid("Email or password is wrong !");
                 }
             }, throwable -> {
                 getBaseView().hideLoading();
@@ -44,7 +40,7 @@ public class LoginPresenter extends BasePresenter {
     }
 
 
-    private boolean verifyDataInputLogin(String userName, String password, AuthenticationCallback.LoginCallback callback) {
+    private boolean verifyDataInputLogin(@NonNull String userName, String password, AuthenticationCallback.LoginCallback callback) {
         if (userName.isEmpty() || password.isEmpty()) {
             callback.dataInvalid("Please complete the input field !");
             return false;

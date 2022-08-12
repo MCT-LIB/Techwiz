@@ -1,7 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +24,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
-
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.LoginCallback {
 
@@ -72,12 +71,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     public void onClick(@NonNull View view) {
         int id = view.getId();
         if (id == R.id.tv_register_now) {
-            replaceFragment(new ChooseObjectFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+            replaceFragment(new RegisterFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
         } else if (id == R.id.tv_forgot_password) {
             replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
         } else if (id == R.id.btn_login) {
-            String userName = tvUserName.getEditText().getText().toString();
-            String password = tvPassword.getEditText().getText().toString();
+            String userName = getText(tvUserName.getEditText());
+            String password = getText(tvPassword.getEditText());
             loginPresenter.login(userName, password, this);
         }
     }
@@ -116,6 +115,15 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         if (dialog != null) {
             dialog.dismiss();
             dialog = null;
+        }
+    }
+
+    @NonNull
+    private String getText(EditText editText) {
+        if (editText == null) {
+            return "";
+        } else {
+            return editText.getText().toString().trim();
         }
     }
 }

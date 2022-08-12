@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -26,29 +28,19 @@ import com.mct.components.toast.ToastUtils;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.EnterOTPCallBack, AuthenticationCallback.VerifyAccountCallBack {
 
-    public static final String KEY_TYPE = "key_type";
     private TextInputLayout txtFirstName;
     private TextInputLayout txtLastName;
     private TextInputLayout txtEmail;
     private TextInputLayout txtPassword;
     private TextInputLayout txtConfPassword;
+    private RadioButton rbUser;
 
     private LoadingDialog dialog;
     private Account account;
-    private int type;
 
     private RegisterPresenter registerPresenter;
     private SendOtpPresenter sendOtpPresenter;
     private boolean isDispose;
-
-    @NonNull
-    public static RegisterFragment newInstance(int type) {
-        Bundle args = new Bundle();
-        args.putInt(KEY_TYPE, type);
-        RegisterFragment fragment = new RegisterFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -69,7 +61,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        type = requireArguments().getInt(KEY_TYPE);
         init(view);
         return view;
     }
@@ -88,6 +79,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         txtLastName = view.findViewById(R.id.register_lastname_layout);
         txtPassword = view.findViewById(R.id.register_password_layout);
         txtConfPassword = view.findViewById(R.id.register_cf_password_layout);
+        rbUser = view.findViewById(R.id.rb_user);
         AppCompatButton btnRegister = view.findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(this);
     }
@@ -97,7 +89,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         int id = view.getId();
         if (id == R.id.btn_register) {
             account = getDataFromForm();
-            String confPass = txtConfPassword.getEditText().getText().toString();
+            String confPass = getText(txtConfPassword.getEditText());
             isDispose = false;
             registerPresenter.verifyAccount(account, confPass, this);
         }
@@ -105,18 +97,28 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @NonNull
     private Account getDataFromForm() {
-        String firstName = txtFirstName.getEditText().getText().toString().trim();
-        String lastName = txtLastName.getEditText().getText().toString().trim();
-        String email = txtEmail.getEditText().getText().toString().trim();
-        String password = txtPassword.getEditText().getText().toString().trim();
+        String firstName = getText(txtFirstName.getEditText());
+        String lastName = getText(txtLastName.getEditText());
+        String email = getText(txtEmail.getEditText());
+        String password = getText(txtPassword.getEditText());
         Account acc = new Account();
         acc.setId(FirebaseUtils.uniqueId());
         acc.setFirstName(firstName);
         acc.setLastName(lastName);
         acc.setEmail(email);
-        acc.setType(type);
+        acc.setType(rbUser.isChecked() ? Account.TYPE_USER : Account.TYPE_DOCTOR);
+        acc.setType(Account.STATUS_ACTIVE);
         acc.setPassword(password);
         return acc;
+    }
+
+    @NonNull
+    private String getText(EditText editText) {
+        if (editText == null) {
+            return "";
+        } else {
+            return editText.getText().toString().trim();
+        }
     }
 
     @Override
@@ -154,9 +156,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onSentOTPSuccess(int OTP) {
-        showToast("An otp had been sent. Please check your email!", ToastUtils.INFO);
-        Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_REGISTER);
-        replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
+        if (getContext() != null) {
+            showToast("An otp had been sent. Please check your email!", ToastUtils.INFO);
+            Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_REGISTER);
+            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
+        }
     }
 
     @Override

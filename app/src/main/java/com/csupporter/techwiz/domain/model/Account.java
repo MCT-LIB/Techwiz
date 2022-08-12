@@ -6,6 +6,8 @@ public class Account extends BaseModel implements Serializable {
 
     public static final int TYPE_USER = 1;
     public static final int TYPE_DOCTOR = 2;
+    public static final int STATUS_INACTIVE = 0;
+    public static final int STATUS_ACTIVE = 1;
 
     private String firstName;
     private String lastName;
