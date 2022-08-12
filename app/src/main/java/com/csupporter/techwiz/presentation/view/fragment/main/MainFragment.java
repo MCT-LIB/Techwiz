@@ -13,12 +13,13 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.view.adapter.MainAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
 import java.util.Stack;
 
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements BaseActivity.OnBackPressed {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
@@ -124,6 +125,8 @@ public class MainFragment extends BaseFragment {
             viewPager2.setCurrentItem(index, smooth);
         }
     }
+
+
     @Override
     public boolean onBackPressed() {
         if (viewPager2 != null) {

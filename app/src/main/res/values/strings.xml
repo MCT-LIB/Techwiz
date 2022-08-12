@@ -95,6 +95,8 @@
     <!--    add new track fragment-->
 
 
+    <!--    nav_history_fragment-->
+    <string name="nav_history_set_again">Set Again</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

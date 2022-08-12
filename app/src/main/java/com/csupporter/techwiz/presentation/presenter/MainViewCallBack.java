@@ -7,8 +7,10 @@ import java.util.List;
 
 public abstract class MainViewCallBack {
 
-    public interface NavUserInfoCallBack{
+    public interface NavUserInfoCallBack {
+        void requestPermissionSuccess();
 
+        void notRequestPermission();
     }
 
     public interface UserHomeCallBack {
@@ -16,7 +18,8 @@ public abstract class MainViewCallBack {
 
     }
 
-    public interface UserAppointmentCallBack{
+    public interface UserAppointmentCallBack {
         void doctorList(List<Account> accounts);
     }
+
 }

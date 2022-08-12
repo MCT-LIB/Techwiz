@@ -17,6 +17,8 @@ import com.csupporter.techwiz.R;
 
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
+import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -25,9 +27,11 @@ import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapte
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NavHomeFragment extends BaseNavFragment implements AuthenticationCallback.UserHomeCallBack,
-        HomeCategoryDoctorAdapter.OnClickCategoryItems {
+
+public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack.UserHomeCallBack,
+        HomeCategoryDoctorAdapter.OnClickCategoryItems, View.OnClickListener {
 
     private SearchView txtSearch;
     private TextView txtMyAppointment;
@@ -51,7 +55,6 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
 
         init(view);
         setDataCategoryDoctor();
-        eventClickItem();
         return view;
     }
 
@@ -75,7 +78,7 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
                 txtSearch.onActionViewExpanded();
                 break;
             case R.id.img_avatar:
-
+                changeTap(4,false);
                 break;
         }
     }

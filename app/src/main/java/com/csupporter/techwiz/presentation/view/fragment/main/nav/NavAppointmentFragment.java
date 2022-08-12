@@ -20,7 +20,7 @@ import com.mct.components.baseui.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavAppointmentFragment extends BaseNavFragment {
+public class NavAppointmentFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack {
 
     private GridView doctorListLayout;
     private DoctorListAdapter doctorListAdapter;

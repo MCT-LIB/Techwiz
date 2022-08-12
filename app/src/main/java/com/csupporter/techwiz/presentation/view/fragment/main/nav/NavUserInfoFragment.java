@@ -1,11 +1,15 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.RequiresApi;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +24,20 @@ import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
-import com.mct.components.baseui.BaseView;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
-public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, BaseView, MainViewCallBack.NavUserInfoCallBack {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
+public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, MainViewCallBack.NavUserInfoCallBack{
+
+
+    private View view;
+    private TextView tvName, tvEmail;
+    private RelativeLayout itemLogout, itemHealthTrack;
+    private CircleImageView btnOpenGallery;
 
     private NavUserInfoPresenter navUserInfoPresenter;
-    View view;
-    TextView tvName, tvEmail;
-    RelativeLayout itemLogout, itemHealthTrack;
+    private static final int MY_REQUEST_CODE = 10;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
     private void eventClick() {
         itemLogout.setOnClickListener(this);
         itemHealthTrack.setOnClickListener(this);
+        btnOpenGallery.setOnClickListener(this);
     }
 
     private void initView(@NonNull View view) {
@@ -57,6 +64,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         tvEmail = view.findViewById(R.id.tv_email);
         itemLogout = view.findViewById(R.id.item_logout);
         itemHealthTrack = view.findViewById(R.id.item_health_track);
+        btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
     }
 
     @Override
@@ -87,8 +95,22 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
             case R.id.item_health_track:
                 replaceFragment(new NavHealthyTrackingFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
+            case R.id.crl_open_gallery:
+                navUserInfoPresenter.requestPermissionToGallery(getActivity(), this);
+                break;
         }
     }
 
+    @Override
+    public void requestPermissionSuccess() {
 
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void notRequestPermission() {
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        getActivity().requestPermissions(permissions, MY_REQUEST_CODE);
+    }
 }

@@ -57,5 +57,9 @@ dependencies {
     //Calendar
     implementation 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v1.0.3'
 
+    //Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    //Gallery
+
 
 }
