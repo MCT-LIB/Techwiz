@@ -33,8 +33,11 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
     private TextView txtMyAppointment;
     private RecyclerView categoryDoctor;
     private RecyclerView appointmentList;
+    private CircleImageView avatar;
+
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
+    private UserHomePresenter userHomePresenter;
     private List<Appointment> listAppointment = new ArrayList<>();
 
     @Override
@@ -44,6 +47,8 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
 
         homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this);
         userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
+        userHomePresenter = new UserHomePresenter(this);
+
         init(view);
         setDataCategoryDoctor();
         eventClickItem();
@@ -54,7 +59,25 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
         appointmentList = view.findViewById(R.id.home_list_appointment_of_day);
         txtSearch = view.findViewById(R.id.search_bar);
+        txtSearch.setOnClickListener(this);
+
         txtMyAppointment = view.findViewById(R.id.nav_home_text);
+
+        avatar = view.findViewById(R.id.img_avatar);
+        avatar.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.search_bar:
+                txtSearch.setIconified(false);
+                txtSearch.onActionViewExpanded();
+                break;
+            case R.id.img_avatar:
+                MainFragment.viewPager2.setCurrentItem(4,false);
+                break;
+        }
     }
 
     private void setDataCategoryDoctor() {
@@ -71,13 +94,6 @@ public class NavHomeFragment extends BaseNavFragment implements AuthenticationCa
         appointmentList.setAdapter(userHomeAppointmentsAdapter);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void eventClickItem() {
-        txtSearch.setOnClickListener(view -> {
-            txtSearch.setIconified(false);
-            txtSearch.onActionViewExpanded();
-        });
-    }
 
     @Override
     public void onClickCategoryItem(String typeDoctor) {

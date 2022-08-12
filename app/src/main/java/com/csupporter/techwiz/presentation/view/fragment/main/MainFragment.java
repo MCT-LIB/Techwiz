@@ -41,6 +41,7 @@ public class MainFragment extends BaseFragment {
 
     private void init(View view) {
         viewPager2 = view.findViewById(R.id.view_pager2);
+        viewPager2.setOffscreenPageLimit(4);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
         btnMakeAppointment = view.findViewById(R.id.btn_appointment);
     }

@@ -60,7 +60,4 @@ public abstract class AuthenticationCallback {
         void onFailure();
     }
 
-    public interface UserHomeCallBack {
-        void listAppointment(List<Appointment> appointmentList);
-    }
 }

@@ -44,4 +44,15 @@ public class MainActivity extends BaseActivity {
     protected void showToastOnBackPressed() {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if(MainFragment.pageHistory.isEmpty()){
+            super.onBackPressed();
+        }else{
+            MainFragment.saveToHistory = false;
+            MainFragment.viewPager2.setCurrentItem(MainFragment.pageHistory.pop().intValue(),false);
+            MainFragment.saveToHistory = true;
+        }
+    }
 }

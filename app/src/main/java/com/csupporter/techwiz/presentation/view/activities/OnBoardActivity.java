@@ -56,4 +56,5 @@ public class OnBoardActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
