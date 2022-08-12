@@ -6,7 +6,6 @@ import androidx.core.util.Consumer;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.repository.AccountRepository;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -69,15 +68,47 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void findAccountById(String id, @Nullable Consumer<Account> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH).document(id).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot snapshot) {
+                .addOnSuccessListener(snapshot -> {
+                    Account account = snapshot.toObject(Account.class);
+                    if (account != null) {
+                        account.setId(snapshot.getId());
+                    }
+                    FirebaseUtils.success(onSuccess, account);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
+
+
+    @Override
+    public void findAccountsByNameAndType(String name, int type, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo("type", type).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Account> accounts = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
                         Account account = snapshot.toObject(Account.class);
                         if (account != null) {
                             account.setId(snapshot.getId());
+                            accounts.add(account);
                         }
-                        FirebaseUtils.success(onSuccess, account);
                     }
+                    FirebaseUtils.success(onSuccess, accounts);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
+
+    @Override
+    public void filterDoctorByDepartment(int department, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo("department", department).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Account> accounts = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        Account account = snapshot.toObject(Account.class);
+                        if (account != null) {
+                            account.setId(snapshot.getId());
+                            accounts.add(account);
+                        }
+                    }
+                    FirebaseUtils.success(onSuccess, accounts);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 
@@ -96,7 +127,6 @@ public class AccountRepositoryImpl implements AccountRepository {
                     }
                     FirebaseUtils.success(onSuccess, accounts);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
-
     }
 
 }

@@ -14,7 +14,8 @@ public class Appointment extends BaseModel {
      * 2 => bac si refuse
      * 3 => bac si cancel
      * 4 => user cancel
-     * 5 => timeout (when time < currentTime
+     * 5 => timeout (when time < currentTime)
+     * 6 => da kham benh
      */
     private int status;
 

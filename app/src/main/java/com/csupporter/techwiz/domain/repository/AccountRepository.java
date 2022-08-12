@@ -29,6 +29,14 @@ public interface AccountRepository {
                          @Nullable Consumer<Account> onSuccess,
                          @Nullable Consumer<Throwable> onError);
 
+    void findAccountsByNameAndType(String name, int type,
+                                   @Nullable Consumer<List<Account>> onSuccess,
+                                   @Nullable Consumer<Throwable> onError);
+
+    void filterDoctorByDepartment(int department,
+                                  @Nullable Consumer<List<Account>> onSuccess,
+                                  @Nullable Consumer<Throwable> onError);
+
     void getAllDoctor(@Nullable Consumer<List<Account>> onSuccess,
                       @Nullable Consumer<Throwable> onError);
 }

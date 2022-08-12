@@ -21,7 +21,7 @@ public class Account extends BaseModel implements Serializable {
     private String avatar;
     private int type;       // 0 -> admin, 1 -> user, 2 -> doctor
     private int status;     // 0 -> inactive, 1 -> active
-    private String department;
+    private int department;
     private String certificationUrl;
 
     public String getFirstName() {
@@ -104,11 +104,11 @@ public class Account extends BaseModel implements Serializable {
         this.status = status;
     }
 
-    public String getDepartment() {
+    public int getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(int department) {
         this.department = department;
     }
 
