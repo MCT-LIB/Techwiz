@@ -79,8 +79,18 @@
     <!--    item health track-->
 
     <!--    dialog detail track-->
-    <string name="detail_track_the_daily_track">The Daily Track</string>
+    <string name="detail_track_the_daily_track">The Detail Daily Track</string>
     <string name="detail_track_information_personal">Information Personal</string>
+    <string name="detail_track_your_name">Your name</string>
+    <string name="detail_track_age">Age</string>
+    <string name="detail_track_height">Height</string>
+    <string name="detail_track_weight">Weight</string>
+    <string name="detail_track_heath_indicator">Heath indicators</string>
+    <string name="detail_track_heart_beat">Heart beat</string>
+    <string name="detail_track_blood_pressure">Blood Pressure</string>
+    <string name="detail_track_blood_sugar">Blood sugar</string>
+    <string name="detail_track_gender">Gender</string>
+    <string name="detail_track_notes">Other :</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
