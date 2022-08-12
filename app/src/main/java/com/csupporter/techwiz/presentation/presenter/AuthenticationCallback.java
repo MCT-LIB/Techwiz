@@ -21,7 +21,6 @@ public abstract class AuthenticationCallback {
     }
 
     public interface VerifyAccountCallBack {
-        boolean isDispose();
 
         void dataInvalid(String alert, ErrorTo errorTo);
 

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPrese
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.csupporter.techwiz.presentation.view.common.OtpEditText;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.EncryptUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -115,6 +117,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.btn_resent_otp:
                 if (from == FROM_FORGOT_PW) {
+                    Log.e("ddd", "onClick: Enter OTP frag" );
                     sendOTPPresenter.sentForgotPassOtp(account, this);
                 }
                 if (from == FROM_REGISTER) {

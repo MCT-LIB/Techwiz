@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.utils.EncryptUtils;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -23,7 +24,7 @@ public class LoginPresenter extends BasePresenter {
 
         if (verifyDataInputLogin(userName, password, callback)) {
             getBaseView().showLoading();
-
+            password = EncryptUtils.encrypt(password);
             DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, account -> {
                 getBaseView().hideLoading();
                 if (account != null) {

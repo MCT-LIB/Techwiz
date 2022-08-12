@@ -15,14 +15,10 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Encrypt and decrypt messages using AES 256 bit encryption that are compatible with AESCrypt-ObjC and AESCrypt Ruby.
- * <p/>
- * Created by scottab on 04/10/2014.
- */
-public final class AESCrypt {
+public final class EncryptUtils {
 
     private static final String TAG = "AESCrypt";
+    private static final String DEFAULT_MESSAGE = "Csupporter";
 
     //AESCrypt-ObjC uses CBC and PKCS7Padding
     private static final String AES_MODE = "AES/CBC/PKCS7Padding";
@@ -34,8 +30,8 @@ public final class AESCrypt {
     //AESCrypt-ObjC uses blank IV (not the best security, but the aim here is compatibility)
     private static final byte[] ivBytes = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-    //togglable log option (please turn off in live!)
-    public static boolean DEBUG_LOG_ENABLED = true;
+    //toggleable log option (please turn off in live!)
+    public static boolean DEBUG_LOG_ENABLED = false;
 
 
     /**
@@ -56,13 +52,29 @@ public final class AESCrypt {
         return new SecretKeySpec(key, "AES");
     }
 
+    public static String encrypt(final String password) {
+        try {
+            return encrypt(password, DEFAULT_MESSAGE);
+        } catch (GeneralSecurityException e) {
+            log("Error: ", "encrypt false " + e.getMessage());
+            return password;
+        }
+    }
+
+    public static boolean checkPassword(final String password, final String base64EncodedCipherText) {
+        try {
+            return decrypt(password, base64EncodedCipherText).equals(DEFAULT_MESSAGE);
+        } catch (Exception e) {
+            log("Error: ", "decrypt false " + e.getMessage());
+            return false;
+        }
+    }
 
     /**
      * Encrypt and encode message using 256-bit AES with key generated from password.
      *
-     *
      * @param password used to generated key
-     * @param message the thing you want to encrypt assumed String UTF-8
+     * @param message  the thing you want to encrypt assumed String UTF-8
      * @return Base64 encoded CipherText
      * @throws GeneralSecurityException if problems occur during encryption
      */
@@ -90,8 +102,9 @@ public final class AESCrypt {
 
     /**
      * More flexible AES encrypt that doesn't encode
-     * @param key AES key typically 128, 192 or 256 bit
-     * @param iv Initiation Vector
+     *
+     * @param key     AES key typically 128, 192 or 256 bit
+     * @param iv      Initiation Vector
      * @param message in bytes (assumed it's already been decoded)
      * @return Encrypted cipher text (not encoded)
      * @throws GeneralSecurityException if something goes wrong during encryption
@@ -112,8 +125,8 @@ public final class AESCrypt {
     /**
      * Decrypt and decode ciphertext using 256-bit AES with key generated from password
      *
-     * @param password used to generated key
-     * @param base64EncodedCipherText the encrpyted message encoded with base64
+     * @param password                used to generated key
+     * @param base64EncodedCipherText the encrypted message encoded with base64
      * @return message in Plain text (String UTF-8)
      * @throws GeneralSecurityException if there's an issue decrypting
      */
@@ -148,8 +161,8 @@ public final class AESCrypt {
     /**
      * More flexible AES decrypt that doesn't encode
      *
-     * @param key AES key typically 128, 192 or 256 bit
-     * @param iv Initiation Vector
+     * @param key               AES key typically 128, 192 or 256 bit
+     * @param iv                Initiation Vector
      * @param decodedCipherText in bytes (assumed it's already been decoded)
      * @return Decrypted message cipher text (not encoded)
      * @throws GeneralSecurityException if something goes wrong during encryption
@@ -167,8 +180,6 @@ public final class AESCrypt {
     }
 
 
-
-
     private static void log(String what, byte[] bytes) {
         if (DEBUG_LOG_ENABLED)
             Log.d(TAG, what + "[" + bytes.length + "] [" + bytesToHex(bytes) + "]");
@@ -181,7 +192,7 @@ public final class AESCrypt {
 
 
     /**
-     * Converts byte array to hexidecimal useful for logging and fault finding
+     * Converts byte array to hexadecimal useful for logging and fault finding
      */
     @NonNull
     private static String bytesToHex(@NonNull byte[] bytes) {
@@ -197,6 +208,6 @@ public final class AESCrypt {
         return new String(hexChars);
     }
 
-    private AESCrypt() {
+    private EncryptUtils() {
     }
 }

@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.di.DataInjection;
@@ -23,6 +25,7 @@ public class SendOtpPresenter extends BasePresenter {
     }
 
     public void sentForgotPassOtp(@NonNull Account account, AuthenticationCallback.EnterOTPCallBack callBack) {
+        Log.e("ddd", "sentForgotPassOtp: " );
         getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_FORGOT_PASS, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {

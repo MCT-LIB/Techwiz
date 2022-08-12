@@ -9,11 +9,9 @@ import android.util.Log;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.utils.AESCrypt;
+import com.csupporter.techwiz.utils.EncryptUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
 
 public class OnBoardActivity extends AppCompatActivity {
 
@@ -23,31 +21,34 @@ public class OnBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_on_board);
 
         try {
-            String s = AESCrypt.encrypt("Hello", "alo");
+            String s = EncryptUtils.encrypt("123456aA");
             Log.e("AESCrypt en", "-\n\n " + s + " \n\n -");
-            String dc = AESCrypt.decrypt("Helloa", s);
+            String dc = EncryptUtils.decrypt("123456aA", s);
             Log.e("AESCrypt dc", "-\n\n " + dc + " \n\n -");
+            boolean b = EncryptUtils.checkPassword("123456aA", s);
+            Log.e("AESCrypt dc", "-\n\n " + b + " \n\n -");
+
         } catch (GeneralSecurityException e) {
             Log.e("AESCrypt", "False");
         }
 
-//        new Handler(getMainLooper()).postDelayed(() -> {
-//            if (getApplicationContext() == null) {
-//                return;
-//            }
-//            String id = DataInjection.provideSettingPreferences().getToken();
-//            if (id == null) {
-//                gotoLogin();
-//            } else {
-//                DataInjection.provideRepository().account.findAccountById(id, account -> {
-//                    if (account != null) {
-//                        MainActivity.startActivity(OnBoardActivity.this, account);
-//                    } else {
-//                        gotoLogin();
-//                    }
-//                }, throwable -> gotoLogin());
-//            }
-//        }, 1000);
+        new Handler(getMainLooper()).postDelayed(() -> {
+            if (getApplicationContext() == null) {
+                return;
+            }
+            String id = DataInjection.provideSettingPreferences().getToken();
+            if (id == null) {
+                gotoLogin();
+            } else {
+                DataInjection.provideRepository().account.findAccountById(id, account -> {
+                    if (account != null) {
+                        MainActivity.startActivity(OnBoardActivity.this, account);
+                    } else {
+                        gotoLogin();
+                    }
+                }, throwable -> gotoLogin());
+            }
+        }, 1000);
     }
 
     private void gotoLogin() {

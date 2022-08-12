@@ -3,16 +3,15 @@ package com.csupporter.techwiz.presentation.presenter.authentication;
 import static com.csupporter.techwiz.utils.Const.PASSWORD_REGEX;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback.ErrorTo;
+import com.csupporter.techwiz.utils.EncryptUtils;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -38,9 +37,6 @@ public class RegisterPresenter extends BasePresenter {
             return;
         }
         DataInjection.provideRepository().account.findAccountByEmail(account.getEmail(), account1 -> {
-            if (callBack.isDispose()) {
-                return;
-            }
             if (account1 != null) {
                 callBack.dataInvalid("Email had been taken", ErrorTo.EMAIL);
             } else {
@@ -66,16 +62,13 @@ public class RegisterPresenter extends BasePresenter {
                 }
                 callBack.verified();
             }
-        }, throwable -> {
-            if (!callBack.isDispose()) {
-                callBack.dataInvalid("Error: " + throwable, ErrorTo.NONE);
-            }
-        });
+        }, throwable -> callBack.dataInvalid("Error: " + throwable, ErrorTo.NONE));
     }
 
 
-    public void register(Account account, AuthenticationCallback.RegisterCallBack callBack) {
+    public void register(@NonNull Account account, AuthenticationCallback.RegisterCallBack callBack) {
         getBaseView().showLoading();
+        account.setPassword(EncryptUtils.encrypt(account.getPassword()));
         DataInjection.provideRepository().account.addAccount(account,
                 unused -> {
                     getBaseView().hideLoading();

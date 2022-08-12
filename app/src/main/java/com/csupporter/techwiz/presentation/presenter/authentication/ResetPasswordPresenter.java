@@ -5,11 +5,11 @@ import static com.csupporter.techwiz.utils.Const.PASSWORD_REGEX;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.utils.EncryptUtils;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
@@ -45,7 +45,8 @@ public class ResetPasswordPresenter extends BasePresenter {
         callBack.verified(newPass);
     }
 
-    public void resetPassword(Account account, AuthenticationCallback.ChangePassCallback callback) {
+    public void resetPassword(@NonNull Account account, AuthenticationCallback.ChangePassCallback callback) {
+        account.setPassword(EncryptUtils.encrypt(account.getPassword()));
         DataInjection.provideRepository().account.updateAccount(account,
                 unused -> callback.onSuccess(account),
                 throwable -> callback.onFailure());

@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.view.fragment.main.nav.NavSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <SearchView
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:layout_below="@id/img_avatar"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_radius_20"
+        android:backgroundTint="@color/gray"
+        android:hint="@string/nav_home_fragment_hint_search_bar"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:elevation="2dp"
+        android:textColor="@color/black" />
 
-</FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
