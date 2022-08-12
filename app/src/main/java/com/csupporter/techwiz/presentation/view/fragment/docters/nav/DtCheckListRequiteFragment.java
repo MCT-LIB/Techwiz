@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.fragment.docters.nav;
+package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.app.Dialog;
 import android.os.Bundle;

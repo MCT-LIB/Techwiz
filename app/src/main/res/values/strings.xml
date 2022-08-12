@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Techwiz</string>
+    <string name="app_name">Health Alert</string>
 
     <string name="content_desc_back">Back</string>
 
@@ -93,7 +93,13 @@
     <string name="detail_track_notes">Other :</string>
 
     <!--    add new track fragment-->
-
+    <string name="track_add_new">Add New</string>
+    <string name="track_note">Note for your status</string>
+    <string name="track_height">Height :</string>
+    <string name="track_weight">Weight :</string>
+    <string name="track_heart_beat">Heart beat :</string>
+    <string name="track_blood_pressure">Blood pressure :</string>
+    <string name="track_blood_sugar">Blood sugar :</string>
 
     <!--    nav_history_fragment-->
     <string name="nav_history_set_again">Set Again</string>

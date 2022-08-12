@@ -1,98 +1,90 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
 
 import com.csupporter.techwiz.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NavHealthyTrackingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener {
 
-    private View view;
     private FloatingActionButton btnAddTrack;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public NavHealthyTrackingFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HealthyTrackingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NavHealthyTrackingFragment newInstance(String param1, String param2) {
-        NavHealthyTrackingFragment fragment = new NavHealthyTrackingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private EditText height;
+    private EditText weight;
+    private EditText heartBeat;
+    private EditText bloodSugar;
+    private EditText bloodPressure;
+    private EditText note;
+    private AppCompatButton btnAddNew;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_healthy_tracking , container, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_healthy_tracking, container, false);
         initView(view);
-        eventClick();
-    }
 
-    private void eventClick() {
-        btnAddTrack.setOnClickListener(this);
+        return view;
     }
 
     private void initView(View view) {
         btnAddTrack = view.findViewById(R.id.btn_add_track);
+        btnAddTrack.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_add_track:
-
+                createAddDialog();
                 break;
         }
+    }
+
+    private void createAddDialog() {
+        Dialog dialogBottom = new Dialog(getActivity());
+        dialogBottom.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogBottom.setContentView(R.layout.add_health_tracking);
+        initItemDialog(dialogBottom);
+        dialogBottom.show();
+        customAddHealthDialog(dialogBottom);
+    }
+
+    private void initItemDialog(Dialog dialog) {
+        height = dialog.findViewById(R.id.edt_height);
+        weight = dialog.findViewById(R.id.edt_weight);
+        bloodSugar = dialog.findViewById(R.id.blood_sugar);
+        bloodPressure = dialog.findViewById(R.id.blood_pressure);
+        heartBeat = dialog.findViewById(R.id.edt_heart_beat);
+        btnAddNew = dialog.findViewById(R.id.btn_add_health_tracking);
+    }
+
+    private void customAddHealthDialog(Dialog dialog) {
+        dialog.getWindow().
+
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().
+
+                setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().
+
+                getAttributes().windowAnimations = androidx.appcompat.R.style.Base_Animation_AppCompat_DropDownUp;
+        dialog.getWindow().
+
+                setGravity(Gravity.BOTTOM);
     }
 }
