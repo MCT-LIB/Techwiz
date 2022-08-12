@@ -92,6 +92,9 @@
     <string name="detail_track_gender">Gender</string>
     <string name="detail_track_notes">Other :</string>
 
+    <!--    add new track fragment-->
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -12,18 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.main.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
-import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
-import com.mct.components.baseui.BaseFragment;
-import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.baseui.BaseView;
 
@@ -90,7 +85,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                 }
                 break;
             case R.id.item_health_track:
-                replaceFragment(new HealthyTrackingFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                replaceFragment(new NavHealthyTrackingFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
     }
