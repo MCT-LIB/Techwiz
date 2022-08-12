@@ -1,9 +1,12 @@
 package com.csupporter.techwiz.presentation.view.dialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -11,22 +14,24 @@ import androidx.appcompat.app.AlertDialog;
 import com.csupporter.techwiz.R;
 import com.mct.components.baseui.BaseOverlayDialog;
 
-public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickListener{
+public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickListener {
 
     private View view;
-    private ShowConfirmDialog mShowConfirmDialog;
-    private Button btnCancel, btnConfirm;
+    private final int icon;
+    private final String msg;
+    private final OnConfirmListener mOnConfirmListener;
 
-    public ConfirmDialog(@NonNull Context context, ShowConfirmDialog mShowConfirmDialog) {
+    public ConfirmDialog(@NonNull Context context, int icon, String msg, OnConfirmListener mOnConfirmListener) {
         super(context);
-        this.mShowConfirmDialog = mShowConfirmDialog;
+        this.icon = icon;
+        this.msg = msg;
+        this.mOnConfirmListener = mOnConfirmListener;
     }
 
     @NonNull
     @Override
     protected AlertDialog.Builder onCreateDialog() {
         view = LayoutInflater.from(context).inflate(R.layout.dialog_cofirm_logout, null);
-
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setView(view);
@@ -35,7 +40,6 @@ public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickList
     @Override
     protected void onDialogCreated(@NonNull AlertDialog dialog) {
         intiView(view);
-        eventClick();
     }
 
     @Override
@@ -43,32 +47,35 @@ public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickList
         return 16;
     }
 
-    private void eventClick() {
-        btnCancel.setOnClickListener(this);
-        btnConfirm.setOnClickListener(this);
-    }
-
-    private void intiView(View view) {
-        btnCancel = view.findViewById(R.id.btn_no);
-        btnConfirm = view.findViewById(R.id.btn_yes);
+    private void intiView(@NonNull View view) {
+        view.findViewById(R.id.btn_no).setOnClickListener(this);
+        view.findViewById(R.id.btn_yes).setOnClickListener(this);
+        ImageView imgIcon = view.findViewById(R.id.img_icon);
+        if (icon != 0) {
+            imgIcon.setImageResource(icon);
+        }
+        TextView tvMsg = view.findViewById(R.id.tv_msg);
+        tvMsg.setText(msg);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    @SuppressLint("NonConstantResourceId")
+    public void onClick(@NonNull View v) {
+        switch (v.getId()) {
             case R.id.btn_no:
-                mShowConfirmDialog.onCancel();
+                mOnConfirmListener.onCancel(this);
                 break;
             case R.id.btn_yes:
-                mShowConfirmDialog.onConfirm();
+                mOnConfirmListener.onConfirm(this);
                 break;
         }
     }
 
-    public interface ShowConfirmDialog {
-        void onConfirm();
 
-        void onCancel();
+    public interface OnConfirmListener {
+        void onConfirm(BaseOverlayDialog overlayDialog);
+
+        void onCancel(BaseOverlayDialog overlayDialog);
     }
 
 }

@@ -38,9 +38,7 @@ public abstract class AuthenticationCallback {
     public interface ForgotPasswordCallBack {
         void emailExist(Account account);
 
-        void emailNull();
-
-        void emailNotExist();
+        void dataInvalid(String alert, ErrorTo errorTo);
     }
 
     public interface EnterOTPCallBack {
@@ -51,11 +49,10 @@ public abstract class AuthenticationCallback {
     }
 
     public interface ResetPasswordCallBack {
-        void onSuccess(String pw);
+        void verified(String pw);
 
-        void onFailure();
+        void dataInvalid(String alert, ErrorTo errorTo);
 
-        void onEmptyValue();
     }
 
     public interface ChangePassCallback {

@@ -1,4 +1,6 @@
-package com.csupporter.techwiz.presentation.presenter;
+package com.csupporter.techwiz.presentation.presenter.authentication;
+
+import static com.csupporter.techwiz.utils.Const.PASSWORD_REGEX;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,6 +11,7 @@ import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback.ErrorTo;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
@@ -16,9 +19,6 @@ import com.mct.components.baseui.BaseView;
 import java.util.regex.Pattern;
 
 public class RegisterPresenter extends BasePresenter {
-
-    private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
-
 
     public RegisterPresenter(BaseView baseView) {
         super(baseView);

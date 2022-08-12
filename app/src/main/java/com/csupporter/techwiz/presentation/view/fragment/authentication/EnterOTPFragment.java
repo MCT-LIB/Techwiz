@@ -5,11 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
+import com.csupporter.techwiz.presentation.presenter.authentication.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
+import com.csupporter.techwiz.presentation.view.activities.MainActivity;
+import com.csupporter.techwiz.presentation.view.common.OtpEditText;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.csupporter.techwiz.utils.WindowUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -35,9 +37,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public static final int FROM_FORGOT_PW = 1;
     public static final int FROM_REGISTER = 2;
 
-    private EditText edtDigitCode_1, edtDigitCode_2, edtDigitCode_3, edtDigitCode_4, edtDigitCode_5, edtDigitCode_6;
     private Button btnResentOTP;
     private TextView tvDurationOfOtp;
+    private OtpEditText edtOtp;
     private Button btnVerifyCode;
     private SendOtpPresenter sendOTPPresenter;
     private RegisterPresenter registerPresenter;
@@ -79,15 +81,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         sendOTPPresenter = new SendOtpPresenter(this);
         registerPresenter = new RegisterPresenter(this);
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
-    }
-
 
     @Nullable
     @Override
@@ -103,7 +97,6 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         intiView(view);
-        eventClick();
         startTimer();
     }
 
@@ -113,27 +106,12 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         stopTimer();
     }
 
-    private void eventClick() {
-        btnVerifyCode.setOnClickListener(this);
-        btnResentOTP.setOnClickListener(this);
-    }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.btn_verify_code:
-                if (getOTPCodeUser() == otp) {
-                    if (from == FROM_FORGOT_PW) {
-                        Fragment fragment = ResetPasswordFragment.newInstance(account);
-                        replaceFragment(fragment, false, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
-                    }
-                    if (from == FROM_REGISTER) {
-                        registerPresenter.register(account, this);
-                    }
-                } else {
-                    showToast("OTP is invalid!", ToastUtils.ERROR, true);
-                }
+                verifyCode();
                 break;
             case R.id.btn_resent_otp:
                 if (from == FROM_FORGOT_PW) {
@@ -147,29 +125,31 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void intiView(@NonNull View view) {
-        edtDigitCode_1 = view.findViewById(R.id.edt_digit_code_1);
-        edtDigitCode_2 = view.findViewById(R.id.edt_digit_code_2);
-        edtDigitCode_3 = view.findViewById(R.id.edt_digit_code_3);
-        edtDigitCode_4 = view.findViewById(R.id.edt_digit_code_4);
-        edtDigitCode_5 = view.findViewById(R.id.edt_digit_code_5);
-        edtDigitCode_6 = view.findViewById(R.id.edt_digit_code_6);
-
         btnResentOTP = view.findViewById(R.id.btn_resent_otp);
+        edtOtp = view.findViewById(R.id.edt_otp);
         tvDurationOfOtp = view.findViewById(R.id.tv_duration_of_otp);
         btnVerifyCode = view.findViewById(R.id.btn_verify_code);
-    }
 
-    public int getOTPCodeUser() {
-        String otp_1 = edtDigitCode_1.getText().toString().trim();
-        String otp_2 = edtDigitCode_2.getText().toString().trim();
-        String otp_3 = edtDigitCode_3.getText().toString().trim();
-        String otp_4 = edtDigitCode_4.getText().toString().trim();
-        String otp_5 = edtDigitCode_5.getText().toString().trim();
-        String otp_6 = edtDigitCode_6.getText().toString().trim();
+        btnVerifyCode.setOnClickListener(this);
+        btnResentOTP.setOnClickListener(this);
+        edtOtp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 6) {
+                    if (timeless > 0 && !verifyCode()) {
+                        edtOtp.setText("");
+                    }
+                }
+            }
 
-        String otp = otp_1 + otp_2 + otp_3 + otp_4 + otp_5 + otp_6;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        return Integer.parseInt(otp);
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     private void startTimer() {
@@ -181,6 +161,22 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
 
     private void stopTimer() {
         handler.removeCallbacks(r);
+    }
+
+    private boolean verifyCode() {
+        if (edtOtp.getOtp() == otp) {
+            if (from == FROM_FORGOT_PW) {
+                Fragment fragment = ResetPasswordFragment.newInstance(account);
+                replaceFragment(fragment, false, BaseActivity.Anim.TRANSIT_FADE);
+            }
+            if (from == FROM_REGISTER) {
+                registerPresenter.register(account, this);
+            }
+            return true;
+        } else {
+            showToast("OTP is invalid!", ToastUtils.ERROR, true);
+            return false;
+        }
     }
 
     @Override
@@ -197,7 +193,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void registerSuccess() {
         showToast("Register Success!", ToastUtils.SUCCESS, true);
-        popFragmentToPosition(0);
+        if (getContext() != null) {
+            MainActivity.startActivity(getContext(), account);
+        }
     }
 
     @Override

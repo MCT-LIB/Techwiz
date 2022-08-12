@@ -15,7 +15,7 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
-import com.csupporter.techwiz.presentation.presenter.RegisterPresenter;
+import com.csupporter.techwiz.presentation.presenter.authentication.RegisterPresenter;
 import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPresenter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.utils.WindowUtils;
@@ -55,13 +55,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         registerPresenter = new RegisterPresenter(this);
         sendOtpPresenter = new SendOtpPresenter(this);
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.register_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_register);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.register_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_register);
     }
 
 
@@ -148,19 +148,15 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void verified() {
-        if (getContext() != null) {
-            hideSoftInput();
-            sendOtpPresenter.sendVerificationOtp(account, this);
-        }
+        hideSoftInput();
+        sendOtpPresenter.sendVerificationOtp(account, this);
     }
 
     @Override
     public void onSentOTPSuccess(int OTP) {
-        if (getContext() != null) {
-            showToast("An otp had been sent. Please check your email!", ToastUtils.INFO);
-            Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_REGISTER);
-            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
-        }
+        showToast("An otp had been sent. Please check your email!", ToastUtils.INFO);
+        Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_REGISTER);
+        replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
     }
 
     @Override

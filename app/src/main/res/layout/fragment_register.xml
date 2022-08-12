@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:background="@drawable/background_register">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/register_background">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -39,8 +40,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
             android:gravity="center"
-            android:paddingTop="24dp"
             android:orientation="vertical"
+            android:paddingTop="24dp"
             android:paddingBottom="16dp">
 
             <LinearLayout
@@ -52,70 +53,46 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/register_firstname_layout"
-                    android:layout_width="0dp"
+                    style="@style/AuthTextInputLayout"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     android:hint="@string/register_first_name"
-                    android:textColorHint="@color/gray"
-                    android:textSize="18sp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="@color/white"
-                    app:errorEnabled="true"
-                    app:hintTextColor="@color/white">
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/white"
+                        style="@style/AuthTextInputEditText"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
+                        android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/register_lastname_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/AuthTextInputLayout"
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:hint="@string/register_last_name"
-                    android:textColorHint="@color/gray"
-                    android:textSize="18sp"
                     app:endIconMode="clear_text"
-                    app:endIconTint="@color/white"
-                    app:hintTextColor="@color/white">
+                    app:endIconTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/white"
+                        style="@style/AuthTextInputEditText"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
+                        android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_email_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AuthTextInputLayout"
                 android:layout_marginTop="25dp"
                 android:hint="@string/login_hint_email"
-                android:textColorHint="@color/gray"
-                android:textSize="18sp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/white"
-                app:hintTextColor="@color/white">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    style="@style/AuthTextInputEditText"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/white"
@@ -125,51 +102,31 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AuthTextInputLayout"
                 android:layout_marginTop="25dp"
-                android:textColorHint="@color/gray"
-                android:textSize="18sp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/white"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat"
-                app:hintTextColor="@color/white">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    style="@style/AuthTextInputEditText"
                     android:hint="@string/login_hint_password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:maxLength="20"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:maxLength="32" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_cf_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AuthTextInputLayout"
                 android:layout_marginTop="25dp"
-                android:textColorHint="@color/gray"
-                android:textSize="18sp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/white"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat"
-                app:hintTextColor="@color/white">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    style="@style/AuthTextInputEditText"
                     android:hint="@string/login_hint_re_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
-                    android:maxLength="20"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:maxLength="32" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

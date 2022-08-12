@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:background="@drawable/background_login">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +27,7 @@
 
             <TextView
                 android:id="@+id/header_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_header_text"
                 android:textAlignment="center"
@@ -46,49 +48,29 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/login_username_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AuthTextInputLayout"
                 android:layout_below="@+id/header_text"
                 android:hint="@string/login_hint_email"
-                android:textColorHint="@color/white"
-                android:textSize="18sp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/white"
-                app:hintTextColor="@color/white">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#FFFFFF"
+                    style="@style/AuthTextInputEditText"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
-
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/login_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AuthTextInputLayout"
                 android:layout_marginTop="20dp"
-                android:textColorHint="@color/white"
-                android:textSize="18sp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/white"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat"
-                app:hintTextColor="@color/white">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    style="@style/AuthTextInputEditText"
                     android:hint="@string/login_hint_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
-                    android:maxLength="20"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:maxLength="32" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="35dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/ripple_rectangle_corn_12"
@@ -115,10 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_forgot_password"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginVertical="20dp"
             android:background="@drawable/bg_radius_20"
             android:text="@string/login"
             android:textColor="@color/blue"

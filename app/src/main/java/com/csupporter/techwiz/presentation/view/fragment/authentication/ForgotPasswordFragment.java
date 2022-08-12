@@ -28,7 +28,7 @@ import com.mct.components.toast.ToastUtils;
 public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.ForgotPasswordCallBack, AuthenticationCallback.EnterOTPCallBack {
     private LoadingDialog dialog;
     private Button btnSubmit;
-    private EditText edtEnterEmail;
+    private EditText edtEmail;
     private TextView tvBackToLogin;
     private Account account;
 
@@ -40,13 +40,13 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         super.onAttach(context);
         forgotPasswordPresenter = new ForgotPasswordPresenter(this);
         sendOtpPresenter = new SendOtpPresenter(this);
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_forgot_password);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.forgot_password_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_forgot_password);
     }
 
     @Nullable
@@ -69,23 +69,22 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.btn_get_otp:
                 hideSoftInput();
-                String email = edtEnterEmail.getText().toString().trim();
-                forgotPasswordPresenter.checkEmailExist(email, this);
-
+                String email = edtEmail.getText().toString().trim();
+                forgotPasswordPresenter.verifyEmailAndFind(email, this);
                 break;
             case R.id.tv_back_to_login:
-                replaceFragment(new LoginFragment(), true, BaseActivity.Anim.LEFT_IN_RIGHT_OUT);
+                popLastFragment();
                 break;
         }
     }
 
-    private void initView(View view) {
+    private void initView(@NonNull View view) {
         btnSubmit = view.findViewById(R.id.btn_get_otp);
-        edtEnterEmail = view.findViewById(R.id.edt_enter_email);
+        edtEmail = view.findViewById(R.id.edt_enter_email);
         tvBackToLogin = view.findViewById(R.id.tv_back_to_login);
     }
 
@@ -96,26 +95,30 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
-    public void emailNull() {
-        showToast("Email cannot be blank!", ToastUtils.WARNING);
-    }
-
-    @Override
-    public void emailNotExist() {
-        showToast("Email not exits!", ToastUtils.ERROR);
+    public void dataInvalid(String alert, @NonNull AuthenticationCallback.ErrorTo errorTo) {
+        if (getContext() == null) return;
+        switch (errorTo) {
+            case NONE:
+                break;
+            case EMAIL:
+                showSoftInput(edtEmail);
+                break;
+        }
+        showToast(alert, ToastUtils.ERROR, true);
     }
 
     @Override
     public void onSentOTPSuccess(int OTP) {
         if (getContext() != null) {
+            showToast("An otp had been sent. Please check your email!", ToastUtils.INFO);
             Fragment fragment = EnterOTPFragment.newInstance(account, OTP, EnterOTPFragment.FROM_FORGOT_PW);
-            replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
         }
     }
 
     @Override
     public void onSentOTPFailure() {
-
+        showToast("Sent otp false", ToastUtils.ERROR);
     }
 
     @Override

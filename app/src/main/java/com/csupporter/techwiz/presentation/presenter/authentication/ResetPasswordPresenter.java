@@ -1,5 +1,10 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import static com.csupporter.techwiz.utils.Const.PASSWORD_REGEX;
+
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
@@ -8,35 +13,41 @@ import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
+import java.util.regex.Pattern;
+
 public class ResetPasswordPresenter extends BasePresenter {
 
     public ResetPasswordPresenter(BaseView baseView) {
         super(baseView);
     }
 
-    public void checkReEnterPassword(String newPass, String reNewPass, AuthenticationCallback.ResetPasswordCallBack callBack){
-        if (newPass.equals("") || reNewPass.equals("")){
-            callBack.onEmptyValue();
+    public void verifyPasswords(@NonNull String newPass, String reNewPass, AuthenticationCallback.ResetPasswordCallBack callBack) {
+        if (TextUtils.isEmpty(newPass)) {
+            callBack.dataInvalid("Please enter new password", AuthenticationCallback.ErrorTo.PASSWORD);
             return;
         }
-        if (newPass.equals(reNewPass)){
-            callBack.onSuccess(newPass);
-        }else {
-            callBack.onFailure();
+        if (!Pattern.matches(PASSWORD_REGEX, newPass)) {
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", AuthenticationCallback.ErrorTo.PASSWORD);
+            return;
         }
+        if (TextUtils.isEmpty(reNewPass)) {
+            callBack.dataInvalid("Please confirm new password", AuthenticationCallback.ErrorTo.CF_PASSWORD);
+            return;
+        }
+        if (!Pattern.matches(PASSWORD_REGEX, reNewPass)) {
+            callBack.dataInvalid("Password at least one number, one lowercase letter, one uppercase letter and greater than or equal to 8 characters", AuthenticationCallback.ErrorTo.CF_PASSWORD);
+            return;
+        }
+        if (!newPass.equals(reNewPass)) {
+            callBack.dataInvalid("Password and confirm password are not the same", AuthenticationCallback.ErrorTo.NONE);
+            return;
+        }
+        callBack.verified(newPass);
     }
 
-    public void resetPassword(Account account, AuthenticationCallback.ChangePassCallback callback){
-        DataInjection.provideRepository().account.updateAccount(account, new Consumer<Void>() {
-            @Override
-            public void accept(Void unused) {
-                callback.onSuccess(account);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                callback.onFailure();
-            }
-        });
+    public void resetPassword(Account account, AuthenticationCallback.ChangePassCallback callback) {
+        DataInjection.provideRepository().account.updateAccount(account,
+                unused -> callback.onSuccess(account),
+                throwable -> callback.onFailure());
     }
 }

@@ -2,15 +2,10 @@ package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +18,6 @@ import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.authentication.LoginPresenter;
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.csupporter.techwiz.utils.BlurUtils;
 import com.csupporter.techwiz.utils.WindowUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseActivity;
@@ -43,13 +37,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         loginPresenter = new LoginPresenter(this);
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.login_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_login);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        WindowUtils.setWindowBackground(getActivity(), R.drawable.login_background);
+        WindowUtils.setWindowBackground(getActivity(), R.drawable.background_login);
     }
 
     @Override
