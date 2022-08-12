@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="4dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:gravity="center"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:text="@string/detail_track_the_daily_track"
+        android:fontFamily="sans-serif-medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_border_bottom" />
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:background="@color/gray"
+            android:text="@string/detail_track_information_personal"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#4A4A4A"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/bg_border"
+            android:layout_marginStart="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:weightSum="6"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+                <TableRow android:gravity="center">
+                    <TextView
+                        android:layout_height="30dp"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:gravity="center_vertical"
+                        android:text="Name"/>
+                    <TextView
+                        android:layout_height="30dp"
+                        android:layout_weight="4"
+                        android:layout_width="0dp"
+                        android:text="Nam Tran"/>
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

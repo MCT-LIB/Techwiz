@@ -75,6 +75,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/item_health_track"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
