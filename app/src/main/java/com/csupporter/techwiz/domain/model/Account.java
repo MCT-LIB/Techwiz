@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.domain.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class Account extends BaseModel implements Serializable {
@@ -116,6 +118,11 @@ public class Account extends BaseModel implements Serializable {
 
     public void setCertificationUrl(String certificationUrl) {
         this.certificationUrl = certificationUrl;
+    }
+
+    @Exclude
+    public boolean isUser() {
+        return type == TYPE_USER;
     }
 
 }

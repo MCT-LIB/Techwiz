@@ -40,7 +40,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     private RegisterPresenter registerPresenter;
     private SendOtpPresenter sendOtpPresenter;
-    private boolean canSentOtp;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,12 +64,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        canSentOtp = false;
-    }
-
     private void init(@NonNull View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
@@ -88,7 +81,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     public void onClick(@NonNull View view) {
         int id = view.getId();
         if (id == R.id.btn_register) {
-            canSentOtp = true;
             account = getDataFromForm();
             String confPass = getText(txtConfPassword.getEditText());
             registerPresenter.verifyAccount(account, confPass, this);
@@ -146,10 +138,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void verified() {
-        if (canSentOtp) {
             hideSoftInput();
             sendOtpPresenter.sendVerificationOtp(account, this);
-        }
     }
 
     @Override

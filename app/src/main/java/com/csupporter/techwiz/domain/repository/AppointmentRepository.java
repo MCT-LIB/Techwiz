@@ -3,7 +3,10 @@ package com.csupporter.techwiz.domain.repository;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+
+import java.util.List;
 
 public interface AppointmentRepository {
 
@@ -15,5 +18,7 @@ public interface AppointmentRepository {
                            @Nullable Consumer<Void> onSuccess,
                            @Nullable Consumer<Throwable> onError);
 
-//    void getAppointments()
+    void getAppointments(Account account,
+                         @Nullable Consumer<List<Appointment>> onSuccess,
+                         @Nullable Consumer<Throwable> onError);
 }

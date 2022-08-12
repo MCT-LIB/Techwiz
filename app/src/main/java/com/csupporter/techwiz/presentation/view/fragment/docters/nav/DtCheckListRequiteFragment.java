@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.fragment.main.nav;
+package com.csupporter.techwiz.presentation.view.fragment.docters.nav;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class HealthyTrackingFragment extends BaseFragment implements View.OnClickListener{
+public class DtCheckListRequiteFragment extends BaseFragment implements View.OnClickListener{
 
     private FloatingActionButton btnAdd;
 

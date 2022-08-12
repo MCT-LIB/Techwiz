@@ -34,7 +34,6 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     private ForgotPasswordPresenter forgotPasswordPresenter;
     private SendOtpPresenter sendOtpPresenter;
-    private boolean canSentOtp;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -48,12 +47,6 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     public void onResume() {
         super.onResume();
         WindowUtils.setWindowBackground(getActivity(), R.drawable.background_forgot_password);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        canSentOtp = false;
     }
 
     @Nullable
@@ -79,7 +72,6 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.btn_get_otp:
-                canSentOtp = true;
                 String email = edtEmail.getText().toString().trim();
                 forgotPasswordPresenter.verifyEmailAndFind(email, this);
                 break;
@@ -97,11 +89,9 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void emailExist(Account account) {
-        if (canSentOtp) {
             hideSoftInput();
             this.account = account;
             sendOtpPresenter.sentForgotPassOtp(account, this);
-        }
     }
 
     @Override
