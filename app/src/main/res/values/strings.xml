@@ -72,7 +72,7 @@
 
 
     <!--    dialog confirm-->
-    <string name="dialog_confirm_msg">Are you sure want to log out!</string>
+    <string name="dialog_confirm_logout_msg">Are you sure want to log out!</string>
     <string name="dialog_confirm_btn_yes">Yes</string>
     <string name="dialog_confirm_btn_no">No</string>
 

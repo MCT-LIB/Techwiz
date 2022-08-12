@@ -22,7 +22,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="@string/dialog_confirm_msg"
+        android:text="@string/dialog_confirm_logout_msg"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
