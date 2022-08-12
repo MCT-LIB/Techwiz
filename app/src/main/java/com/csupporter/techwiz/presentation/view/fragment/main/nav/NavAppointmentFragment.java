@@ -16,7 +16,7 @@ import com.csupporter.techwiz.presentation.view.adapter.DoctorListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavAppointmentFragment extends Fragment {
+public class NavAppointmentFragment extends BaseNavFragment {
 
     private GridView doctorListLayout;
     private DoctorListAdapter doctorListAdapter;

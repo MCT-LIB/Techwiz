@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NavHomeFragment extends BaseFragment implements AuthenticationCallback.UserHomeCallBack,
+public class NavHomeFragment extends BaseNavFragment implements AuthenticationCallback.UserHomeCallBack,
         HomeCategoryDoctorAdapter.OnClickCategoryItems {
 
     private SearchView txtSearch;

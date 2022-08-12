@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.csupporter.techwiz.R;
 import com.mct.components.baseui.BaseFragment;
 
-public class NavHistoryFragment extends BaseFragment {
+public class NavHistoryFragment extends BaseNavFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

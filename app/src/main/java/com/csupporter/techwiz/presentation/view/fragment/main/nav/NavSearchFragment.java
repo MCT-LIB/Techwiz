@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.csupporter.techwiz.R;
 import com.mct.components.baseui.BaseFragment;
 
-public class NavSearchFragment extends BaseFragment {
+public class NavSearchFragment extends BaseNavFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

@@ -31,8 +31,7 @@ import com.mct.components.baseui.BaseView;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class NavUserInfoFragment extends BaseFragment implements View.OnClickListener, BaseView, MainViewCallBack.NavUserInfoCallBack {
-
+public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, BaseView, MainViewCallBack.NavUserInfoCallBack {
 
     private NavUserInfoPresenter navUserInfoPresenter;
     View view;

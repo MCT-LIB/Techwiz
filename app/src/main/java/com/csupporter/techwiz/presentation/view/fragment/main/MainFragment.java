@@ -102,4 +102,22 @@ public class MainFragment extends BaseFragment {
         });
     }
 
+    public void setNavVisible(boolean visible) {
+        if (bottomNavigationView != null) {
+            ((View) bottomNavigationView.getParent()).setVisibility(visible ? View.VISIBLE : View.GONE);
+            btnMakeAppointment.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void setEnableViewPager(boolean enable) {
+        if (viewPager2 != null) {
+            viewPager2.setUserInputEnabled(enable);
+        }
+    }
+
+    public void changePage(int index, boolean smooth) {
+        if (viewPager2 != null) {
+            viewPager2.setCurrentItem(index, smooth);
+        }
+    }
 }
