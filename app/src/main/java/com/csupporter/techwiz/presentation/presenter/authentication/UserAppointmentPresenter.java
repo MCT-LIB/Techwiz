@@ -16,7 +16,7 @@ public class UserAppointmentPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void getAllDoctor(MainViewCallBack.UserAppointmentCallBack callBack){
+    public void getAllDoctor(MainViewCallBack.UserAppointmentCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideRepository().account.getAllDoctor(accounts -> {
             getBaseView().hideLoading();

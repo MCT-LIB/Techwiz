@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity {
     public static void startActivity(Context context, @NonNull Account account) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(KEY_ACCOUNT, account);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 

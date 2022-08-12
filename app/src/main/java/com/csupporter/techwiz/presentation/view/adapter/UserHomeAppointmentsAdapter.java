@@ -4,12 +4,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.mct.components.toast.ToastUtils;
 
 import org.w3c.dom.Text;
 
@@ -19,11 +22,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAppointmentsAdapter.UserHomeAppointments_ViewHolder>{
+public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAppointmentsAdapter.UserHomeAppointments_ViewHolder> {
 
     private List<Appointment> appointmentList;
 
-    public void setDataToAppointmentList(List<Appointment> appointmentList){
+    public void setDataToAppointmentList(List<Appointment> appointmentList) {
         this.appointmentList = appointmentList;
     }
 
@@ -37,7 +40,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
     @Override
     public void onBindViewHolder(@NonNull UserHomeAppointments_ViewHolder holder, int position) {
         Appointment appointment = appointmentList.get(position);
-        if(appointment == null){
+        if (appointment == null) {
             return;
         }
         holder.address.setText(appointment.getLocation());
@@ -46,7 +49,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
 
     @Override
     public int getItemCount() {
-        if(appointmentList != null){
+        if (appointmentList != null) {
             return appointmentList.size();
         }
         return 0;
@@ -57,10 +60,11 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
         private final TextView name;
         private final TextView address;
         private final TextView time;
+
         public UserHomeAppointments_ViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.appointments_avatar_doctor);
-            name  = itemView.findViewById(R.id.appointments_name_doctor);
+            name = itemView.findViewById(R.id.appointments_name_doctor);
             address = itemView.findViewById(R.id.appointments_address_doctor);
             time = itemView.findViewById(R.id.appointments_time_doctor);
         }

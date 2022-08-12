@@ -25,7 +25,6 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     private GridView doctorListLayout;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
-    private List<Account> doctorList = new ArrayList<>();
     private LoadingDialog dialog;
 
     @Override
@@ -45,13 +44,12 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     }
 
     private void setDataForGrid() {
-        doctorListAdapter.setDataToDoctorList(doctorList);
         doctorListLayout.setAdapter(doctorListAdapter);
     }
 
     @Override
     public void doctorList(List<Account> accounts) {
-       doctorList.addAll(accounts);
+        doctorListAdapter.setDataToDoctorList(accounts);
     }
 
     @Override

@@ -31,23 +31,30 @@ public class OnBoardActivity extends AppCompatActivity {
         } catch (GeneralSecurityException e) {
             Log.e("AESCrypt", "False");
         }
-
+        long startTime = System.currentTimeMillis();
+        String id = DataInjection.provideSettingPreferences().getToken();
+        if (id != null) {
+            DataInjection.provideRepository().account.findAccountById(id, account -> {
+                long delay = System.currentTimeMillis() - startTime;
+                new Handler(getMainLooper()).postDelayed(() -> {
+                    if (getApplicationContext() == null) {
+                        return;
+                    }
+                    if (account != null) {
+                        MainActivity.startActivity(OnBoardActivity.this, account);
+                        finish();
+                    } else {
+                        gotoLogin();
+                    }
+                }, delay < 0 ? 0 : delay);
+            }, throwable -> gotoLogin());
+            return;
+        }
         new Handler(getMainLooper()).postDelayed(() -> {
             if (getApplicationContext() == null) {
                 return;
             }
-            String id = DataInjection.provideSettingPreferences().getToken();
-            if (id == null) {
-                gotoLogin();
-            } else {
-                DataInjection.provideRepository().account.findAccountById(id, account -> {
-                    if (account != null) {
-                        MainActivity.startActivity(OnBoardActivity.this, account);
-                    } else {
-                        gotoLogin();
-                    }
-                }, throwable -> gotoLogin());
-            }
+            gotoLogin();
         }, 1000);
     }
 

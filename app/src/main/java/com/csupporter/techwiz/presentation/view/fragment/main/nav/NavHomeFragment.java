@@ -13,13 +13,17 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 
+import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
@@ -36,13 +40,14 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     private SearchView txtSearch;
     private TextView txtMyAppointment;
     private RecyclerView categoryDoctor;
-    private RecyclerView appointmentList;
+    private RecyclerView rclAppointmentList;
     private CircleImageView avatar;
 
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
     private UserHomePresenter userHomePresenter;
     private List<Appointment> listAppointment = new ArrayList<>();
+    private LoadingDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,15 +57,18 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this);
         userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
         userHomePresenter = new UserHomePresenter(this);
-
+        Account account = App.getApp().getAccount();
         init(view);
+        setDataAppointmentList();
+        userHomePresenter.getUpcomingAppointment(account, this);
+
         setDataCategoryDoctor();
         return view;
     }
 
     private void init(View view) {
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
-        appointmentList = view.findViewById(R.id.home_list_appointment_of_day);
+        rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
         txtSearch = view.findViewById(R.id.search_bar);
         txtSearch.setOnClickListener(this);
 
@@ -78,7 +86,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
                 txtSearch.onActionViewExpanded();
                 break;
             case R.id.img_avatar:
-                changeTap(4,false);
+                changeTap(4, false);
                 break;
         }
     }
@@ -92,9 +100,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     private void setDataAppointmentList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        appointmentList.setLayoutManager(linearLayoutManager);
-        userHomeAppointmentsAdapter.setDataToAppointmentList(listAppointment);
-        appointmentList.setAdapter(userHomeAppointmentsAdapter);
+        rclAppointmentList.setLayoutManager(linearLayoutManager);
     }
 
 
@@ -105,6 +111,25 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     @Override
     public void listAppointment(List<Appointment> appointmentList) {
+        userHomeAppointmentsAdapter.setDataToAppointmentList(appointmentList);
+        rclAppointmentList.setAdapter(userHomeAppointmentsAdapter);
+    }
 
+    @Override
+    public void showLoading() {
+        if (getContext() == null) return;
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        dialog = new LoadingDialog(getContext());
+        dialog.create(null);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }

@@ -28,6 +28,7 @@ public class DoctorListAdapter extends BaseAdapter {
 
     public void setDataToDoctorList(List<Account> doctorList) {
         this.doctorList = doctorList;
+        notifyDataSetChanged();
     }
 
     @Override
