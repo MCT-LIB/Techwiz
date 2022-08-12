@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
@@ -36,7 +37,13 @@ public class MainActivity extends BaseActivity {
             finish();
         } else {
             App.getApp().setAccount(account);
-            replaceFragment(new MainFragment());
+            if (account.getType() == Account.TYPE_USER) {
+                replaceFragment(new MainFragment());
+                Toast.makeText(this, "user", Toast.LENGTH_SHORT).show();
+            } else {
+                replaceFragment(new DoctorFragment());
+                Toast.makeText(this, "doctor", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

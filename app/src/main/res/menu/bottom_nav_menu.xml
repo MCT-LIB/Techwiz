@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/bottom_navigation_search" />
     <item
-        android:id="@+id/user_placeholder"
+        android:id="@+id/item_placeholder"
         android:title="" />
     <item
         android:id="@+id/user_history"

@@ -13,13 +13,10 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.view.adapter.MainAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 
-import java.util.Stack;
 
-
-public class MainFragment extends BaseFragment implements BaseActivity.OnBackPressed {
+public class MainFragment extends BaseFragment {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
@@ -79,8 +76,7 @@ public class MainFragment extends BaseFragment implements BaseActivity.OnBackPre
         btnMakeAppointment.setOnClickListener(view -> {
             viewPager2.setCurrentItem(2, false);
         });
-        bottomNavigationView.getMenu().findItem(R.id.user_placeholder).setEnabled(false);
-
+        bottomNavigationView.getMenu().findItem(R.id.item_placeholder).setEnabled(false);
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -94,7 +90,7 @@ public class MainFragment extends BaseFragment implements BaseActivity.OnBackPre
                         bottomNavigationView.getMenu().findItem(R.id.user_search).setChecked(true);
                         break;
                     case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.user_placeholder).setChecked(true);
+                        bottomNavigationView.getMenu().findItem(R.id.item_placeholder).setChecked(true);
                         break;
                     case 3:
                         bottomNavigationView.getMenu().findItem(R.id.user_history).setChecked(true);
@@ -124,17 +120,5 @@ public class MainFragment extends BaseFragment implements BaseActivity.OnBackPre
         if (viewPager2 != null) {
             viewPager2.setCurrentItem(index, smooth);
         }
-    }
-
-
-    @Override
-    public boolean onBackPressed() {
-        if (viewPager2 != null) {
-            if (viewPager2.getCurrentItem() != 0) {
-                viewPager2.setCurrentItem(0, false);
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -12,10 +12,10 @@ import com.csupporter.techwiz.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DtSearchFragment#newInstance} factory method to
+ * Use the {@link DtNotifyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DtSearchFragment extends Fragment {
+public class DtNotifyFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class DtSearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DtSearchFragment() {
+    public DtNotifyFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class DtSearchFragment extends Fragment {
      * @return A new instance of fragment DtSearchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DtSearchFragment newInstance(String param1, String param2) {
-        DtSearchFragment fragment = new DtSearchFragment();
+    public static DtNotifyFragment newInstance(String param1, String param2) {
+        DtNotifyFragment fragment = new DtNotifyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class DtSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dt_search, container, false);
+        return inflater.inflate(R.layout.fragment_dt_notify, container, false);
     }
 }
