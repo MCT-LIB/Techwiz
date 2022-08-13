@@ -9,9 +9,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.mct.components.toast.ToastUtils;
 
 import org.w3c.dom.Text;
@@ -43,9 +47,20 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
         if (appointment == null) {
             return;
         }
+        DataInjection.provideRepository().account.findAccountById(appointment.getDoctorId(), account -> {
+            if (account.getAvatar() == null) {
+                holder.avatar.setImageResource(R.drawable.ic_baseline_person_pin_24);
+            } else {
+                Glide.with(App.getContext()).load(account.getAvatar())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.avatar);
+            }
+        }, throwable -> {
+        });
         holder.address.setText(appointment.getLocation());
         holder.time.setText(DateFormat.getDateTimeInstance().format(new Date(appointment.getTime())));
     }
+
 
     @Override
     public int getItemCount() {

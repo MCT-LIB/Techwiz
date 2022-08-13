@@ -99,7 +99,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         acc.setLastName(lastName);
         acc.setEmail(email);
         acc.setType(rbUser.isChecked() ? Account.TYPE_USER : Account.TYPE_DOCTOR);
-        acc.setType(Account.STATUS_ACTIVE);
+        acc.setStatus(Account.STATUS_ACTIVE);
         acc.setPassword(password);
         return acc;
     }

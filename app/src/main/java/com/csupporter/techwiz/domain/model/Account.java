@@ -21,7 +21,7 @@ public class Account extends BaseModel implements Serializable {
     private String avatar;
     private int type;       // 0 -> admin, 1 -> user, 2 -> doctor
     private int status;     // 0 -> inactive, 1 -> active
-    private int department;
+    private int department = -1;
     private String certificationUrl;
 
     public String getFirstName() {

@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
 
 
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategoryDoctorAdapter.HomeCategoryDoctorViewHolder> {
@@ -24,7 +24,7 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
     private Departments[] departments;
     private OnClickCategoryItems callback;
 
-    public HomeCategoryDoctorAdapter(OnClickCategoryItems callback){
+    public HomeCategoryDoctorAdapter(OnClickCategoryItems callback) {
         this.callback = callback;
     }
 
@@ -59,14 +59,41 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
             case "Beauty surgeon":
                 holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.purple_slight), PorterDuff.Mode.MULTIPLY);
                 break;
+            case "Psychologist":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.yellow_dark), PorterDuff.Mode.MULTIPLY);
+                break;
+            case "Obstetrician":
+                holder.layout.getBackground().setColorFilter(ContextCompat.getColor(App.getContext(), R.color.gray), PorterDuff.Mode.MULTIPLY);
+                break;
         }
 
         holder.image.setImageResource(depart.getResourceFile());
         holder.name.setText(depart.getCategory());
 
-        holder.layout.setOnClickListener(view ->{
-            callback.onClickCategoryItem(type);
+        int department = getTypeByString(type);
+
+        holder.layout.setOnClickListener(view -> {
+            if (department >= 0) {
+                callback.onClickCategoryItem(department);
+            }
         });
+    }
+
+    private int getTypeByString(String type) {
+        if (type.equals("Dentist")) {
+            return 0;
+        } else if (type.equals("Pediatrician")) {
+            return 1;
+        } else if (type.equals("Cardiologist")) {
+            return 2;
+        } else if (type.equals("Beauty surgeon")) {
+            return 3;
+        } else if (type.equals("Psychologist")) {
+            return 4;
+        } else if (type.equals("Obstetrician")) {
+            return 5;
+        }
+        return -1;
     }
 
     @Override
@@ -76,7 +103,7 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
 
     public static class HomeCategoryDoctorViewHolder extends RecyclerView.ViewHolder {
         private final LinearLayout layout;
-        private final CircleImageView image;
+        private final ImageView image;
         private final TextView name;
 
         public HomeCategoryDoctorViewHolder(@NonNull View itemView) {
@@ -86,7 +113,8 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
             layout = itemView.findViewById(R.id.nav_home_category_items_layout);
         }
     }
-    public interface OnClickCategoryItems{
-        void onClickCategoryItem(String typeDoctor);
+
+    public interface OnClickCategoryItems {
+        void onClickCategoryItem(int typeDoctor);
     }
 }

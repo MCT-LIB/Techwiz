@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 
@@ -42,6 +44,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     private RecyclerView categoryDoctor;
     private RecyclerView rclAppointmentList;
     private CircleImageView avatar;
+    private TextView name;
 
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
@@ -57,12 +60,10 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this);
         userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
         userHomePresenter = new UserHomePresenter(this);
-        Account account = App.getApp().getAccount();
-        init(view);
-        setDataAppointmentList();
-        userHomePresenter.getUpcomingAppointment(account, this);
 
-        setDataCategoryDoctor();
+        init(view);
+        useDataFromSearchBar();
+
         return view;
     }
 
@@ -71,11 +72,32 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
         txtSearch = view.findViewById(R.id.search_bar);
         txtSearch.setOnClickListener(this);
-
+        name = view.findViewById(R.id.tv_username);
         txtMyAppointment = view.findViewById(R.id.nav_home_text);
 
         avatar = view.findViewById(R.id.img_avatar);
         avatar.setOnClickListener(this);
+
+        setDataForUI();
+        setDataCategoryDoctor();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setDataForUI() {
+        Account account = App.getApp().getAccount();
+
+        if (account.getAvatar() == null) {
+            avatar.setImageResource(R.drawable.ic_baseline_person_pin_24);
+        } else {
+            Glide.with(getActivity()).load(account.getAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(avatar);
+        }
+
+        name.setText(account.getLastName() + " " + account.getFirstName());
+
+        setDataAppointmentList();
+        userHomePresenter.getUpcomingAppointment(account, this);
     }
 
     @Override
@@ -105,7 +127,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
 
     @Override
-    public void onClickCategoryItem(String typeDoctor) {
+    public void onClickCategoryItem(int typeDoctor) {
         showToast(typeDoctor + "", ToastUtils.SUCCESS, true);
     }
 
@@ -113,6 +135,22 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     public void listAppointment(List<Appointment> appointmentList) {
         userHomeAppointmentsAdapter.setDataToAppointmentList(appointmentList);
         rclAppointmentList.setAdapter(userHomeAppointmentsAdapter);
+    }
+
+
+    private void useDataFromSearchBar() {
+        txtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
     @Override

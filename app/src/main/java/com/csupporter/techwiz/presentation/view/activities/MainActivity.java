@@ -1,12 +1,19 @@
 package com.csupporter.techwiz.presentation.view.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Window;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.csupporter.techwiz.App;
@@ -14,8 +21,13 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
+import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavUserInfoFragment;
+import com.csupporter.techwiz.utils.OpenGallery;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,10 +50,10 @@ public class MainActivity extends BaseActivity {
             App.getApp().setAccount(account);
             if (account.getType() == Account.TYPE_USER) {
                 replaceFragment(new MainFragment());
-                Toast.makeText(this, "user", Toast.LENGTH_SHORT).show();
-            } else {
+//                Toast.makeText(this, "user", Toast.LENGTH_SHORT).show();
+            } else if (account.getType() == Account.TYPE_DOCTOR) {
                 replaceFragment(new DoctorFragment());
-                Toast.makeText(this, "doctor", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "doctor", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -51,10 +63,23 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                OpenGallery.getInstance().selectImage(mActivityResultLauncher);
             }
         }
     }
+
+    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data == null) {
+                        return;
+                    }
+                    Uri uri = data.getData();
+                }
+            }
+    );
 
     @Override
     protected int getContainerId() {

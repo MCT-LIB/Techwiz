@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -16,10 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
+import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener {
 
@@ -62,14 +78,16 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         initItemDialog(dialogBottom);
         dialogBottom.show();
         customAddHealthDialog(dialogBottom);
+        addNewHealthTracking();
     }
 
     private void initItemDialog(Dialog dialog) {
         height = dialog.findViewById(R.id.edt_height);
         weight = dialog.findViewById(R.id.edt_weight);
-        bloodSugar = dialog.findViewById(R.id.blood_sugar);
-        bloodPressure = dialog.findViewById(R.id.blood_pressure);
+        bloodSugar = dialog.findViewById(R.id.edt_blood_sugar);
+        bloodPressure = dialog.findViewById(R.id.edt_blood_pressure);
         heartBeat = dialog.findViewById(R.id.edt_heart_beat);
+        note = dialog.findViewById(R.id.edt_note_health);
         btnAddNew = dialog.findViewById(R.id.btn_add_health_tracking);
     }
 
@@ -86,5 +104,61 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         dialog.getWindow().
 
                 setGravity(Gravity.BOTTOM);
+    }
+
+    private void addNewHealthTracking() {
+
+        btnAddNew.setOnClickListener(view -> {
+            HealthTracking healthTracking = getDatFromFormInput();
+            if (healthTracking != null) {
+                showLoading();
+                DataInjection.provideRepository().heathTracking.addTracking(healthTracking, unused -> {
+                    hideLoading();
+                    ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Add new health tracking success !", true).show();
+                }, throwable -> ToastUtils.makeErrorToast(getActivity(), Toast.LENGTH_SHORT, "Add new health tracking fail !", true).show());
+            }
+        });
+    }
+
+    @SuppressLint("NewApi")
+    private HealthTracking getDatFromFormInput() {
+
+        Account account = App.getApp().getAccount();
+        String txtHeight = height.getText().toString().trim();
+        String txtWeight = height.getText().toString().trim();
+        String txtHeartBeat = heartBeat.getText().toString().trim();
+        String txtBloodSugar = bloodSugar.getText().toString().trim();
+        String txtBloodPressure = bloodPressure.getText().toString().trim();
+        String userNote = note.getText().toString().trim();
+
+
+        if (txtHeight.isEmpty() || txtWeight.isEmpty() ||
+                txtBloodSugar.isEmpty() || txtHeartBeat.isEmpty() ||
+                txtBloodPressure.isEmpty()) {
+            hideLoading();
+            ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, "Please complete all information !", true).show();
+        } else if (Float.parseFloat(txtBloodPressure) <= 0 ||
+                Float.parseFloat(txtBloodSugar) <= 0 ||
+                Float.parseFloat(txtWeight) <= 0 ||
+                Float.parseFloat(txtHeight) <= 0 ||
+                Float.parseFloat(txtHeartBeat) <= 0) {
+            hideLoading();
+            ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, "Data cannot be equal to or less than 0!", true).show();
+        } else {
+
+            HealthTracking healthTracking = new HealthTracking();
+            healthTracking.setId(FirebaseUtils.uniqueId());
+            healthTracking.setUserId(account.getId());
+            healthTracking.setHeight(Float.parseFloat(txtHeight));
+            healthTracking.setWeight(Float.parseFloat(txtWeight));
+            healthTracking.setHeartbeat(Float.parseFloat(txtHeartBeat));
+            healthTracking.setBloodSugar(Float.parseFloat(txtBloodSugar));
+            healthTracking.setBloodPressure(Float.parseFloat(txtBloodPressure));
+            healthTracking.setOther(userNote);
+            healthTracking.setCreateAt(System.currentTimeMillis());
+
+            return healthTracking;
+        }
+        return null;
     }
 }

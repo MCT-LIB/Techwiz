@@ -8,15 +8,21 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.view.adapter.MainAdapter;
+import com.csupporter.techwiz.presentation.view.fragment.main.nav.BaseNavFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseNavFragment implements BaseActivity.OnBackPressed {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
@@ -34,6 +40,8 @@ public class MainFragment extends BaseFragment {
 
         mainAdapter = new MainAdapter(getActivity());
 
+        Account acc = App.getApp().getAccount();
+        Toast.makeText(getActivity(), acc.getType()+"", Toast.LENGTH_SHORT).show();
         init(view);
         setDataViewPager2();
         return view;
@@ -120,5 +128,14 @@ public class MainFragment extends BaseFragment {
         if (viewPager2 != null) {
             viewPager2.setCurrentItem(index, smooth);
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (viewPager2 != null && viewPager2.getCurrentItem() != 0) {
+            changeTap(0, false);
+            return true;
+        }
+        return false;
     }
 }

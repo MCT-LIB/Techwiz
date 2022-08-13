@@ -1,15 +1,14 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
-import java.util.List;
 
 public class UserHomePresenter extends BasePresenter {
 
@@ -25,4 +24,6 @@ public class UserHomePresenter extends BasePresenter {
             callBack.listAppointment(appointmentList);
         }, throwable -> getBaseView().hideLoading());
     }
+
+
 }
