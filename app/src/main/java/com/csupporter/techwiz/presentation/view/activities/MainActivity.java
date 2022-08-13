@@ -38,10 +38,8 @@ public class MainActivity extends BaseActivity {
             DataInjection.provideSettingPreferences().setToken(account.getId());
             if (account.getType() == Account.TYPE_USER) {
                 replaceFragment(new MainFragment());
-                Toast.makeText(this, "user", Toast.LENGTH_SHORT).show();
             } else {
                 replaceFragment(new DoctorFragment());
-                Toast.makeText(this, "doctor", Toast.LENGTH_SHORT).show();
             }
         }
     }

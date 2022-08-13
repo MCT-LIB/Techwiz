@@ -26,6 +26,10 @@ public abstract class MainViewCallBack {
     }
 
     public interface HealthTrackingCallBack {
+        void addHealthTrackingSuccess();
+
+        void addHealthTrackingFail(String message);
+
         void onGetDataSuccess(List<HealthTracking> trackingList);
 
         void onGetDataFailure();

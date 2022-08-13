@@ -22,41 +22,41 @@ public class LoginPresenter extends BasePresenter {
 
     public void login(String userName, String password, AuthenticationCallback.LoginCallback callback) {
 
-        if (verifyDataInputLogin(userName, password, callback)) {
-            getBaseView().showLoading();
-            password = EncryptUtils.encrypt(password);
-            DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, account -> {
-                getBaseView().hideLoading();
-                if (account != null) {
-                    callback.loginSuccess(account);
-                } else {
-                    callback.dataInvalid("Email or password is wrong !");
-                }
-            }, throwable -> {
-                getBaseView().hideLoading();
-                callback.loginError();
-            });
-        }
+        verifyDataInputLogin(userName, password, callback);
+
+        getBaseView().showLoading();
+        password = EncryptUtils.encrypt(password);
+        DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, account -> {
+            getBaseView().hideLoading();
+            if (account != null) {
+                callback.loginSuccess(account);
+            } else {
+                callback.dataInvalid("Email or password is wrong !");
+            }
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.loginError();
+        });
     }
 
 
-    private boolean verifyDataInputLogin(@NonNull String userName, String password, AuthenticationCallback.LoginCallback callback) {
+    private void verifyDataInputLogin(@NonNull String userName, String password, AuthenticationCallback.LoginCallback callback) {
         if (userName.isEmpty() || password.isEmpty()) {
             callback.dataInvalid("Please complete the input field !");
-            return false;
+            return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(userName).matches()) {
             getBaseView().hideLoading();
             callback.dataInvalid("Email is invalid !");
-            return false;
+            return;
         }
 
         if (!Pattern.matches(PASSWORD_REGEX, password)) {
             callback.dataInvalid(
                     "Password must contain at least one uppercase letter, lowercase letter and number!");
-            return false;
+            return;
         }
-        return true;
+
     }
 }

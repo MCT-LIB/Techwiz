@@ -38,7 +38,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, MainViewCallBack.NavUserInfoCallBack {
 
-
     private View view;
     private TextView tvName, tvEmail;
     private RelativeLayout itemLogout, itemHealthTrack;
@@ -123,14 +122,13 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                 break;
             case R.id.crl_open_gallery:
                 PermissionUtils.requestReadStoragePermission(this, (allGranted, grantedList, deniedList) -> {
-                    if(allGranted){
+                    if (allGranted) {
                         mPickPictureResult.launch(null);
                     }
                 });
                 break;
         }
     }
-
 
     @Override
     public void showLoading() {

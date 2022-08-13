@@ -81,9 +81,10 @@
                 android:background="@drawable/bg_radius_20"
                 android:elevation="5dp"
                 android:gravity="center"
-                android:inputType="phone"
+                android:inputType="number"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
+                android:maxLength="3"
                 android:textStyle="bold" />
 
             <EditText
@@ -94,7 +95,8 @@
                 android:background="@drawable/bg_radius_20"
                 android:elevation="5dp"
                 android:gravity="center"
-                android:inputType="phone"
+                android:inputType="number"
+                android:maxLength="3"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -107,7 +109,8 @@
                 android:background="@drawable/bg_radius_20"
                 android:elevation="5dp"
                 android:gravity="center"
-                android:inputType="phone"
+                android:maxLength="3"
+                android:inputType="number"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -120,7 +123,8 @@
                 android:background="@drawable/bg_radius_20"
                 android:elevation="5dp"
                 android:gravity="center"
-                android:inputType="phone"
+                android:maxLength="3"
+                android:inputType="number"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -133,7 +137,8 @@
                 android:background="@drawable/bg_radius_20"
                 android:elevation="5dp"
                 android:gravity="center"
-                android:inputType="phone"
+                android:maxLength="3"
+                android:inputType="number"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:textStyle="bold" />

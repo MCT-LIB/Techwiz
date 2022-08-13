@@ -87,8 +87,8 @@
     <string name="detail_track_weight">Weight</string>
     <string name="detail_track_heath_indicator">Heath indicators</string>
     <string name="detail_track_heart_beat">Heart beat</string>
-    <string name="detail_track_blood_pressure">Blood Pressure</string>
-    <string name="detail_track_blood_sugar">Blood sugar</string>
+    <string name="detail_track_blood_pressure">Blood pressure :</string>
+    <string name="detail_track_blood_sugar">Blood sugar :</string>
     <string name="detail_track_gender">Gender</string>
     <string name="detail_track_notes">Other :</string>
 
