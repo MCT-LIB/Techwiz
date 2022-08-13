@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -11,6 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
@@ -19,66 +23,69 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DoctorListAdapter extends BaseAdapter {
+public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ViewHolder> {
 
-    private LayoutInflater layoutInflater;
     private List<Account> doctorList;
+    private OnItemCLickListener mOnItemCLickListener;
 
-    private int click = 0;
+    public DoctorListAdapter(OnItemCLickListener mOnItemCLickListener) {
+        this.doctorList = doctorList;
+        this.mOnItemCLickListener = mOnItemCLickListener;
+    }
 
-    public void setDataToDoctorList(List<Account> doctorList) {
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.doctor_list_items, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setDoctorList(List<Account> doctorList) {
         this.doctorList = doctorList;
         notifyDataSetChanged();
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Account doctorModel = doctorList.get(position);
+        holder.setData(doctorModel);
+        holder.itemView.setOnClickListener(v -> mOnItemCLickListener.onItemClick(doctorModel));
+    }
+
+    @Override
+    public int getItemCount() {
         if (doctorList != null) {
             return doctorList.size();
         }
         return 0;
     }
 
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        DoctorListViewHolder viewHolder;
-        Account account = doctorList.get(i);
-        if (layoutInflater == null) {
-            layoutInflater = (LayoutInflater) App.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-        if (view == null) {
+        ImageView doctorAvatar;
+        TextView doctorName;
 
-            view = layoutInflater.inflate(R.layout.doctor_list_items, viewGroup, false);
-            viewHolder = new DoctorListViewHolder();
-            viewHolder.btnLike = view.findViewById(R.id.like_doctor);
-            viewHolder.avatar = view.findViewById(R.id.doctor_avatar);
-            viewHolder.name = view.findViewById(R.id.doctor_name);
-            viewHolder.major = view.findViewById(R.id.doctor_major);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            initView(itemView);
 
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (DoctorListViewHolder) view.getTag();
         }
 
-        viewHolder.name.setText(account.getLastName());
+        public void initView(View itemView) {
+            doctorAvatar = itemView.findViewById(R.id.doctor_avatar);
+            doctorName = itemView.findViewById(R.id.doctor_name);
+        }
 
-        return view;
+        public void setData(Account doctorModel) {
+            doctorAvatar.setImageResource(R.mipmap.app_launcher_round);
+            doctorName.setText(doctorModel.getFirstName());
+        }
     }
 
-    private static class DoctorListViewHolder {
-        ImageView btnLike;
-        CircleImageView avatar;
-        TextView name;
-        ImageView major;
+
+    public interface OnItemCLickListener {
+        void onItemClick(Account account);
     }
 }

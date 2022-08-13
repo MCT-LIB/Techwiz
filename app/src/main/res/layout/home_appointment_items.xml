@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_below="@+id/nav_home_text"
     android:layout_alignParentStart="true"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginEnd="20dp"
+    android:padding="8dp"
+    android:layout_marginBottom="4dp"
     android:background="@drawable/bg_radius_20"
     android:backgroundTint="@color/blue"
     android:orientation="vertical"
@@ -45,20 +44,32 @@
                 android:id="@+id/appointments_address_doctor"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:text="Ha Noi"
+                tools:text="Ha Noi"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/appointments_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Description notes"
+                android:textColor="@color/white"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/appointments_time_doctor"
-            android:layout_width="120dp"
+            android:id="@+id/appointments_time_meeting"
+            android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
             android:background="@drawable/bg_radius_20"
             android:gravity="center"
-            android:text="9:00"
+            tools:text="9:00"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/blue"
             android:textSize="17sp"
             android:textStyle="bold" />

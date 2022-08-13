@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +14,6 @@ import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Appointment;
-import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.mct.components.toast.ToastUtils;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -81,7 +76,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
             avatar = itemView.findViewById(R.id.appointments_avatar_doctor);
             name = itemView.findViewById(R.id.appointments_name_doctor);
             address = itemView.findViewById(R.id.appointments_address_doctor);
-            time = itemView.findViewById(R.id.appointments_time_doctor);
+            time = itemView.findViewById(R.id.appointments_time_meeting);
         }
     }
 }

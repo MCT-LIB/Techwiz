@@ -21,4 +21,10 @@ public interface AppointmentRepository {
     void getAppointments(Account account,
                          @Nullable Consumer<List<Appointment>> onSuccess,
                          @Nullable Consumer<Throwable> onError);
+
+    void getAppointmentsByDate(
+            Account account, long date,
+            @Nullable Consumer<List<Appointment>> onSuccess,
+            @Nullable Consumer<Throwable> onError
+    );
 }

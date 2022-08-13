@@ -53,4 +53,25 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     FirebaseUtils.success(onSuccess, appointments);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
+
+    @Override
+    public void getAppointmentsByDate(Account account, long date, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
+                .whereGreaterThan("createAt", date)
+                .whereLessThan("createAt", date + 24*60*60*1000)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Appointment> appointments = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        Appointment appointment = snapshot.toObject(Appointment.class);
+                        if (appointment != null) {
+                            appointment.setId(snapshot.getId());
+                            appointments.add(appointment);
+                        }
+                    }
+                    FirebaseUtils.success(onSuccess, appointments);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+
+    }
 }

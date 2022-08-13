@@ -2,12 +2,16 @@ package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
@@ -15,14 +19,12 @@ import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.DoctorListAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.mct.components.baseui.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NavAppointmentFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack {
-
-    private GridView doctorListLayout;
+    private View view;
+    private RecyclerView rcvListDoctor;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
     private LoadingDialog dialog;
@@ -30,26 +32,53 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_nav_appointment, container, false);
-        doctorListAdapter = new DoctorListAdapter();
-        userAppointmentPresenter = new UserAppointmentPresenter(this);
-        userAppointmentPresenter.getAllDoctor(this);
-        init(view);
-        setDataForGrid();
+        view = inflater.inflate(R.layout.fragment_nav_appointment, container, false);
         return view;
     }
 
-    private void init(View view) {
-        doctorListLayout = view.findViewById(R.id.doctor_list_layout);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        userAppointmentPresenter = new UserAppointmentPresenter(this);
+        if (getActivity() != null){
+            dialog = new LoadingDialog(getActivity());
+        }
+        setData();
     }
 
-    private void setDataForGrid() {
-        doctorListLayout.setAdapter(doctorListAdapter);
+    private void setData() {
+
+        userAppointmentPresenter.getAllDoctor(this);
+
+        doctorListAdapter = new DoctorListAdapter(new DoctorListAdapter.OnItemCLickListener() {
+            @Override
+            public void onItemClick(Account account) {
+                Toast.makeText(getActivity(), "" + account.getFirstName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rcvListDoctor.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rcvListDoctor.setAdapter(doctorListAdapter);
+    }
+
+    private void initView(View view) {
+        rcvListDoctor = view.findViewById(R.id.rcv_list_doctor);
     }
 
     @Override
     public void doctorList(List<Account> accounts) {
-        doctorListAdapter.setDataToDoctorList(accounts);
+        doctorListAdapter.setDoctorList(accounts);
+    }
+
+    @Override
+    public void getNameAcc(Account account) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 
     @Override

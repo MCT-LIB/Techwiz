@@ -7,7 +7,7 @@ public class Appointment extends BaseModel {
     private long time;
     private String location;
     private String description;
-
+    private int status;
     /**
      * 0 => Dang cho confirm
      * 1 => bac si confirm
@@ -17,7 +17,7 @@ public class Appointment extends BaseModel {
      * 5 => timeout (when time < currentTime)
      * 6 => da kham benh
      */
-    private int status;
+
 
     public String getUserId() {
         return userId;

@@ -127,4 +127,11 @@
     <string name="permission_button_positive">OK</string>
     <string name="permission_button_negative">Cancel</string>
     <string name="permission_button_go_setting">Go setting</string>
+
+    <!--   nav search fragment value spinner search-->
+    <string-array name="src_spinner">
+        <item>Doctor</item>
+        <item>Prescription</item>
+        <item>Appointment</item>
+    </string-array>
 </resources>

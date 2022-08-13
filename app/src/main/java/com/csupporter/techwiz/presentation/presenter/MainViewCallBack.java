@@ -19,10 +19,15 @@ public abstract class MainViewCallBack {
 
     public interface UserAppointmentCallBack {
         void doctorList(List<Account> accounts);
+
+        void getNameAcc(Account account);
+
+        void onFailure();
     }
 
     public interface HealthTrackingCallBack {
         void onGetDataSuccess(List<HealthTracking> trackingList);
+
         void onGetDataFailure();
     }
 }
