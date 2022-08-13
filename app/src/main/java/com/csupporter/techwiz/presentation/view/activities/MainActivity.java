@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavUserInfoFragment;
@@ -58,28 +59,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                OpenGallery.getInstance().selectImage(mActivityResultLauncher);
-            }
-        }
-    }
 
-    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data == null) {
-                        return;
-                    }
-                    Uri uri = data.getData();
-                }
-            }
-    );
+
 
     @Override
     protected int getContainerId() {
@@ -90,5 +71,4 @@ public class MainActivity extends BaseActivity {
     protected void showToastOnBackPressed() {
         ToastUtils.makeWarningToast(this, Toast.LENGTH_SHORT, getString(R.string.toast_back_press), false).show();
     }
-
 }
