@@ -122,6 +122,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- start permissionX -->
+    <string name="permission_explain_read_storage_request_reason">This app need read storage permission to pick image from gallery</string>
     <string name="permission_forward_to_settings">You need to allow necessary permissions in Settings manually</string>
     <string name="permission_button_positive">OK</string>
     <string name="permission_button_negative">Cancel</string>

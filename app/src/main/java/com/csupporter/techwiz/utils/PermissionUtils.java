@@ -18,8 +18,7 @@ public class PermissionUtils {
         PermissionX.init(fragment)
                 .permissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList,
-//                        fragment.getString(R.string.permission_explain_storage_request_reason),
-                        "tét",
+                        fragment.getString(R.string.permission_explain_read_storage_request_reason),
                         getButtonPositive(context),
                         getButtonNegative(context)))
                 .onForwardToSettings(getForwardToSettingsCallback(context))
