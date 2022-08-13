@@ -18,5 +18,12 @@ public interface DataService {
                                  @Field("type") int type,
                                  @Field("email") String email);
 
+    @FormUrlEncoded
+    @POST("appointment/add")
+    Call<Void> addAppointment(@Field("appointment") String appointmentJson);
+
+    @FormUrlEncoded
+    @POST("appointment/update")
+    Call<Void> updateAppointment(@Field("appointment") String appointmentJson);
 
 }

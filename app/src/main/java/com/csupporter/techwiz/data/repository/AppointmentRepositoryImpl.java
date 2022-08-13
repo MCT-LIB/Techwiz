@@ -4,36 +4,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
+import com.csupporter.techwiz.data.data_api.APIService;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.domain.repository.AppointmentRepository;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     private final static String DEFAULT_PATH = "appointments";
 
     @Override
-    public void addAppointment(Appointment appointment, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void addAppointment(Appointment appointment,
+                               AppointmentSchedule appointmentSchedule,
+                               @Nullable Consumer<Void> onSuccess,
+                               @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.setData(DEFAULT_PATH, appointment.getId(), appointment, onSuccess, onError);
+        APIService.getService().addAppointment(new Gson().toJson(appointmentSchedule)).enqueue(unUseCallback());
     }
 
     @Override
-    public void updateAppointment(Appointment appointment, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void updateAppointment(Appointment appointment,
+                                  AppointmentSchedule appointmentSchedule,
+                                  @Nullable Consumer<Void> onSuccess,
+                                  @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.setData(DEFAULT_PATH, appointment.getId(), appointment, onSuccess, onError);
+        APIService.getService().updateAppointment(new Gson().toJson(appointmentSchedule)).enqueue(unUseCallback());
     }
 
     @Override
@@ -52,6 +58,19 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
                     FirebaseUtils.success(onSuccess, appointments);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
+
+    @NonNull
+    private Callback<Void> unUseCallback() {
+        return new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            }
+        };
     }
 
     @Override

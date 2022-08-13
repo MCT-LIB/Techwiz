@@ -25,7 +25,7 @@ public class SendOtpPresenter extends BasePresenter {
     }
 
     public void sentForgotPassOtp(@NonNull Account account, AuthenticationCallback.EnterOTPCallBack callBack) {
-        Log.e("ddd", "sentForgotPassOtp: " );
+        Log.e("ddd", "sentForgotPassOtp: ");
         getBaseView().showLoading();
         DataInjection.provideDataService().sendMailOtp(null, account.getFirstName(), TYPE_FORGOT_PASS, account.getEmail())
                 .enqueue(new Callback<JsonObject>() {
@@ -38,10 +38,10 @@ public class SendOtpPresenter extends BasePresenter {
                             if (status == 200) {
                                 int otp = response.body().get("data").getAsInt();
                                 callBack.onSentOTPSuccess(otp);
-                            } else {
-                                callBack.onSentOTPFailure();
+                                return;
                             }
                         }
+                        callBack.onSentOTPFailure();
                     }
 
                     @Override
@@ -65,10 +65,10 @@ public class SendOtpPresenter extends BasePresenter {
                             if (status == 200) {
                                 int otp = response.body().get("data").getAsInt();
                                 callBack.onSentOTPSuccess(otp);
-                            } else {
-                                callBack.onSentOTPFailure();
+                                return;
                             }
                         }
+                        callBack.onSentOTPFailure();
                     }
 
                     @Override

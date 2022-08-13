@@ -12,6 +12,7 @@ import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.utils.EncryptUtils;
 
 import java.security.GeneralSecurityException;
+import java.util.Date;
 
 public class OnBoardActivity extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class OnBoardActivity extends AppCompatActivity {
             Log.e("AESCrypt", "False");
         }
         long startTime = System.currentTimeMillis();
+        Log.e("ddd", "onCreate: " + startTime);
         String id = DataInjection.provideSettingPreferences().getToken();
         if (id != null) {
             DataInjection.provideRepository().account.findAccountById(id, account -> {
