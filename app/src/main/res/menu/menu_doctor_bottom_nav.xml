@@ -7,15 +7,6 @@
         android:title="Home"
         />
     <item
-        android:id="@+id/item_search"
-        android:icon="@drawable/ic_baseline_notifications_active_24"
-        android:title="Notify"
-        />
-    <item
-        android:id="@+id/item_placeholder"
-        android:title=""
-        />
-    <item
         android:id="@+id/item_history_medical"
         android:icon="@drawable/ic_baseline_history_24"
         android:title="History"

@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.docters;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,10 +46,11 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
         setDataViewPager2();
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void setDataViewPager2() {
-        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.item_search);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.item_home);
         badgeDrawable.setVisible(true);
-        badgeDrawable.setNumber(5);
+        badgeDrawable.setNumber(3);
         viewPager2.setAdapter(doctorAdapter);
         viewPager2.setUserInputEnabled(false);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -56,24 +58,15 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
                 case R.id.item_home:
                     viewPager2.setCurrentItem(0, false);
                     break;
-                case R.id.item_search:
+                case R.id.item_history_medical:
                     viewPager2.setCurrentItem(1, false);
                     break;
-                case R.id.item_history_medical:
-                    viewPager2.setCurrentItem(3, false);
-                    break;
                 case R.id.item_profile:
-                    viewPager2.setCurrentItem(4, false);
+                    viewPager2.setCurrentItem(2, false);
                     break;
             }
             return true;
         });
-
-        btn_appointment.setOnClickListener(view -> {
-            viewPager2.setCurrentItem(2, false);
-        });
-
-        bottomNavigationView.getMenu().findItem(R.id.item_placeholder).setEnabled(false);
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -85,15 +78,9 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
                         bottomNavigationView.getMenu().findItem(R.id.item_home).setChecked(true);
                         break;
                     case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.item_search).setChecked(true);
-                        break;
-                    case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.item_placeholder).setChecked(true);
-                        break;
-                    case 3:
                         bottomNavigationView.getMenu().findItem(R.id.item_history_medical).setChecked(true);
                         break;
-                    case 4:
+                    case 2:
                         bottomNavigationView.getMenu().findItem(R.id.item_profile).setChecked(true);
                         break;
                 }
