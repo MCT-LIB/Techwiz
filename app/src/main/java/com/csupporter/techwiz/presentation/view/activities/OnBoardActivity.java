@@ -46,7 +46,7 @@ public class OnBoardActivity extends AppCompatActivity {
                     } else {
                         gotoLogin();
                     }
-                }, delay < 0 ? 0 : delay);
+                }, delay < 1000 ? delay : 0);
             }, throwable -> gotoLogin());
             return;
         }

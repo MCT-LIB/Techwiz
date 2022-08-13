@@ -3,6 +3,7 @@ package com.csupporter.techwiz.presentation.presenter;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.HealthTracking;
+import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 
 import java.util.List;
 
@@ -21,8 +22,7 @@ public abstract class MainViewCallBack {
     }
 
     public interface HealthTrackingCallBack {
-        void addHealthTrackingSuccess();
-
-        void addHealthTrackingFail();
+        void onGetDataSuccess(List<HealthTracking> trackingList);
+        void onGetDataFailure();
     }
 }

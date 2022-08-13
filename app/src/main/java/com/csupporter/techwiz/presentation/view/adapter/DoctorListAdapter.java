@@ -72,7 +72,6 @@ public class DoctorListAdapter extends BaseAdapter {
 
         viewHolder.name.setText(account.getLastName());
 
-
         return view;
     }
 

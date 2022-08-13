@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.data.repository;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
@@ -8,6 +10,7 @@ import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.domain.repository.HeathTrackingRepository;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,10 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
     @Override
     public void getAllHealthTracking(Account account, @Nullable Consumer<List<HealthTracking>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereEqualTo("userId", account.getId()).get()
+                .whereEqualTo("userId", account.getId())
+                .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Log.d("ddd", "getAllHealthTracking: " +queryDocumentSnapshots.size());
                     List<HealthTracking> healthTrackingList = new ArrayList<>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         HealthTracking health = document.toObject(HealthTracking.class);

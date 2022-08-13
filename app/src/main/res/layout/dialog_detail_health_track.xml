@@ -7,14 +7,28 @@
     android:orientation="vertical"
     android:background="@drawable/background_detail_track"
     android:padding="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ic_exit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_baseline_cancel_24"
+            app:tint="#FF0000" />
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="12dp"
         android:text="@string/detail_track_the_daily_track"
-        android:textColor="@color/black"
+        android:textColor="#264EC6"
         android:textSize="24sp" />
 
     <TableLayout
@@ -237,16 +251,16 @@
             android:layout_height="100dp"
             android:layout_margin="8dp"
             android:background="@drawable/bg_border_radius_24"
-            android:backgroundTint="#EF5350"
+            android:backgroundTint="#81C784"
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_check_health" />
+                android:src="@drawable/ic_heart" />
 
             <TextView
                 android:id="@+id/tv_heart_beat"
@@ -265,16 +279,16 @@
             android:layout_height="100dp"
             android:layout_margin="8dp"
             android:background="@drawable/bg_border_radius_24"
-            android:backgroundTint="#FFEE58"
+            android:backgroundTint="#4FC3F7"
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_check_health" />
+                android:src="@drawable/ic_blood_sugar" />
 
             <TextView
                 android:id="@+id/tv_blood_pressure"
@@ -292,16 +306,16 @@
             android:layout_height="100dp"
             android:layout_margin="4dp"
             android:background="@drawable/bg_border_radius_24"
-            android:backgroundTint="#66BB6A"
+            android:backgroundTint="#BA68C8"
             android:elevation="4dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_check_health" />
+                android:src="@drawable/ic_blood_pressure" />
 
             <TextView
                 android:id="@+id/tv_blood_sugar"
@@ -320,8 +334,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/detail_track_notes"
-        android:textColor="#000000"
+        android:textColor="#264EC6"
         android:textSize="24sp"
+        android:layout_marginStart="12dp"
         android:textStyle="bold" />
 
     <TextView
