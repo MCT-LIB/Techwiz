@@ -2,7 +2,9 @@ package com.csupporter.techwiz.domain.model;
 
 import com.google.firebase.firestore.Exclude;
 
-abstract class BaseModel {
+import java.io.Serializable;
+
+abstract class BaseModel implements Serializable {
 
     private String id;
 

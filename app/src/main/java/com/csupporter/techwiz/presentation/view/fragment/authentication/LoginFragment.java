@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.authentication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -67,17 +68,22 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         view.findViewById(R.id.btn_login).setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(@NonNull View view) {
         int id = view.getId();
-        if (id == R.id.tv_register_now) {
-            replaceFragment(new RegisterFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
-        } else if (id == R.id.tv_forgot_password) {
-            replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
-        } else if (id == R.id.btn_login) {
-            String userName = getText(tvUserName.getEditText());
-            String password = getText(tvPassword.getEditText());
-            loginPresenter.login(userName, password, this);
+        switch (id) {
+            case R.id.tv_register_now:
+                replaceFragment(new RegisterFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                break;
+            case R.id.tv_forgot_password:
+                replaceFragment(new ForgotPasswordFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                break;
+            case R.id.btn_login:
+                String userName = getText(tvUserName.getEditText());
+                String password = getText(tvPassword.getEditText());
+                loginPresenter.login(userName, password, this);
+                break;
         }
     }
 
@@ -88,11 +94,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void loginSuccess(Account account) {
-        if (getActivity() == null) {
-            return;
+        if (getActivity() != null) {
+            hideSoftInput();
+            MainActivity.startActivity(getActivity(), account);
+            getActivity().finish();
         }
-        MainActivity.startActivity(getActivity(), account);
-        getActivity().finish();
     }
 
     @Override

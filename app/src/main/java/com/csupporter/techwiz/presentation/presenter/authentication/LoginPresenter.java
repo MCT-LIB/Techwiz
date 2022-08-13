@@ -28,7 +28,6 @@ public class LoginPresenter extends BasePresenter {
             DataInjection.provideRepository().account.checkUserNameAndPassword(userName, password, account -> {
                 getBaseView().hideLoading();
                 if (account != null) {
-                    DataInjection.provideSettingPreferences().setToken(account.getId());
                     callback.loginSuccess(account);
                 } else {
                     callback.dataInvalid("Email or password is wrong !");

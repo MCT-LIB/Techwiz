@@ -143,8 +143,9 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onSuccess(Account account) {
-        if (getContext() != null) {
-            MainActivity.startActivity(getContext(), account);
+        if (getActivity() != null) {
+            MainActivity.startActivity(getActivity(), account);
+            getActivity().finish();
         }
     }
 

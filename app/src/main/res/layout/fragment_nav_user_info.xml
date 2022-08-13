@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_fragment_nav"
     android:orientation="vertical"
     tools:context=".presentation.view.fragment.main.nav.NavUserInfoFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@color/primary"
         android:orientation="vertical"
         android:weightSum="10">
 

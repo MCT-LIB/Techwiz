@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class Account extends BaseModel implements Serializable {
+public class Account extends BaseModel  {
 
     public static final int TYPE_USER = 1;
     public static final int TYPE_DOCTOR = 2;

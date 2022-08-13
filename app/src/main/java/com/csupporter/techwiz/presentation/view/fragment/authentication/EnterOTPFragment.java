@@ -196,8 +196,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void registerSuccess() {
         showToast("Register Success!", ToastUtils.SUCCESS, true);
-        if (getContext() != null) {
-            MainActivity.startActivity(getContext(), account);
+        if (getActivity() != null) {
+            MainActivity.startActivity(getActivity(), account);
+            getActivity().finish();
         }
     }
 

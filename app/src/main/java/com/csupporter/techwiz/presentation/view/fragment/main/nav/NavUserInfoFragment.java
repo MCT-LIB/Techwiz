@@ -2,24 +2,11 @@ package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityOptionsCompat;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,17 +14,21 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.csupporter.techwiz.utils.OpenGallery;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -84,7 +75,11 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemLogout = view.findViewById(R.id.item_logout);
         itemHealthTrack = view.findViewById(R.id.item_health_track);
         btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
-        avatar = view.findViewById(R.id.avatar_personal);
+        if (App.getApp().getAccount() != null) {
+            Account account = App.getApp().getAccount();
+            tvName.setText(account.getFirstName() + " " + account.getLastName());
+            tvEmail.setText(account.getEmail());
+        }
     }
 
     @Override
@@ -124,7 +119,6 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
     @Override
     public void requestPermissionSuccess() {
         showLoading();
-        OpenGallery.getInstance().selectImage(mActivityResultLauncher);
     }
 
     ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
