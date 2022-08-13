@@ -47,7 +47,7 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
 
     @Override
     public int getItemCount() {
-        if (trackingList != null){
+        if (trackingList != null) {
             return trackingList.size();
         }
         return 0;

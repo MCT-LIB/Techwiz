@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class Account extends BaseModel  {
+public class Account extends BaseModel {
 
     public static final int TYPE_USER = 1;
     public static final int TYPE_DOCTOR = 2;
@@ -15,6 +15,7 @@ public class Account extends BaseModel  {
     private String lastName;
     private String password;
     private String email;
+    private String location;
     private String phone;
     private int gender;     // 0 -> male, 1 -> female
     private int age;
@@ -58,6 +59,14 @@ public class Account extends BaseModel  {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setPhone(String phone) {

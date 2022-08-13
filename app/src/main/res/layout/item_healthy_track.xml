@@ -5,7 +5,7 @@
     android:layout_height="80dp"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:layout_marginBottom="4dp"
+    android:layout_margin="4dp"
     android:background="?android:selectableItemBackground"
     android:elevation="4dp"
     tools:ignore="RtlSymmetry">

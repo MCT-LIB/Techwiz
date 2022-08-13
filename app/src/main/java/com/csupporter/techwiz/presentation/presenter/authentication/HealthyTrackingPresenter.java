@@ -3,6 +3,7 @@ package com.csupporter.techwiz.presentation.presenter.authentication;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.di.DataInjection;
+
 import android.util.Log;
 
 import androidx.core.util.Consumer;
@@ -68,12 +69,15 @@ public class HealthyTrackingPresenter extends BasePresenter {
             return healthTracking;
         }
         return null;
-    public void getListTrack(MainViewCallBack.HealthTrackingCallBack callBack){
-        DataInjection.provideRepository().heathTracking.getAllHealthTracking(App.getApp().getAccount(), new Consumer<List<HealthTracking>>() {
+    }
+
+    public void getListTrack(long startDate, long endDate, MainViewCallBack.HealthTrackingCallBack callBack) {
+
+        DataInjection.provideRepository().heathTracking.getHealthTrackingByTimeSpace(App.getApp().getAccount(), startDate, endDate, new Consumer<List<HealthTracking>>() {
             @Override
             public void accept(List<HealthTracking> healthTrackings) {
                 Log.d("ddd", "accept: " + healthTrackings);
-                if (healthTrackings != null){
+                if (healthTrackings != null) {
                     Log.d("ddd", "accept: " + healthTrackings.size());
                 }
                 callBack.onGetDataSuccess(healthTrackings);

@@ -82,6 +82,7 @@
                 android:elevation="5dp"
                 android:gravity="center"
                 android:inputType="number"
+                android:hint="cm"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:maxLength="3"
@@ -97,6 +98,7 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="3"
+                android:hint="kg"
                 android:textColor="@color/red_slight"
                 android:textSize="25sp"
                 android:textStyle="bold" />

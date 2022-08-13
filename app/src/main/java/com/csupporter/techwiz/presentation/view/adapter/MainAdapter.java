@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavAddAppointmentFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavAppointmentFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavHistoryFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavHomeFragment;
@@ -24,7 +25,7 @@ public class MainAdapter extends FragmentStateAdapter {
             case 1:
                 return new NavSearchFragment();
             case 2:
-                return new NavAppointmentFragment();
+                return new NavAddAppointmentFragment();
             case 3:
                 return new NavHistoryFragment();
             case 4:

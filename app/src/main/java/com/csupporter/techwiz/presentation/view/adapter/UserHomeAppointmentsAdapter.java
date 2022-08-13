@@ -52,7 +52,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
             }
         }, throwable -> {
         });
-        holder.address.setText(appointment.getLocation());
+//        holder.address.setText(appointment.getLocation());
         holder.time.setText(DateFormat.getDateTimeInstance().format(new Date(appointment.getTime())));
     }
 

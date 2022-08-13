@@ -35,7 +35,7 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
                 .whereEqualTo("userId", account.getId())
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    Log.d("ddd", "getAllHealthTracking: " +queryDocumentSnapshots.size());
+                    Log.d("ddd", "getAllHealthTracking: " + queryDocumentSnapshots.size());
                     List<HealthTracking> healthTrackingList = new ArrayList<>();
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                         HealthTracking health = document.toObject(HealthTracking.class);
@@ -48,5 +48,21 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 
-
+    @Override
+    public void getHealthTrackingByTimeSpace(Account account, long startDate, long endDate, @Nullable Consumer<List<HealthTracking>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereGreaterThanOrEqualTo("createAt", startDate).whereLessThanOrEqualTo("createAt", endDate)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<HealthTracking> healthTrackingList = new ArrayList<>();
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        HealthTracking health = document.toObject(HealthTracking.class);
+                        if (health != null) {
+                            health.setId(document.getId());
+                            healthTrackingList.add(health);
+                        }
+                    }
+                    FirebaseUtils.success(onSuccess, healthTrackingList);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
 }
