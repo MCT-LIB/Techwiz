@@ -1,13 +1,11 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.Manifest;
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +13,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.PermissionUtils;
+import com.csupporter.techwiz.utils.PickPictureResult;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
+import com.permissionx.guolindev.callback.RequestCallback;
 
-import java.io.IOException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,16 +43,23 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
     private TextView tvName, tvEmail;
     private RelativeLayout itemLogout, itemHealthTrack;
     private CircleImageView btnOpenGallery;
-    private CircleImageView avatar;
+    private CircleImageView imgAvatar;
     private LoadingDialog dialog;
 
     private NavUserInfoPresenter navUserInfoPresenter;
-    private static final int MY_REQUEST_CODE = 10;
     private Uri mUri;
 
+    private final ActivityResultLauncher<Void> mPickPictureResult =
+            registerForActivityResult(new PickPictureResult(), uri -> {
+                if (isContextNull() || uri == null) {
+                    return;
+                }
+                mUri = uri;
+                imgAvatar.setImageURI(uri);
+            });
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_nav_user_info, container, false);
         return view;
     }
@@ -75,6 +84,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemLogout = view.findViewById(R.id.item_logout);
         itemHealthTrack = view.findViewById(R.id.item_health_track);
         btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
+        imgAvatar = view.findViewById(R.id.avatar_personal);
         if (App.getApp().getAccount() != null) {
             Account account = App.getApp().getAccount();
             tvName.setText(account.getFirstName() + " " + account.getLastName());
@@ -82,6 +92,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
@@ -111,43 +122,15 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                 replaceFragment(new NavHealthyTrackingFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
             case R.id.crl_open_gallery:
-                navUserInfoPresenter.requestPermissionToGallery(getActivity(), this);
+                PermissionUtils.requestReadStoragePermission(this, (allGranted, grantedList, deniedList) -> {
+                    if(allGranted){
+                        mPickPictureResult.launch(null);
+                    }
+                });
                 break;
         }
     }
 
-    @Override
-    public void requestPermissionSuccess() {
-        showLoading();
-    }
-
-    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    hideLoading();
-                    Intent data = result.getData();
-                    if (data == null) {
-                        return;
-                    }
-                    Uri uri = data.getData();
-                    mUri = uri;
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                        avatar.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-    );
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void notRequestPermission() {
-        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-        getActivity().requestPermissions(permissions, MY_REQUEST_CODE);
-    }
 
     @Override
     public void showLoading() {

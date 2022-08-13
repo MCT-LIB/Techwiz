@@ -9,9 +9,7 @@ import java.util.List;
 public abstract class MainViewCallBack {
 
     public interface NavUserInfoCallBack {
-        void requestPermissionSuccess();
 
-        void notRequestPermission();
     }
 
     public interface UserHomeCallBack {
@@ -21,8 +19,10 @@ public abstract class MainViewCallBack {
     public interface UserAppointmentCallBack {
         void doctorList(List<Account> accounts);
     }
-    public interface HealthTrackingCallBack{
-       void addHealthTrackingSuccess();
-       void addHealthTrackingFail();
+
+    public interface HealthTrackingCallBack {
+        void addHealthTrackingSuccess();
+
+        void addHealthTrackingFail();
     }
 }
