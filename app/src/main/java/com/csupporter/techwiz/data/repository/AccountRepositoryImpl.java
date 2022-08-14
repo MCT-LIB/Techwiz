@@ -135,31 +135,31 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void getAllDoctorNotFavorite(int department, @NonNull List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
-        Query query = null;
-        Log.e("ddd", "getAllDoctorNotFavorite: "+department+" " +favoriteDoctor);
-        if (department == -1 && favoriteDoctor.isEmpty()) {
-            query = FirebaseUtils.db().collection(DEFAULT_PATH)
-                    .whereEqualTo("type", Account.TYPE_DOCTOR)
-                    .whereNotEqualTo("department", -1);
-        }
-        if (department != -1 && favoriteDoctor.isEmpty()) {
-            query = FirebaseUtils.db().collection(DEFAULT_PATH)
-                    .whereEqualTo("type", Account.TYPE_DOCTOR)
-                    .whereEqualTo("department", department);
-        }
-        if (department == -1 && !favoriteDoctor.isEmpty()) {
-            query = FirebaseUtils.db().collection(DEFAULT_PATH)
-                    .whereEqualTo("type", Account.TYPE_DOCTOR)
-                    .whereNotEqualTo("department", -1)
-                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
-        }
-        if (department != -1 && !favoriteDoctor.isEmpty()) {
-            query = FirebaseUtils.db().collection(DEFAULT_PATH)
-                    .whereEqualTo("type", Account.TYPE_DOCTOR)
-                    .whereNotEqualTo("department", department)
-                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
-        }
+    public void getAllDoctorNotFavorite(int depart, @NonNull List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
+//        Query query = null;
+//        Log.e("ddd", "getAllDoctorNotFavorite: "+department+" " +favoriteDoctor);
+//        if (department == -1 && favoriteDoctor.isEmpty()) {
+//            int xx=0;
+//            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+//                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+//                    .whereNotEqualTo("department", -1);
+//        } else if (department != -1 && favoriteDoctor.isEmpty()) {
+//            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+//                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+//                    .whereEqualTo("department", department);
+//        } else if (department == -1 && !favoriteDoctor.isEmpty()) {
+//            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+//                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+//                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
+//
+//            query = query.whereNotEqualTo("department", -1);
+//            int xx =0;
+//        } else if (department != -1 && !favoriteDoctor.isEmpty()) {
+//            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+//                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+//                    .whereNotEqualTo("department", department)
+//                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
+//        }
 
 
 //        query = FirebaseUtils.db().collection(DEFAULT_PATH)
@@ -173,17 +173,17 @@ public class AccountRepositoryImpl implements AccountRepository {
 //            Log.e("aaa: ==> ", department + "");
 //            query.whereEqualTo("department", department);
 //        }
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            List<Account> accounts = new ArrayList<>();
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                Account account = document.toObject(Account.class);
-                if (account != null) {
-                    account.setId(document.getId());
-                    Log.e("aaa", "getAllDoctorNotFavorite: " + account.getDepartment());
-                    accounts.add(account);
-                }
-            }
-            FirebaseUtils.success(onSuccess, accounts);
-        }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+//        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+//            List<Account> accounts = new ArrayList<>();
+//            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+//                Account account = document.toObject(Account.class);
+//                if (account != null) {
+//                    account.setId(document.getId());
+//                    Log.e("aaa", "getAllDoctorNotFavorite: " + account.getDepartment());
+//                    accounts.add(account);
+//                }
+//            }
+//            FirebaseUtils.success(onSuccess, accounts);
+//        }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 }

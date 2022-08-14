@@ -10,13 +10,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/not_like"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="end"
-        android:layout_margin="7dp"
-        android:src="@drawable/ic_baseline_thumb_up_24" />
 
     <ImageView
         android:id="@+id/like_doctor"
@@ -25,7 +18,7 @@
         android:layout_gravity="end"
         android:layout_margin="7dp"
         android:src="@drawable/ic_baseline_thumb_up_24"
-        android:visibility="gone"
+        android:visibility="visible"
         app:tint="@color/yellow_dark" />
 
     <de.hdodenhof.circleimageview.CircleImageView

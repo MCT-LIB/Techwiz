@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,14 +23,17 @@ import com.mct.components.toast.ToastUtils;
 
 import java.util.List;
 
-public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack, DoctorListAdapter.OnItemCLickListener {
+public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack,
+        DoctorListAdapter.OnItemCLickListener,
+        MainViewCallBack.AddMyDoctor,
+        MainViewCallBack.DeleteMyDoctor {
 
     private View view;
     private RecyclerView rcvListDoctor;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
     private LoadingDialog dialog;
-    private int department ;
+    private int department;
 
     public static AddDoctorFragment newInstance(int department) {
         Bundle args = new Bundle();
@@ -43,7 +47,7 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             department = bundle.getInt("department");
         }
     }
@@ -110,6 +114,30 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
 
     @Override
     public void onClickLike(Account account) {
+        userAppointmentPresenter.createMyDoctor(account, this);
+    }
+
+
+
+    @Override
+    public void addMyDoctorSuccess(Account doctor) {
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Be Added doctor in your favorite ! ",true).show();
+
+    }
+
+    @Override
+    public void addMyDoctorFail() {
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Add doctor fail ! ",true).show();
+
+    }
+
+    @Override
+    public void deleteMyDoctorSuccess() {
+
+    }
+
+    @Override
+    public void deleteMyDoctorFail() {
 
     }
 }

@@ -110,6 +110,8 @@
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_check_list_requite.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_create_appoiment.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_history_medical.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_home.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_notify.xml" value="0.2" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_home.xml" value="0.2" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_notify.xml" value="0.2" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_dt_profile.xml" value="0.22826086956521738" />
@@ -119,7 +121,6 @@
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_healthy_tracking.xml" value="0.264" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_appointment.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_home.xml" value="0.2" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_search.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/fragment_nav_user_info.xml" value="0.264" />
@@ -129,6 +130,8 @@
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/history_appointment_items.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.264" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/item_category_doctor.xml" value="0.4" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/history_appointment_items.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.264" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/item_health_track.xml" value="0.264" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/item_healthy_track.xml" value="0.264" />
         <entry key="..\:/Users/NAMTRAN/Documents/AndroidStudioProjects/Techwiz/app/src/main/res/layout/item_history_meetiing.xml" value="0.22826086956521738" />

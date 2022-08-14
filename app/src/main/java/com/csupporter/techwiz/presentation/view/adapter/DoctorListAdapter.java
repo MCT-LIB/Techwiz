@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
 
@@ -50,6 +51,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         notifyDataSetChanged();
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Account doctorModel = doctorList.get(position);
@@ -71,7 +73,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         private ImageView doctorAvatar;
         private TextView doctorName;
         private ImageView imgLike;
-        private ImageView imgNotLike;
         private ImageView doctor_major;
 
 
@@ -85,7 +86,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             doctorAvatar = itemView.findViewById(R.id.doctor_avatar);
             doctorName = itemView.findViewById(R.id.doctor_name);
             imgLike = itemView.findViewById(R.id.like_doctor);
-//            imgNotLike = itemView.findViewById(R.id.not_like);
             doctor_major = itemView.findViewById(R.id.doctor_major);
         }
 
@@ -121,8 +121,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             }
 
             imgLike.setOnClickListener(view -> {
-                imgNotLike.setVisibility(View.VISIBLE);
-                imgLike.setVisibility(View.GONE);
+
                 mOnItemCLickListener.onClickLike(doctorModel);
             });
 

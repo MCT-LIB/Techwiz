@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
 import com.mct.components.toast.ToastUtils;
 
@@ -46,6 +47,7 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
     public void setCurrentType(int currentType) {
         this.currentType = currentType;
     }
+
 
     @NonNull
     @Override
@@ -87,7 +89,10 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
 
         int typeDoctor = getTypeByString(type);
 
-        holder.cbCheckType.setVisibility(typeDoctor == getCurrentType()  ? View.VISIBLE : View.GONE);
+        if (holder.cbCheckType != null) {
+            holder.cbCheckType.setVisibility(typeDoctor == getCurrentType() ? View.VISIBLE : View.GONE);
+
+        }
 
         holder.layout.setOnClickListener(view -> {
             if (typeDoctor >= 0) {

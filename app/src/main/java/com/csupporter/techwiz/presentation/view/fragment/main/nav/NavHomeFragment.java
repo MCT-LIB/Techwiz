@@ -51,7 +51,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
 
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this, R.layout.doctor_list_items);
+        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this, R.layout.nav_home_category_items);
         userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
         userHomePresenter = new UserHomePresenter(this);
 

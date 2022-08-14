@@ -106,7 +106,7 @@ public class UserAppointmentPresenter extends BasePresenter {
 //        });
     }
 
-    public void createMyDoctor(Account doctor, MainViewCallBack.UserAppointmentCallBack callBack) {
+    public void createMyDoctor(Account doctor, MainViewCallBack.AddMyDoctor callBack) {
         Account user = App.getApp().getAccount();
 
         MyDoctor myDoctor = new MyDoctor(FirebaseUtils.uniqueId(), user.getId(), doctor.getId());
@@ -115,15 +115,17 @@ public class UserAppointmentPresenter extends BasePresenter {
         DataInjection.provideRepository().myDoctor.createMyDoctor(myDoctor, unused -> {
 
             getBaseView().hideLoading();
+            callBack.addMyDoctorSuccess(user);
 
         }, throwable -> {
 
             getBaseView().hideLoading();
+            callBack.addMyDoctorFail();
 
         });
     }
 
-    public void deleteMyDoctor(Account doctor, MainViewCallBack.UserAppointmentCallBack callBack) {
+    public void deleteMyDoctor(Account doctor, MainViewCallBack.DeleteMyDoctor callBack) {
 
         Account user = App.getApp().getAccount();
         MyDoctor myDoctor = new MyDoctor(FirebaseUtils.uniqueId(), user.getId(), doctor.getId());
@@ -132,11 +134,12 @@ public class UserAppointmentPresenter extends BasePresenter {
         DataInjection.provideRepository().myDoctor.deleteMyDoctor(myDoctor, unused -> {
 
             getBaseView().showLoading();
+            callBack.deleteMyDoctorSuccess();
 
         }, throwable -> {
 
             getBaseView().showLoading();
-
+            callBack.deleteMyDoctorFail();
         });
     }
 

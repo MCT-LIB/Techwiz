@@ -70,4 +70,16 @@ public abstract class MainViewCallBack {
     public interface GetAllMyDoctorCallBack {
         void allMyDoctor(List<Account> myDoctorList);
     }
+
+    public interface AddMyDoctor {
+        void addMyDoctorSuccess(Account doctor);
+
+        void addMyDoctorFail();
+    }
+
+    public interface DeleteMyDoctor {
+        void deleteMyDoctorSuccess();
+
+        void deleteMyDoctorFail();
+    }
 }

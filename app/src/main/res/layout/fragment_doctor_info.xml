@@ -39,13 +39,6 @@
             android:layout_height="match_parent"
             android:src="@mipmap/app_launcher_round" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/info_choose_doctor_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_camera" />
 
     </RelativeLayout>
 
