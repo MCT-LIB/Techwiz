@@ -77,7 +77,7 @@
     <string name="dialog_confirm_btn_yes">Yes</string>
     <string name="dialog_confirm_btn_no">No</string>
 
-<!--    alert dialog-->
+    <!--    alert dialog-->
     <string name="alert_dialog_ok">OK</string>
 
     <!--    item health track-->
