@@ -32,14 +32,14 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
         notifyDataSetChanged();
     }
 
-    public void deleteItemTrack(int pos){
+    public void deleteItemTrack(int pos) {
         notifyItemRemoved(pos);
         trackingList.remove(pos);
     }
 
-    public void addNewItemTrack(HealthTracking tracking){
-        trackingList.add(trackingList.size(), tracking);
-        notifyItemInserted(trackingList.size());
+    public void addNewItemTrack(HealthTracking tracking) {
+        trackingList.add(0, tracking);
+        notifyItemInserted(0);
     }
 
     @NonNull

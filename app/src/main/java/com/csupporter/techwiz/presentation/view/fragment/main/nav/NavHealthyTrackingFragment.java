@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
@@ -47,7 +48,7 @@ import io.github.farshidroohi.LineChart;
 
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener
         , MainViewCallBack.HealthTrackingCallBack
-        , AddNewHealthTracking.OnClickAddNewHealthTracking{
+        , AddNewHealthTracking.OnClickAddNewHealthTracking {
 
     private TextView edtStartTime;
     private TextView edtEndTime;
@@ -82,7 +83,6 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
 
 
     private void setAdapter() {
-
 
         rcvListTrack.setLayoutManager(new LinearLayoutManager(getActivity()));
         healthTrackItemAdapter = new HealthTrackItemAdapter(new HealthTrackItemAdapter.OnCLickItemTrack() {
@@ -200,8 +200,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
             startCalendar.set(Calendar.DAY_OF_MONTH, day);
             dateStart = startCalendar.getTime();
             edtStartTime.setText(updateLabel(startCalendar.getTime()));
-            Account account = App.getApp().getAccount();
-            healthyTrackingPresenter.getListTrack(account, dateStart.getTime(), dateEnd.getTime(), this);
+            healthyTrackingPresenter.getListTrack(dateStart.getTime(), dateEnd.getTime(), this);
         };
     }
 
@@ -212,8 +211,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
             endCalendar.set(Calendar.DAY_OF_MONTH, day);
             dateEnd = endCalendar.getTime();
             edtEndTime.setText(updateLabel(endCalendar.getTime()));
-            Account account = App.getApp().getAccount();
-            healthyTrackingPresenter.getListTrack(account, dateStart.getTime(), dateEnd.getTime(), this);
+            healthyTrackingPresenter.getListTrack(dateStart.getTime(), dateEnd.getTime(), this);
         };
     }
 
@@ -225,14 +223,13 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
 
     @Override
     public void onClickAddNew(String txtHeight, String txtWeight, String txtHeartBeat, String txtBloodSugar, String txtBloodPressure, String txtNote) {
-        Account account = App.getApp().getAccount();
-        healthyTrackingPresenter.addNewHealthTracking(account, txtHeight, txtWeight, txtHeartBeat, txtBloodSugar, txtBloodPressure, txtNote, this);
+        healthyTrackingPresenter.addNewHealthTracking(txtHeight, txtWeight, txtHeartBeat, txtBloodSugar, txtBloodPressure, txtNote, this);
     }
 
     @Override
     public void addHealthTrackingSuccess(HealthTracking healthTracking) {
         dialogAddHealthTracking.dismiss();
-
+        healthTrackItemAdapter.addNewItemTrack(healthTracking);
 //        healthTrackingList.add(healthTracking);
 //        rcvListTrack.getRecycledViewPool().clear();
 //        healthTrackItemAdapter.notifyItemChanged(healthTrackingList.size() - 1);
@@ -251,11 +248,11 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
     @Override
     public void onGetDataSuccess(List<HealthTracking> trackingList) {
         healthTrackItemAdapter.setTrackingList(trackingList);
-       // setDataForLineChart(trackingList);
+        // setDataForLineChart(trackingList);
     }
 
     private void setDataForLineChart(List<HealthTracking> healthTrackingList) {
-        if(healthTrackingList.isEmpty()){
+        if (healthTrackingList.isEmpty()) {
             return;
         }
         List<String> dateEntity = new ArrayList<>();

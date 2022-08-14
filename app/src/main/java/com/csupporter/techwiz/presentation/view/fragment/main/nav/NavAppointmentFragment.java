@@ -87,6 +87,7 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
         rcvListDoctor.setAdapter(doctorListAdapter);
     }
 
+
     private void setDataByDoctorType() {
 
         userAppointmentPresenter.getDoctorsByDepartment(department,this);

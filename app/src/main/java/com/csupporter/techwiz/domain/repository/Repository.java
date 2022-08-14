@@ -1,7 +1,5 @@
 package com.csupporter.techwiz.domain.repository;
 
-import com.google.android.gms.common.images.ImageManager;
-
 public abstract class Repository {
 
     public final ImageManager imageManager;

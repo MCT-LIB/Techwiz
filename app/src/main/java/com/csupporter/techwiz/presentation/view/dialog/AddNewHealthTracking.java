@@ -43,7 +43,7 @@ public class AddNewHealthTracking extends BaseOverlayDialog {
     @NonNull
     @Override
     protected AlertDialog.Builder onCreateDialog() {
-        View view = LayoutInflater.from(context).inflate(R.layout.add_health_tracking, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_health_tracking, null);
 
         init(view);
         addEventAddClick();

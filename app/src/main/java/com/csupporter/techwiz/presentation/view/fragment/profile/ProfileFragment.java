@@ -59,7 +59,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
         Toolbar toolbar = mView.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_confirm);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
         toolbar.setOnMenuItemClickListener(item -> {
             if (isDataChange()) {
                 App.getApp().setAccount(tmpAccount);
@@ -139,6 +139,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public boolean onBackPressed() {
+        showToast(""+isDataChange(), ToastUtils.INFO);
         if (isDataChange()) {
             new ConfirmDialog(requireContext(),
                     R.drawable.ic_discard,
