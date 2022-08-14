@@ -4,6 +4,7 @@ import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.domain.model.MyDoctor;
+import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 
 import java.util.List;
@@ -81,5 +82,11 @@ public abstract class MainViewCallBack {
         void deleteMyDoctorSuccess();
 
         void deleteMyDoctorFail();
+    }
+
+    public interface GetAppointmentHistoryCallback {
+        void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails);
+
+        void onError(Throwable throwable);
     }
 }

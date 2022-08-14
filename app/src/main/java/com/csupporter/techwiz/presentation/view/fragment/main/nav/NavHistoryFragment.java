@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,8 +15,10 @@ import android.widget.Spinner;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
+import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.CustomSpinnerAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.HistoryAppointmentAdapter;
+import com.mct.components.toast.ToastUtils;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
 public class NavHistoryFragment extends BaseNavFragment {
@@ -32,8 +35,14 @@ public class NavHistoryFragment extends BaseNavFragment {
     private CollapsibleCalendar collapsibleCalendar;
     private Spinner classifyList;
     private RecyclerView rcvHistoryMeet;
-    private HistoryAppointmentAdapter adapter;
+    private HistoryAppointmentAdapter historyAppointmentAdapter;
+    private HistoryAppointmentPresenter historyAppointmentPresenter;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -58,6 +67,7 @@ public class NavHistoryFragment extends BaseNavFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 classifySelected = classifyName[i];
+                showToast(classifySelected, ToastUtils.INFO);
             }
 
             @Override
@@ -68,10 +78,10 @@ public class NavHistoryFragment extends BaseNavFragment {
     }
 
     private void initRecyclerView() {
-        adapter = new HistoryAppointmentAdapter(this::onClickSetAgain);
-        rcvHistoryMeet.setAdapter(adapter);
+        historyAppointmentAdapter = new HistoryAppointmentAdapter(this::onClickSetAgain);
+        rcvHistoryMeet.setAdapter(historyAppointmentAdapter);
         rcvHistoryMeet.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        loadAppointment();
     }
 
     private void onClickSetAgain(AppointmentDetail appointmentDetail, int position) {
@@ -80,5 +90,6 @@ public class NavHistoryFragment extends BaseNavFragment {
 
     private void loadAppointment() {
 
+//        historyAppointmentPresenter.requestAppointments();
     }
 }

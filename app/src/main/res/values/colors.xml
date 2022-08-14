@@ -14,9 +14,12 @@
     <color name="ripple">#26000000</color>
     <color name="separatorDivider">#D8D8D8</color>
 
-    <color name="edit_text_stroke_enable">@color/white</color>
+    <color name="edit_text_stroke_enable">#FFFFFF</color>
     <color name="edit_text_stroke_default">@color/white_smoke</color>
     <color name="edit_text_stroke_disable">@color/gray</color>
+
+    <color name="edit_text_text_color_enable">@color/textPrimary</color>
+    <color name="edit_text_text_color_disable">#A0A0A0</color>
 
     <color name="red_slight">#FA837A</color>
 

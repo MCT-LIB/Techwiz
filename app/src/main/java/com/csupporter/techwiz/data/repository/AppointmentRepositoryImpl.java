@@ -10,7 +10,11 @@ import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.domain.repository.AppointmentRepository;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.SuccessContinuation;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
