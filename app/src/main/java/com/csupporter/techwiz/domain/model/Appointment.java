@@ -7,6 +7,7 @@ public class Appointment extends BaseModel {
     private long time;
     private String description;
     private int status;
+
     /**
      * 0 => Dang cho confirm
      * 1 => bac si confirm
@@ -41,7 +42,6 @@ public class Appointment extends BaseModel {
     public void setTime(long time) {
         this.time = time;
     }
-
 
     public String getDescription() {
         return description;

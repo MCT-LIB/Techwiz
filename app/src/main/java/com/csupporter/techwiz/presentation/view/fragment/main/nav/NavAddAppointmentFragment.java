@@ -26,7 +26,7 @@ import java.util.List;
 
 
 public class NavAddAppointmentFragment extends BaseNavFragment implements View.OnClickListener,
-        MainViewCallBack.GetAllMyDoctorCallBack {
+        MainViewCallBack.GetAllMyDoctorCallBack,AddAppointmentAdapter.OnClickBookAppointment {
 
     private FloatingActionButton btnAddNew;
     private RecyclerView rcvListMyDoctor;
@@ -54,7 +54,7 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
         btnAddNew = view.findViewById(R.id.add_new_doctor);
         btnAddNew.setOnClickListener(this);
 
-        addAppointmentAdapter = new AddAppointmentAdapter();
+        addAppointmentAdapter = new AddAppointmentAdapter(this);
         rcvListMyDoctor.setAdapter(addAppointmentAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcvListMyDoctor.setLayoutManager(linearLayoutManager);
@@ -71,9 +71,13 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
         }
     }
 
-
     @Override
     public void allMyDoctor(List<Account> myDoctorList) {
         addAppointmentAdapter.setDoctorList(myDoctorList);
+    }
+
+    @Override
+    public void onClickBookAppointment() {
+
     }
 }

@@ -107,7 +107,7 @@ public class UserAppointmentPresenter extends BasePresenter {
 //        });
     }
 
-    public void createMyDoctor(Account doctor, MainViewCallBack.AddMyDoctor callBack) {
+    public void createMyDoctor(Account doctor,int position, MainViewCallBack.AddMyDoctor callBack) {
         Account user = App.getApp().getAccount();
 
         MyDoctor myDoctor = new MyDoctor(FirebaseUtils.uniqueId(), user.getId(), doctor.getId());
@@ -116,7 +116,7 @@ public class UserAppointmentPresenter extends BasePresenter {
         DataInjection.provideRepository().myDoctor.createMyDoctor(myDoctor, unused -> {
 
             getBaseView().hideLoading();
-            callBack.addMyDoctorSuccess(user);
+            callBack.addMyDoctorSuccess(user,position);
 
         }, throwable -> {
 

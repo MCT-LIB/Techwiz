@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.view.fragment.main.nav.AddDoctorFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -10,7 +11,7 @@
         style="@style/AppToolbar.NavBack"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@color/blue" />
+        android:background="@color/accent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_list_doctor"

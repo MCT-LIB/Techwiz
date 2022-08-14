@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import android.util.Log;
+
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
@@ -32,19 +34,23 @@ public class AddAppointmentPresenter extends BasePresenter {
 
                 for (MyDoctor data : myDoctorList) {
 
-                    DataInjection.provideRepository().account.findAccountById(data.getId(), account -> {
+                    DataInjection.provideRepository().account.findAccountById(data.getDoctorId(), account -> {
 
-                        ++count;
                         if (account != null) {
                             doctorList.add(account);
                         }
+                        ++count;
+                        Log.e("ddd", "accept: "+count + myDoctorList.size());
+
                         if (count == myDoctorList.size()) {
+                            Log.e("ddd", "EQUAL: "+doctorList.size());
+
                             callBack.allMyDoctor(doctorList);
                         }
 
-
                     }, throwable -> {
                         ++count;
+                        Log.e("ddd", "accept: "+count + myDoctorList.size());
                         if (count == myDoctorList.size()) {
                             getBaseView().hideLoading();
                         }

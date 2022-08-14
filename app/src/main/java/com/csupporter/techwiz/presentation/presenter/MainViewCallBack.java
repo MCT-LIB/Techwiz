@@ -73,7 +73,7 @@ public abstract class MainViewCallBack {
     }
 
     public interface AddMyDoctor {
-        void addMyDoctorSuccess(Account doctor);
+        void addMyDoctorSuccess(Account doctor , int position);
 
         void addMyDoctorFail();
     }

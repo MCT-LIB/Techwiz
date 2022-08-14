@@ -51,11 +51,16 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void deleteItemAccount(int pos) {
+        notifyItemRemoved(pos);
+        doctorList.remove(pos);
+    }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Account doctorModel = doctorList.get(position);
-        holder.setData(doctorModel);
+        holder.setData(doctorModel , position);
         holder.itemView.setOnClickListener(v -> mOnItemCLickListener.onItemClick(doctorModel));
     }
 
@@ -89,7 +94,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             doctor_major = itemView.findViewById(R.id.doctor_major);
         }
 
-        public void setData(Account doctorModel) {
+        public void setData(Account doctorModel , int position) {
 
             Glide.with(App.getContext()).load(doctorModel.getAvatar())
                     .placeholder(R.drawable.ic_default_avatar)
@@ -122,17 +127,16 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
 
             imgLike.setOnClickListener(view -> {
 
-                mOnItemCLickListener.onClickLike(doctorModel);
+                mOnItemCLickListener.onClickLike(doctorModel, position);
             });
-
 
         }
     }
 
     public interface OnItemCLickListener {
-        void onItemClick(Account account);
+        void onItemClick(Account account );
 
-        void onClickLike(Account account);
+        void onClickLike(Account account, int position);
 
     }
 }

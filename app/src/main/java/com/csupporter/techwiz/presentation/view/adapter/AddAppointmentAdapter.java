@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 
 import java.util.List;
 
@@ -26,14 +27,20 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
     private List<Account> doctorList;
     private OnClickBookAppointment onClickBookAppointment;
 
-    public AddAppointmentAdapter() {
-
+    public AddAppointmentAdapter(OnClickBookAppointment onClickBookAppointment) {
+        this.onClickBookAppointment = onClickBookAppointment;
     }
 
-    public void setDoctorList(List<Account> doctorList){
+    @SuppressLint("NotifyDataSetChanged")
+    public void setDoctorList(List<Account> doctorList) {
         this.doctorList = doctorList;
+        notifyDataSetChanged();
     }
 
+    public void addNewItemAccount(Account doctor) {
+        doctorList.add(0, doctor);
+        notifyItemInserted(0);
+    }
     @NonNull
     @Override
     public AddAppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,10 +52,12 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
     @Override
     public void onBindViewHolder(@NonNull AddAppointmentViewHolder holder, int position) {
         Account doctor = doctorList.get(position);
+
         Glide.with(App.getContext()).load(doctor.getAvatar())
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .into(holder.doctorImage);
+
         holder.tvNameDoctor.setText(doctor.getLastName() + doctor.getFirstName());
         int department = doctor.getDepartment();
         switch (department) {

@@ -25,8 +25,7 @@ import java.util.List;
 
 public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack,
         DoctorListAdapter.OnItemCLickListener,
-        MainViewCallBack.AddMyDoctor,
-        MainViewCallBack.DeleteMyDoctor {
+        MainViewCallBack.AddMyDoctor {
 
     private View view;
     private RecyclerView rcvListDoctor;
@@ -113,31 +112,19 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
     }
 
     @Override
-    public void onClickLike(Account account) {
-        userAppointmentPresenter.createMyDoctor(account, this);
+    public void onClickLike(Account account, int position) {
+        userAppointmentPresenter.createMyDoctor(account, position, this);
     }
 
-
-
     @Override
-    public void addMyDoctorSuccess(Account doctor) {
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Be Added doctor in your favorite ! ",true).show();
-
+    public void addMyDoctorSuccess(Account doctor, int position) {
+        doctorListAdapter.deleteItemAccount(position);
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Be Added doctor in your favorite ! ", true).show();
     }
 
     @Override
     public void addMyDoctorFail() {
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT,"Add doctor fail ! ",true).show();
-
+        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Add doctor fail ! ", true).show();
     }
 
-    @Override
-    public void deleteMyDoctorSuccess() {
-
-    }
-
-    @Override
-    public void deleteMyDoctorFail() {
-
-    }
 }
