@@ -13,8 +13,10 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.HealthTracking;
+import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 
@@ -22,17 +24,18 @@ public class DetailHealthTracDialog extends BaseOverlayDialog implements View.On
     private HealthTracking healthTracking;
     private Account account;
     private View view;
-    private ImageView icExit;
-    private TextView tvName, tvAge, tvHeight, tvWeight, tvGender, tv_heart_beat, tv_blood_pressure, tv_blood_sugar, tvOther;
+    private ImageView icExit,icDelete;
+    private TextView tvHeight, tvWeight, tv_heart_beat, tv_blood_pressure, tv_blood_sugar, tvOther;
+
+    private OnCLickDeleteTrack onCLickDeleteTrack;
 
 
-    public DetailHealthTracDialog(@NonNull Context context, HealthTracking healthTracking, Account account) {
+    public DetailHealthTracDialog(@NonNull Context context, HealthTracking healthTracking, Account account, OnCLickDeleteTrack onCLickDeleteTrack) {
         super(context);
         this.healthTracking = healthTracking;
         this.account = account;
+        this.onCLickDeleteTrack = onCLickDeleteTrack;
     }
-
-
 
     @SuppressLint("InflateParams")
     @NonNull
@@ -59,13 +62,10 @@ public class DetailHealthTracDialog extends BaseOverlayDialog implements View.On
 
     private void eventClick() {
         icExit.setOnClickListener(this);
+        icDelete.setOnClickListener(this);
     }
 
     private void setData(HealthTracking healthTracking, Account account) {
-
-        tvName.setText(account.getFirstName());
-        tvAge.setText(String.valueOf(account.getAge()));
-        tvGender.setText(String.valueOf(account.getGender()));
         tvHeight.setText(String.valueOf(healthTracking.getHeight()));
         tvWeight.setText(String.valueOf(healthTracking.getWeight()));
         tv_heart_beat.setText(String.valueOf(healthTracking.getHeartbeat()));
@@ -75,16 +75,14 @@ public class DetailHealthTracDialog extends BaseOverlayDialog implements View.On
     }
 
     private void initView(View view) {
-        tvName = view.findViewById(R.id.tv_name);
-        tvAge = view.findViewById(R.id.tv_age);
         tvHeight = view.findViewById(R.id.tv_height);
         tvWeight = view.findViewById(R.id.tv_weight);
-        tvGender = view.findViewById(R.id.tv_gender);
         tv_heart_beat = view.findViewById(R.id.tv_heart_beat);
         tv_blood_pressure = view.findViewById(R.id.tv_blood_pressure);
         tv_blood_sugar = view.findViewById(R.id.tv_blood_sugar);
         tvOther = view.findViewById(R.id.tv_other);
         icExit = view.findViewById(R.id.ic_exit);
+        icDelete = view.findViewById(R.id.ic_delete);
 
     }
 
@@ -92,6 +90,12 @@ public class DetailHealthTracDialog extends BaseOverlayDialog implements View.On
     public void onClick(View v) {
         if (v.getId() == R.id.ic_exit){
             dismiss();
+        } else if (v.getId() == R.id.ic_delete){
+            onCLickDeleteTrack.onDeleteTrack(this,healthTracking);
         }
+    }
+
+    public interface OnCLickDeleteTrack{
+        void onDeleteTrack(BaseOverlayDialog dialog, HealthTracking tracking);
     }
 }

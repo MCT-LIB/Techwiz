@@ -30,16 +30,43 @@ public class HealthyTrackingPresenter extends BasePresenter {
         HealthTracking healthTracking = verifyDataInput(txtWeight, txtHeight, txtBloodSugar, txtBloodPressure, txtHeartBeat, txtNote, callBack);
 
         if (healthTracking != null) {
+            healthTracking.setCreateAt(System.currentTimeMillis());
             DataInjection.provideRepository().heathTracking.addTracking(healthTracking, unused -> {
-
                 getBaseView().hideLoading();
-                callBack.addHealthTrackingSuccess();
-
+                callBack.addHealthTrackingSuccess(healthTracking);
             }, throwable -> {
                 getBaseView().hideLoading();
-                callBack.addHealthTrackingFail("Add new health tracking fail !");
+                callBack.addHealthTrackingFail("Add new health tracking fail!");
             });
         }
+    }
+
+    public void updateHealthTrack(HealthTracking newTrack, MainViewCallBack.UpdateTrackCallBack callBack){
+        getBaseView().showLoading();
+        DataInjection.provideRepository().heathTracking.updateTracking(newTrack, unused -> {
+            callBack.onSuccess();
+            getBaseView().hideLoading();
+        }, throwable -> {
+            callBack.onFailure();
+            getBaseView().hideLoading();
+        });
+    }
+
+    public void deleteHealthTrack(HealthTracking tracking, MainViewCallBack.DeleteTrackCallBack callBack){
+        getBaseView().showLoading();
+        DataInjection.provideRepository().heathTracking.deleteTracking(tracking, new Consumer<Void>() {
+            @Override
+            public void accept(Void unused) {
+                callBack.onDeleteSuccess();
+                getBaseView().hideLoading();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                callBack.onDeleteFailure();
+                getBaseView().hideLoading();
+            }
+        });
     }
 
     public HealthTracking verifyDataInput(String weight, String height, String bloodSugar, String bloodPressure,

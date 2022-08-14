@@ -101,6 +101,10 @@
     <string name="track_blood_pressure">Blood pressure :</string>
     <string name="track_blood_sugar">Blood sugar :</string>
 
+    <!--    edit track fragment-->
+    <string name="edit_track_edit_new">Edit New</string>
+
+
     <!--    fragment dt home-->
     <string name="fragment_dt_home_be_healthy">Be healthy</string>
 

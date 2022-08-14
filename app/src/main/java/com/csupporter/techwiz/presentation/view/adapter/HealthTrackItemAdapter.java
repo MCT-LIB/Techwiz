@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.csupporter.techwiz.domain.model.HealthTracking;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItemAdapter.ViewHolder> {
 
@@ -31,6 +33,16 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
         notifyDataSetChanged();
     }
 
+    public void deleteItemTrack(int pos){
+        notifyItemRemoved(pos);
+        trackingList.remove(pos);
+    }
+
+    public void addNewItemTrack(HealthTracking tracking){
+        trackingList.add(trackingList.size(), tracking);
+        notifyItemInserted(trackingList.size());
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,7 +54,8 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HealthTracking healthTracking = trackingList.get(position);
         holder.setData(healthTracking);
-        holder.itemView.setOnClickListener(v -> mOnCLickItemTrack.onClickItem(healthTracking));
+        holder.itemView.setOnClickListener(v -> mOnCLickItemTrack.onClickItem(healthTracking, holder.getAdapterPosition()));
+        holder.icEditTrack.setOnClickListener(v -> mOnCLickItemTrack.onEditClick(healthTracking, holder.getAdapterPosition()));
     }
 
     @Override
@@ -55,6 +68,7 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvDateCreated, tvHeartBeat, tvBloodSugar, tvBloodOPressure, tvTimeCreated;
+        private ImageView icEditTrack;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,11 +76,12 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
         }
 
         private void setData(HealthTracking data) {
-            Date date = new Date();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss");
-            String strDate = dateFormatter.format(date);
-            String strTime = timeFormatter.format(date);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss", Locale.CHINA);
+
+            String strDate = dateFormatter.format(data.getCreateAt());
+            String strTime = timeFormatter.format(data.getCreateAt());
+
             tvDateCreated.setText(strDate);
             tvTimeCreated.setText(strTime);
             tvHeartBeat.setText(String.valueOf(data.getHeartbeat()));
@@ -80,10 +95,13 @@ public class HealthTrackItemAdapter extends RecyclerView.Adapter<HealthTrackItem
             tvHeartBeat = itemView.findViewById(R.id.tv_heart_beat);
             tvBloodSugar = itemView.findViewById(R.id.tv_blood_sugar);
             tvBloodOPressure = itemView.findViewById(R.id.tv_blood_pressure);
+            icEditTrack = itemView.findViewById(R.id.ic_edit_track);
         }
     }
 
     public interface OnCLickItemTrack {
-        void onClickItem(HealthTracking healthTracking);
+        void onClickItem(HealthTracking healthTracking, int pos);
+
+        void onEditClick(HealthTracking healthTracking, int pos);
     }
 }

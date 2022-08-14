@@ -30,6 +30,11 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
     }
 
     @Override
+    public void deleteTracking(HealthTracking tracking, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.deleteData(DEFAULT_PATH, tracking.getId(), onSuccess, onError);
+    }
+
+    @Override
     public void getAllHealthTracking(Account account, @Nullable Consumer<List<HealthTracking>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo("userId", account.getId())

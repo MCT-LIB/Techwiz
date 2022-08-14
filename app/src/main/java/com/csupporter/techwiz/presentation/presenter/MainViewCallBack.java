@@ -26,12 +26,23 @@ public abstract class MainViewCallBack {
     }
 
     public interface HealthTrackingCallBack {
-        void addHealthTrackingSuccess();
+        void addHealthTrackingSuccess(HealthTracking healthTracking);
 
         void addHealthTrackingFail(String message);
 
         void onGetDataSuccess(List<HealthTracking> trackingList);
 
         void onGetDataFailure();
+
+    }
+
+    public interface UpdateTrackCallBack{
+        void onSuccess();
+        void onFailure();
+    }
+
+    public interface DeleteTrackCallBack{
+        void onDeleteSuccess();
+        void onDeleteFailure();
     }
 }

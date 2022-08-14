@@ -1,7 +1,9 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.HealthTrackItemAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddNewHealthTracking;
 import com.csupporter.techwiz.presentation.view.dialog.DetailHealthTracDialog;
+import com.csupporter.techwiz.presentation.view.dialog.EditHealthTracking;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +42,7 @@ import io.github.farshidroohi.LineChart;
 
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener
         , MainViewCallBack.HealthTrackingCallBack
-        , AddNewHealthTracking.OnClickAddNewHealthTracking {
+        , AddNewHealthTracking.OnClickAddNewHealthTracking{
 
     private TextView edtStartTime;
     private TextView edtEndTime;
@@ -52,6 +57,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
 
     private HealthyTrackingPresenter healthyTrackingPresenter;
     private AddNewHealthTracking dialogAddHealthTracking;
+    private EditHealthTracking dialogEditHealthTracking;
 
     private RecyclerView rcvListTrack;
     private HealthTrackItemAdapter healthTrackItemAdapter;
@@ -74,9 +80,60 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
 
 
         rcvListTrack.setLayoutManager(new LinearLayoutManager(getActivity()));
-        healthTrackItemAdapter = new HealthTrackItemAdapter(healthTracking -> {
-            if (getActivity() != null) {
-                new DetailHealthTracDialog(getActivity(), healthTracking, App.getApp().getAccount()).create(null);
+        healthTrackItemAdapter = new HealthTrackItemAdapter(new HealthTrackItemAdapter.OnCLickItemTrack() {
+            @Override
+            public void onClickItem(HealthTracking healthTracking, int pos) {
+                if (getActivity() != null) {
+                    new DetailHealthTracDialog(getActivity(), healthTracking, App.getApp().getAccount(), new DetailHealthTracDialog.OnCLickDeleteTrack() {
+                        @Override
+                        public void onDeleteTrack(BaseOverlayDialog dialog, HealthTracking tracking) {
+                            healthyTrackingPresenter.deleteHealthTrack(tracking, new MainViewCallBack.DeleteTrackCallBack() {
+                                @Override
+                                public void onDeleteSuccess() {
+                                    healthTrackItemAdapter.deleteItemTrack(pos);
+                                    showToast("Deleted!", ToastUtils.SUCCESS);
+                                    dialog.dismiss();
+                                    hideLoading();
+                                }
+
+                                @Override
+                                public void onDeleteFailure() {
+                                    hideLoading();
+                                    showToast("Delete failure!!", ToastUtils.ERROR);
+                                }
+                            });
+                        }
+                    }).create(null);
+                    Log.d("aaa", "onClickItem: " + healthTracking.getId());
+                }
+            }
+
+            @Override
+            public void onEditClick(HealthTracking healthTracking, int pos) {
+                if (getActivity() != null) {
+                    dialogEditHealthTracking = new EditHealthTracking(getActivity(), healthTracking, new EditHealthTracking.OnClickEditHealthTracking() {
+                        @Override
+                        public void onEditTrack(BaseOverlayDialog dialog, HealthTracking newTrack) {
+
+                            healthyTrackingPresenter.updateHealthTrack(newTrack, new MainViewCallBack.UpdateTrackCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    hideLoading();
+                                    showToast("Edited Successfully!", ToastUtils.SUCCESS);
+                                    healthTrackItemAdapter.notifyItemChanged(pos);
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    showToast("Edited Failure!", ToastUtils.ERROR);
+
+                                }
+                            });
+                        }
+                    });
+                    dialogEditHealthTracking.create(null);
+                }
             }
         });
         rcvListTrack.setAdapter(healthTrackItemAdapter);
@@ -88,14 +145,13 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
         rcvListTrack = view.findViewById(R.id.rcv_list_track);
-
         lineChart = view.findViewById(R.id.lineChart);
         edtEndTime = view.findViewById(R.id.endTime);
-        edtEndTime.setOnClickListener(this);
         edtStartTime = view.findViewById(R.id.startTime);
-        edtStartTime.setOnClickListener(this);
-
         FloatingActionButton btnAddTrack = view.findViewById(R.id.btn_add_track);
+
+        edtEndTime.setOnClickListener(this);
+        edtStartTime.setOnClickListener(this);
         btnAddTrack.setOnClickListener(this);
 
         setDefaultTimeSpace();
@@ -166,12 +222,13 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         healthyTrackingPresenter.addNewHealthTracking(txtHeight, txtWeight, txtHeartBeat, txtBloodSugar, txtBloodPressure, txtNote, this);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void addHealthTrackingSuccess() {
+    public void addHealthTrackingSuccess(HealthTracking tracking) {
         dialogAddHealthTracking.dismiss();
+        healthTrackItemAdapter.addNewItemTrack(tracking);
         ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Add new health tracking success !", true).show();
     }
-
 
     @Override
     public void addHealthTrackingFail(String message) {
@@ -206,4 +263,5 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
             dialog = null;
         }
     }
+
 }

@@ -1,23 +1,33 @@
 package com.csupporter.techwiz.presentation.view.dialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.mct.components.baseui.BaseOverlayDialog;
 
-public class AddNewHealthTracking extends BaseOverlayDialog {
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+public class EditHealthTracking extends BaseOverlayDialog {
 
     private EditText height;
     private EditText weight;
@@ -25,32 +35,41 @@ public class AddNewHealthTracking extends BaseOverlayDialog {
     private EditText bloodSugar;
     private EditText bloodPressure;
     private EditText note;
-    private AppCompatButton btnAddNew;
+    private Button btnEditNew;
+    private HealthTracking healthTracking;
 
-    private OnClickAddNewHealthTracking onClickAddNewHealthTracking;
+    public OnClickEditHealthTracking onClickEditHealthTracking;
 
-    public AddNewHealthTracking(@NonNull Context context, OnClickAddNewHealthTracking onClickAddNewHealthTracking) {
+    public EditHealthTracking(@NonNull Context context, HealthTracking healthTracking, OnClickEditHealthTracking onClickEditHealthTracking ) {
         super(context);
-        this.onClickAddNewHealthTracking = onClickAddNewHealthTracking;
+        this.healthTracking = healthTracking;
+        this.onClickEditHealthTracking = onClickEditHealthTracking;
     }
 
-    public interface OnClickAddNewHealthTracking {
-        void onClickAddNew(String txtHeight, String txtWeight,
-                           String txtHeartBeat, String txtBloodSugar,
-                           String txtBloodPressure, String txtNote);
+    public interface OnClickEditHealthTracking {
+        void onEditTrack(BaseOverlayDialog dialog,HealthTracking newTrack);
     }
-
     @NonNull
     @Override
     protected AlertDialog.Builder onCreateDialog() {
-        View view = LayoutInflater.from(context).inflate(R.layout.add_health_tracking, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.edit_health_tracking, null);
 
         init(view);
-        addEventAddClick();
+        setData(healthTracking);
+        eventEditClick();
 
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setView(view);
+    }
+
+    private void setData(HealthTracking healthTracking) {
+        height.setText(String.valueOf(healthTracking.getHeight()));
+        weight.setText(String.valueOf(healthTracking.getWeight()));
+        bloodSugar.setText(String.valueOf(healthTracking.getBloodSugar()));
+        bloodPressure.setText(String.valueOf(healthTracking.getBloodPressure()));
+        heartBeat.setText(String.valueOf(healthTracking.getHeartbeat()));
+        note.setText(String.valueOf(healthTracking.getOther()));
     }
 
     private void init(View view) {
@@ -60,14 +79,14 @@ public class AddNewHealthTracking extends BaseOverlayDialog {
         bloodPressure = view.findViewById(R.id.edt_blood_pressure);
         heartBeat = view.findViewById(R.id.edt_heart_beat);
         note = view.findViewById(R.id.edt_note_health);
-        btnAddNew = view.findViewById(R.id.btn_add_health_tracking);
+        btnEditNew = view.findViewById(R.id.btn_edit_health_tracking);
 
     }
 
-    private void addEventAddClick() {
+    private void eventEditClick() {
 
-        btnAddNew.setOnClickListener(view -> {
 
+        btnEditNew.setOnClickListener(view -> {
             String txtHeight = height.getText().toString().trim();
             String txtWeight = weight.getText().toString().trim();
             String txtBloodSugar = bloodSugar.getText().toString().trim();
@@ -75,9 +94,20 @@ public class AddNewHealthTracking extends BaseOverlayDialog {
             String txtHeartBeat = heartBeat.getText().toString().trim();
             String txtNote = note.getText().toString().trim();
 
+            healthTracking.setId(healthTracking.getId());
+            healthTracking.setHeight(Float.parseFloat(txtHeight));
+            healthTracking.setWeight(Float.parseFloat(txtWeight));
+            healthTracking.setBloodSugar(Float.parseFloat(txtBloodSugar));
+            healthTracking.setBloodPressure(Float.parseFloat(txtBloodPressure));
+            healthTracking.setHeartbeat(Float.parseFloat(txtHeartBeat));
+            healthTracking.setOther(txtNote);
+            healthTracking.setCreateAt(healthTracking.getCreateAt());
+            onClickEditHealthTracking.onEditTrack(this,healthTracking);
 
-            onClickAddNewHealthTracking.onClickAddNew(txtHeight, txtWeight, txtHeartBeat, txtBloodSugar, txtBloodPressure, txtNote);
+
         });
+
+
     }
 
     @Override
@@ -97,6 +127,10 @@ public class AddNewHealthTracking extends BaseOverlayDialog {
 
                 setGravity(Gravity.BOTTOM);
         dialog.setCanceledOnTouchOutside(true);
+    }
+
+    public void setOnClickEditHealthTracking(OnClickEditHealthTracking onClickEditHealthTracking) {
+        this.onClickEditHealthTracking = onClickEditHealthTracking;
     }
 
 

@@ -127,7 +127,6 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         appointment = new AppointmentOfUserAdapter(account, new AppointmentOfUserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Appointment appointment) {
-                Toast.makeText(getActivity(), "" + appointment.getLocation() + account.getFirstName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -62,9 +62,7 @@ public class AppointmentOfUserAdapter extends RecyclerView.Adapter<AppointmentOf
 
         private void setData(Appointment data, Account account) {
             appointmentsNameDoctor.setText(String.valueOf(account.getFirstName()));
-            appointmentsDescription.setText(String.valueOf(data.getLocation()));
-            appointmentsTimeMeeting.setText(String.valueOf(data.getLocation()));
-            appointmentsAddressDoctor.setText(String.valueOf(data.getLocation()));
+
         }
     }
 
