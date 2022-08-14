@@ -102,13 +102,14 @@
     <style name="TextInputEditText">
         <item name="android:background">@null</item>
         <item name="android:gravity">top|start</item>
-        <item name="android:textColor">@color/edit_text_text_color</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextInputEditText.Text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
         <item name="android:paddingTop">12dp</item>
@@ -126,6 +127,7 @@
         <item name="android:editable">false</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
+        <item name="hintTextColor">@color/accent</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
     </style>

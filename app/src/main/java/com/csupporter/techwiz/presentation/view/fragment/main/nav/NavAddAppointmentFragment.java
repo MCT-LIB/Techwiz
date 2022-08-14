@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.AddAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.AddAppointmentAdapter;
+import com.csupporter.techwiz.presentation.view.dialog.AddAppointmentDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseActivity;
 
@@ -78,6 +80,11 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
 
     @Override
     public void onClickBookAppointment() {
-
+        new AddAppointmentDialog(getActivity(), new AddAppointmentDialog.OnClickAddNewAppointment() {
+            @Override
+            public void onClickAddNew(Appointment appointment) {
+                addAppointmentPresenter.
+            }
+        }).create(null);
     }
 }
