@@ -40,13 +40,16 @@ import java.io.ByteArrayOutputStream;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class DtProfileFragment extends BaseFragment implements View.OnClickListener{
+public class DtProfileFragment extends BaseFragment implements View.OnClickListener {
 
     private View view;
     private TextView tvName, tvEmail;
     private RelativeLayout itemProfile, itemLogout;
-    private DoctorProfilePresenter doctorProfilePresenter;
     private CircleImageView crlOpenGallery, avatarPersonal;
+
+    private DoctorProfilePresenter doctorProfilePresenter;
+    private TextView tvName;
+    private TextView tvEmail;
 
     private NavUserInfoPresenter navUserInfoPresenter;
 
@@ -88,7 +91,7 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
             });
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_dt_profile, container, false);
         return view;
@@ -128,12 +131,14 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
         itemLogout = view.findViewById(R.id.item_logout);
         crlOpenGallery = view.findViewById(R.id.crl_open_gallery);
         avatarPersonal = view.findViewById(R.id.avatar_personal);
+        tvName = view.findViewById(R.id.tv_name);
+        tvEmail = view.findViewById(R.id.tv_email);
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.item_profile:
                 replaceFragment(new ProfileFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
@@ -152,8 +157,8 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-    private void logOut(){
-        if (getActivity() != null){
+    private void logOut() {
+        if (getActivity() != null) {
             new ConfirmDialog(getActivity(), R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg), new ConfirmDialog.OnConfirmListener() {
                 @Override
                 public void onConfirm(BaseOverlayDialog overlayDialog) {

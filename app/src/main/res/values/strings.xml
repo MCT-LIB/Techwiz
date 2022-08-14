@@ -113,10 +113,10 @@
     <string name="fragment_dt_home_be_healthy">Be healthy</string>
 
     <!--    fragment dt profile-->
-    <string name="fragment_dt_profile_see_detail_profile">See your information profile</string>
+    <string name="fragment_dt_profile_see_detail_profile">View  your information profile</string>
     <string name="fragment_dt_profile_hint_profile">Profile</string>
-    <string name="fragment_dt_profile_setting">Setting</string>
-    <string name="fragment_dt_profile_hint_setting">Setting</string>
+    <string name="fragment_dt_profile_prescription">View and perform actions on prescriptions</string>
+    <string name="fragment_dt_profile_hint_prescription">Prescription</string>
     <string name="fragment_dt_profile_logout">Log out</string>
     <string name="fragment_dt_profile_hint_logout">Log out</string>
     <string name="fragment_dt_profile_feedback">Feedback</string>
