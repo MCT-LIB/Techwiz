@@ -36,7 +36,7 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_new_doctor:
-                replaceFragment(new AddDoctorFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                replaceFragment(AddDoctorFragment.newInstance(-1), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
     }

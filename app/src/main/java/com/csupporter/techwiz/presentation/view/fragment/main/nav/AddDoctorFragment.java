@@ -67,7 +67,6 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
         doctorListAdapter = new DoctorListAdapter(this);
         rcvListDoctor.setAdapter(doctorListAdapter);
         userAppointmentPresenter.getDoctorsByDepartment(department, this);
-        userAppointmentPresenter.getAllMyDoctor(this);
     }
 
     private void initView(View view) {

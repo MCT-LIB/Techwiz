@@ -2,6 +2,7 @@ package com.csupporter.techwiz.data.repository;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
@@ -134,23 +135,51 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void getAllDoctorNotFavorite(int department, List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
-        Query query = FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereEqualTo("type", Account.TYPE_DOCTOR);
-        if (!favoriteDoctor.isEmpty()) {
-            query.whereNotIn(FieldPath.documentId(), favoriteDoctor);
+    public void getAllDoctorNotFavorite(int department, @NonNull List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        Query query = null;
+        Log.e("ddd", "getAllDoctorNotFavorite: "+department+" " +favoriteDoctor);
+        if (department == -1 && favoriteDoctor.isEmpty()) {
+            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+                    .whereNotEqualTo("department", -1);
         }
-        Log.e( "aaa: ", department+"");
-        if (department != -1) {
-            query.whereEqualTo("department", department);
+        if (department != -1 && favoriteDoctor.isEmpty()) {
+            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+                    .whereEqualTo("department", department);
+        }
+        if (department == -1 && !favoriteDoctor.isEmpty()) {
+            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+                    .whereNotEqualTo("department", -1)
+                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
+        }
+        if (department != -1 && !favoriteDoctor.isEmpty()) {
+            query = FirebaseUtils.db().collection(DEFAULT_PATH)
+                    .whereEqualTo("type", Account.TYPE_DOCTOR)
+                    .whereNotEqualTo("department", department)
+                    .whereNotIn(FieldPath.documentId(), favoriteDoctor);
+        }
 
-        }
+
+//        query = FirebaseUtils.db().collection(DEFAULT_PATH)
+////                .whereEqualTo("department", department);
+//                .whereEqualTo("type", Account.TYPE_DOCTOR);
+//        if (!favoriteDoctor.isEmpty()) {
+//            query.whereNotIn(FieldPath.documentId(), favoriteDoctor);
+//        }
+//        Log.e("aaa: ", department + "");
+//        if (department != -1) {
+//            Log.e("aaa: ==> ", department + "");
+//            query.whereEqualTo("department", department);
+//        }
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             List<Account> accounts = new ArrayList<>();
             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                 Account account = document.toObject(Account.class);
                 if (account != null) {
                     account.setId(document.getId());
+                    Log.e("aaa", "getAllDoctorNotFavorite: " + account.getDepartment());
                     accounts.add(account);
                 }
             }
