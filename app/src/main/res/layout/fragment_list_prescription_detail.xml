@@ -11,8 +11,7 @@
         app:navigationIcon="@drawable/ic_back"
         style="@style/AppToolbar.NavBack"
         app:title="Prescriptions"
-        app:titleTextColor="@color/white"
-        />
+        app:titleTextColor="@color/white" />
 
     <RelativeLayout
         android:id="@+id/rl_info_person"
@@ -78,7 +77,6 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

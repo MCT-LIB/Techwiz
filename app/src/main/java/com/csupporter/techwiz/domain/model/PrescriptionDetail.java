@@ -1,6 +1,8 @@
 package com.csupporter.techwiz.domain.model;
 
 public class PrescriptionDetail extends BaseModel{
+
+    private String prescriptionId;
     private String medicineName;
     private int timePerADay;
     private int timePerWeek;
@@ -13,6 +15,14 @@ public class PrescriptionDetail extends BaseModel{
         this.timePerWeek = timePerWeek;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
+    }
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public void setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
     }
 
     public String getMedicineName() {

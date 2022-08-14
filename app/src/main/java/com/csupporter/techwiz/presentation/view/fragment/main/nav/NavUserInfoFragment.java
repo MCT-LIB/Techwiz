@@ -26,6 +26,7 @@ import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.CropImageDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.presentation.view.fragment.main.prescription.AllPrescriptionFragment;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.csupporter.techwiz.utils.PermissionUtils;
 import com.csupporter.techwiz.utils.PickPictureResult;
@@ -41,7 +42,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
 
     private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemLogout, itemHealthTrack, itemProfile;
+    private RelativeLayout itemLogout, itemHealthTrack, itemProfile, itemPrescription;
     private ImageView btnOpenGallery;
     private ImageView imgAvatar;
     private LoadingDialog dialog;
@@ -153,6 +154,9 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                 Fragment fragment = new ProfileFragment();
                 replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
+            case R.id.item_view_prescription:
+                replaceFragment(new AllPrescriptionFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                break;
         }
     }
 
@@ -161,6 +165,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemHealthTrack.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
         btnOpenGallery.setOnClickListener(this);
+        itemPrescription.setOnClickListener(this);
     }
 
     private void initView(@NonNull View view) {
@@ -171,6 +176,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemProfile = view.findViewById(R.id.item_profile);
         btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
         imgAvatar = view.findViewById(R.id.avatar_personal);
+        itemPrescription = view.findViewById(R.id.item_view_prescription);
     }
 
     @Override

@@ -113,7 +113,7 @@
     <string name="fragment_dt_home_be_healthy">Be healthy</string>
 
     <!--    fragment dt profile-->
-    <string name="fragment_dt_profile_see_detail_profile">View  your information profile</string>
+    <string name="fragment_dt_profile_see_detail_profile">View your information profile</string>
     <string name="fragment_dt_profile_hint_profile">Profile</string>
     <string name="fragment_dt_profile_prescription">View and perform actions on prescriptions</string>
     <string name="fragment_dt_profile_hint_prescription">Prescription</string>
@@ -135,6 +135,7 @@
     <string name="permission_button_positive">OK</string>
     <string name="permission_button_negative">Cancel</string>
     <string name="permission_button_go_setting">Go setting</string>
+
 
     <!--   nav search fragment value spinner search-->
     <string-array name="src_spinner">

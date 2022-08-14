@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.view.fragment.main.prescriotion;
+package com.csupporter.techwiz.presentation.view.fragment.main.prescription;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

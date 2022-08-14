@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,12 +43,11 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
 
     private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemProfile, itemLogout;
+    private RelativeLayout itemProfile, itemLogout,itemPrescription;
     private CircleImageView crlOpenGallery, avatarPersonal;
 
     private DoctorProfilePresenter doctorProfilePresenter;
-    private TextView tvName;
-    private TextView tvEmail;
+
 
     private NavUserInfoPresenter navUserInfoPresenter;
 
@@ -122,13 +120,17 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
         itemProfile.setOnClickListener(this);
         itemLogout.setOnClickListener(this);
         crlOpenGallery.setOnClickListener(this);
+        itemPrescription.setOnClickListener(this);
     }
 
     private void initView(View view) {
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
+
         itemProfile = view.findViewById(R.id.item_profile);
         itemLogout = view.findViewById(R.id.item_logout);
+        itemPrescription = view.findViewById(R.id.prescription_layout);
+
         crlOpenGallery = view.findViewById(R.id.crl_open_gallery);
         avatarPersonal = view.findViewById(R.id.avatar_personal);
         tvName = view.findViewById(R.id.tv_name);
@@ -153,6 +155,9 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
                         mPickPictureResult.launch(null);
                     }
                 });
+                break;
+            case R.id.prescription_layout:
+                replaceFragment(new MyUsersFragment(),true,BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
     }
