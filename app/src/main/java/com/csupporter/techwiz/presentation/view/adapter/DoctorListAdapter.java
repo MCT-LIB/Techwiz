@@ -15,9 +15,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.presentation.internalmodel.Departments;
 
 import java.util.List;
 
@@ -29,7 +32,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
     private OnItemCLickListener mOnItemCLickListener;
 
     public DoctorListAdapter(OnItemCLickListener mOnItemCLickListener) {
-        this.doctorList = doctorList;
         this.mOnItemCLickListener = mOnItemCLickListener;
     }
 
@@ -64,8 +66,12 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView doctorAvatar;
-        TextView doctorName;
+        private ImageView doctorAvatar;
+        private TextView doctorName;
+        private ImageView imgLike;
+        private ImageView imgNotLike;
+        private ImageView doctor_major;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,11 +82,46 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         public void initView(View itemView) {
             doctorAvatar = itemView.findViewById(R.id.doctor_avatar);
             doctorName = itemView.findViewById(R.id.doctor_name);
+            imgLike = itemView.findViewById(R.id.like_doctor);
+            imgNotLike = itemView.findViewById(R.id.not_like);
+            doctor_major = itemView.findViewById(R.id.doctor_major);
         }
 
         public void setData(Account doctorModel) {
-            doctorAvatar.setImageResource(R.mipmap.app_launcher_round);
+
+            Glide.with(App.getContext()).load(doctorModel.getAvatar())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(doctorAvatar);
+
             doctorName.setText(doctorModel.getFirstName());
+
+            int department = doctorModel.getDepartment();
+            switch (department) {
+                case 0:
+                    doctor_major.setImageResource(R.drawable.dentist);
+                    break;
+                case 1:
+                    doctor_major.setImageResource(R.drawable.pediatrician_doctor);
+                    break;
+                case 2:
+                    doctor_major.setImageResource(R.drawable.cardiologist_doctor);
+                    break;
+                case 3:
+                    doctor_major.setImageResource(R.drawable.beauty_surgeon);
+                    break;
+                case 4:
+                    doctor_major.setImageResource(R.drawable.psycho_doctor);
+                    break;
+                case 5:
+                    doctor_major.setImageResource(R.drawable.obstetrical);
+                    break;
+            }
+
+            imgLike.setOnClickListener(view -> {imgNotLike.setVisibility(View.VISIBLE);
+                                                imgLike.setVisibility(View.GONE);});
+            imgNotLike.setOnClickListener(view->{imgNotLike.setVisibility(View.GONE);
+                                                imgLike.setVisibility(View.VISIBLE);});
+
         }
     }
 

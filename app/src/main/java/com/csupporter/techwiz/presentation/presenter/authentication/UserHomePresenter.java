@@ -12,7 +12,6 @@ import com.mct.components.baseui.BaseView;
 
 public class UserHomePresenter extends BasePresenter {
 
-
     public UserHomePresenter(BaseView baseView) {
         super(baseView);
     }

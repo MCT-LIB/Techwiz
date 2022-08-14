@@ -33,48 +33,47 @@ public class UserAppointmentPresenter extends BasePresenter {
         }, throwable -> getBaseView().hideLoading());
     }
 
+    public void getDoctorsByDepartment(int department,MainViewCallBack.UserAppointmentCallBack callBack) {
+        getBaseView().showLoading();
+        DataInjection.provideRepository().account.filterDoctorByDepartment(department, accounts -> {
+            getBaseView().hideLoading();
+        }, throwable -> getBaseView().hideLoading());
+    }
 
-
-    public void getAllAppointmentOfUserByDate(Account account, long date, MainViewCallBack.UserAppointmentCallBack callBack){
+    public void getAllAppointmentOfUserByDate(Account account, long date, MainViewCallBack.UserAppointmentCallBack callBack) {
         getBaseView().showLoading();
         DataInjection.provideRepository().appointment.getAppointmentsByDate(account, date, new Consumer<List<Appointment>>() {
             int count;
             List<AppointmentDetail> appointmentDetails = new ArrayList<>();
+
             @Override
             public void accept(List<Appointment> appointments) {
                 getBaseView().hideLoading();
-                for (Appointment appointment : appointments){
+                for (Appointment appointment : appointments) {
                     DataInjection.provideRepository().account
                             .findAccountById(account.isUser() ? appointment.getDoctorId() : appointment.getUserId(), new Consumer<Account>() {
                                 @Override
                                 public void accept(Account fillAcc) {
-                                    ++ count;
-                                    if (fillAcc != null){
+                                    ++count;
+                                    if (fillAcc != null) {
                                         AppointmentDetail detail = new AppointmentDetail(appointment, fillAcc);
                                         appointmentDetails.add(detail);
                                     }
-                                    if (count == appointments.size()){
+                                    if (count == appointments.size()) {
                                         callBack.getNameAcc(account);
                                     }
                                 }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) {
-                                    ++ count;
-                                    if (count == appointments.size()){
-                                        getBaseView().hideLoading();
-                                    }
+                            }, throwable -> {
+                                ++count;
+                                if (count == appointments.size()) {
+                                    getBaseView().hideLoading();
                                 }
                             });
-
                 }
             }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                Log.e("ddd", "accept: ", throwable);
-                callBack.onFailure();
-            }
+        }, throwable -> {
+            Log.e("ddd", "accept: ", throwable);
+            callBack.onFailure();
         });
     }
 }

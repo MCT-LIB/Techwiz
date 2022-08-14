@@ -22,6 +22,8 @@ public abstract class MainViewCallBack {
 
         void getNameAcc(Account account);
 
+        void doctorListByDepartment(List<Account> accounts);
+
         void onFailure();
     }
 
@@ -31,6 +33,8 @@ public abstract class MainViewCallBack {
         void addHealthTrackingFail(String message);
 
         void onGetDataSuccess(List<HealthTracking> trackingList);
+
+        void checkAddOnlyOne(HealthTracking tracking);
 
         void onGetDataFailure();
 

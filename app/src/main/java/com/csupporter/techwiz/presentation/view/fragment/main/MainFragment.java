@@ -39,7 +39,6 @@ public class MainFragment extends BaseNavFragment implements BaseActivity.OnBack
         if (getActivity() == null) {
             return null;
         }
-
         mainAdapter = new MainAdapter(getActivity());
 
         init(view);

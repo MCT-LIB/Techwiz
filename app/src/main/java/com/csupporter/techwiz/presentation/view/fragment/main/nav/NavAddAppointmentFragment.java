@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 
@@ -29,6 +30,7 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
         btnAddNew.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

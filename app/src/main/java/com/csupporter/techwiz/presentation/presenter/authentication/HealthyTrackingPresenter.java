@@ -5,6 +5,7 @@ import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.di.DataInjection;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.util.Consumer;
 
@@ -32,6 +33,7 @@ public class HealthyTrackingPresenter extends BasePresenter {
         if (healthTracking != null) {
             healthTracking.setCreateAt(System.currentTimeMillis());
             DataInjection.provideRepository().heathTracking.addTracking(healthTracking, unused -> {
+
                 getBaseView().hideLoading();
                 callBack.addHealthTrackingSuccess(healthTracking);
             }, throwable -> {
@@ -117,4 +119,14 @@ public class HealthyTrackingPresenter extends BasePresenter {
             }
         });
     }
+
+    public void checkAddOnlyOneHealthTracking(MainViewCallBack.HealthTrackingCallBack callBack) {
+        Account account = App.getApp().getAccount();
+        getBaseView().showLoading();
+        DataInjection.provideRepository().heathTracking.checkAddOnlyOneHealthTracking(account, healthTracking -> {
+            getBaseView().hideLoading();
+            callBack.checkAddOnlyOne(healthTracking);
+        }, throwable -> getBaseView().hideLoading());
+    }
+
 }

@@ -71,14 +71,14 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         initView(view);
         initSpinner();
         userAppointmentPresenter = new UserAppointmentPresenter(this);
-        if (getActivity() != null){
+        if (getActivity() != null) {
             dialog = new LoadingDialog(getActivity());
         }
     }
 
     @SuppressLint("ResourceType")
     private void initSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.src_spinner, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.src_spinner, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
@@ -96,7 +96,7 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
+        switch (position) {
             case SEARCH_TYPE_PRESCRIPTION:
                 CURRENT_TYPE = SEARCH_TYPE_PRESCRIPTION;
                 layoutMsg.setVisibility(View.GONE);
@@ -112,7 +112,7 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
             default:
 //                SEARCH_TYPE_DOCTOR
                 CURRENT_TYPE = SEARCH_TYPE_DOCTOR;
-                if (rcvSearchSt.getAdapter() == null){
+                if (rcvSearchSt.getAdapter() == null) {
                     layoutMsg.setVisibility(View.VISIBLE);
                 }
 
@@ -122,23 +122,18 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
     }
 
     private void setAdapterAppointment() {
-        userAppointmentPresenter.getAllAppointmentOfUserByDate(App.getApp().getAccount(), System.currentTimeMillis()- 19*60*60*1000, this);
+        userAppointmentPresenter.getAllAppointmentOfUserByDate(App.getApp().getAccount(), System.currentTimeMillis() - 19 * 60 * 60 * 1000, this);
         rcvSearchSt.setLayoutManager(new LinearLayoutManager(getActivity()));
-        appointment = new AppointmentOfUserAdapter(account, new AppointmentOfUserAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Appointment appointment) {
-            }
+        appointment = new AppointmentOfUserAdapter(account, appointment -> {
+
         });
     }
 
     private void setAdapterDoctor() {
         userAppointmentPresenter.getAllDoctor(this);
         rcvSearchSt.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        doctorListAdapter = new DoctorListAdapter(new DoctorListAdapter.OnItemCLickListener() {
-            @Override
-            public void onItemClick(Account account) {
-                Toast.makeText(getActivity(), "" + account.getFirstName(), Toast.LENGTH_SHORT).show();
-            }
+        doctorListAdapter = new DoctorListAdapter(account -> {
+
         });
     }
 
@@ -158,8 +153,13 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
     }
 
     @Override
+    public void doctorListByDepartment(List<Account> accounts) {
+
+    }
+
+    @Override
     public void onFailure() {
-        Toast.makeText(getActivity(), "ko co data appointment", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -180,6 +180,7 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (view.getId()) {
@@ -192,13 +193,13 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (CURRENT_TYPE == SEARCH_TYPE_DOCTOR){
+        if (CURRENT_TYPE == SEARCH_TYPE_DOCTOR) {
             layoutMsg.setVisibility(View.GONE);
             rcvSearchSt.setAdapter(doctorListAdapter);
-        }else if (CURRENT_TYPE == SEARCH_TYPE_APPOINTMENT){
+        } else if (CURRENT_TYPE == SEARCH_TYPE_APPOINTMENT) {
             layoutMsg.setVisibility(View.GONE);
 
-        }else if (CURRENT_TYPE == SEARCH_TYPE_PRESCRIPTION){
+        } else if (CURRENT_TYPE == SEARCH_TYPE_PRESCRIPTION) {
             layoutMsg.setVisibility(View.GONE);
 
         }
@@ -212,13 +213,8 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                new DatePickerDialog.OnDateSetListener() {
+                (view, year, monthOfYear, dayOfMonth) -> {
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,int monthOfYear, int dayOfMonth) {
-
-
-                    }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
 

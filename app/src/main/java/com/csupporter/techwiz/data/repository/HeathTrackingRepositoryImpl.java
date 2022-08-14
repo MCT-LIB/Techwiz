@@ -13,6 +13,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
@@ -56,7 +58,9 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
     @Override
     public void getHealthTrackingByTimeSpace(Account account, long startDate, long endDate, @Nullable Consumer<List<HealthTracking>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereGreaterThanOrEqualTo("createAt", startDate).whereLessThanOrEqualTo("createAt", endDate)
+                .whereEqualTo("userId", account.getId())
+                .whereGreaterThanOrEqualTo("createAt", startDate)
+                .whereLessThanOrEqualTo("createAt", endDate)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<HealthTracking> healthTrackingList = new ArrayList<>();
@@ -68,6 +72,36 @@ public class HeathTrackingRepositoryImpl implements HeathTrackingRepository {
                         }
                     }
                     FirebaseUtils.success(onSuccess, healthTrackingList);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
+
+    @Override
+    public void checkAddOnlyOneHealthTracking(Account account, @Nullable Consumer<HealthTracking> onSuccess, @Nullable Consumer<Throwable> onError) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(System.currentTimeMillis()));
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 0);
+
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo("userId", account.getId())
+                .whereGreaterThan("createAt", calendar.getTime().getTime())
+                .whereLessThanOrEqualTo("createAt", calendar.getTime().getTime() + 24 * 60 * 60 * 1000L)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.getDocuments().isEmpty()) {
+                        FirebaseUtils.success(onSuccess, null);
+                    } else {
+                        DocumentSnapshot snapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        HealthTracking healthTracking = snapshot.toObject(HealthTracking.class);
+                        if (healthTracking != null) {
+                            healthTracking.setId(snapshot.getId());
+                            FirebaseUtils.success(onSuccess, healthTracking);
+                        } else {
+                            FirebaseUtils.success(onSuccess, null);
+                        }
+                    }
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 }

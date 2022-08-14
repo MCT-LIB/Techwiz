@@ -24,6 +24,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     private final static String DEFAULT_PATH = "appointments";
 
+
     @Override
     public void addAppointment(Appointment appointment,
                                AppointmentSchedule appointmentSchedule,
@@ -93,4 +94,6 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
 
     }
+
+
 }

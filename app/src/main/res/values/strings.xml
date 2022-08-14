@@ -69,12 +69,16 @@
     <string name="nav_home_fragment_hint_search_bar">Find a doctor or speciality</string>
     <string name="nav_home_fragment_my_appointment">My Appointment</string>
     <string name="nav_home_fragment_be_healthy">Be healthy</string>
+    <string name="nav_home_doctor_category">Doctor Category</string>
 
 
     <!--    dialog confirm-->
     <string name="dialog_confirm_logout_msg">Are you sure want to log out!</string>
     <string name="dialog_confirm_btn_yes">Yes</string>
     <string name="dialog_confirm_btn_no">No</string>
+
+<!--    alert dialog-->
+    <string name="alert_dialog_ok">OK</string>
 
     <!--    item health track-->
 

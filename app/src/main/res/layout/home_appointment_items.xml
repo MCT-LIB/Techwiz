@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appointments_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/nav_home_text"
     android:layout_alignParentStart="true"
-    android:padding="8dp"
-    android:layout_marginBottom="4dp"
+    android:layout_margin="10dp"
     android:background="@drawable/bg_radius_20"
     android:backgroundTint="@color/blue"
     android:orientation="vertical"
-    android:id="@+id/appointments_layout">
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,15 +26,14 @@
             android:src="@mipmap/app_launcher_round" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/appointments_name_doctor"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="Dr.Maximum"
                 android:textColor="@color/white"
@@ -42,21 +42,12 @@
 
             <TextView
                 android:id="@+id/appointments_address_doctor"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                tools:text="Ha Noi"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:text="Ha Noi" />
 
-            <TextView
-                android:id="@+id/appointments_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Description notes"
-                android:textColor="@color/white"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -64,15 +55,31 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
+            android:layout_marginHorizontal="20dp"
             android:background="@drawable/bg_radius_20"
-            android:gravity="center"
-            tools:text="9:00"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
             android:textColor="@color/blue"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="9:00" />
+
+        <TextView
+            android:id="@+id/see_detail"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_radius_20"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:elevation="10dp"
+            android:textColor="@color/orange"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:drawableRightCompat="@drawable/ic_baseline_navigate_next_24"
+            tools:text="See Detail" />
     </LinearLayout>
 
 </LinearLayout>

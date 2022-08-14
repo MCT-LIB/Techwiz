@@ -46,7 +46,7 @@ public class AppointmentOfUserAdapter extends RecyclerView.Adapter<AppointmentOf
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView appointmentsNameDoctor, appointmentsAddressDoctor, appointmentsDescription, appointmentsTimeMeeting;
+        TextView appointmentsNameDoctor, appointmentsAddressDoctor, appointmentsTimeMeeting;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,7 +56,6 @@ public class AppointmentOfUserAdapter extends RecyclerView.Adapter<AppointmentOf
         private void initView(View itemView) {
             appointmentsNameDoctor = itemView.findViewById(R.id.appointments_name_doctor);
             appointmentsAddressDoctor = itemView.findViewById(R.id.appointments_address_doctor);
-            appointmentsDescription = itemView.findViewById(R.id.appointments_description);
             appointmentsTimeMeeting = itemView.findViewById(R.id.appointments_time_meeting);
         }
 

@@ -26,6 +26,7 @@ import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
@@ -39,7 +40,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack.UserHomeCallBack,
         HomeCategoryDoctorAdapter.OnClickCategoryItems, View.OnClickListener {
 
-    private SearchView txtSearch;
     private TextView txtMyAppointment;
     private RecyclerView categoryDoctor;
     private RecyclerView rclAppointmentList;
@@ -49,7 +49,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
     private UserHomePresenter userHomePresenter;
-    private List<Appointment> listAppointment = new ArrayList<>();
+    private final List<Appointment> listAppointment = new ArrayList<>();
     private LoadingDialog dialog;
 
     @Override
@@ -62,7 +62,6 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         userHomePresenter = new UserHomePresenter(this);
 
         init(view);
-        useDataFromSearchBar();
 
         return view;
     }
@@ -81,8 +80,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     private void init(View view) {
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
         rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
-        txtSearch = view.findViewById(R.id.search_bar);
-        txtSearch.setOnClickListener(this);
+
         name = view.findViewById(R.id.tv_username);
         txtMyAppointment = view.findViewById(R.id.nav_home_text);
 
@@ -104,8 +102,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_bar:
-                txtSearch.setIconified(false);
-                txtSearch.onActionViewExpanded();
+
                 break;
             case R.id.img_avatar:
                 changeTap(4, false);
@@ -128,7 +125,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     @Override
     public void onClickCategoryItem(int typeDoctor) {
-        showToast(typeDoctor + "", ToastUtils.SUCCESS, true);
+        replaceFragment(new NavAppointmentFragment().newInstance(typeDoctor), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT_70);
     }
 
     @Override
@@ -137,21 +134,6 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         rclAppointmentList.setAdapter(userHomeAppointmentsAdapter);
     }
 
-
-    private void useDataFromSearchBar() {
-        txtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-    }
 
     @Override
     public void showLoading() {

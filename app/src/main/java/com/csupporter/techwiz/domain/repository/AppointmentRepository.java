@@ -30,4 +30,5 @@ public interface AppointmentRepository {
             @Nullable Consumer<List<Appointment>> onSuccess,
             @Nullable Consumer<Throwable> onError
     );
+
 }

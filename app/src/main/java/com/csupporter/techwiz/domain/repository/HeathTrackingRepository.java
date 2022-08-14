@@ -28,4 +28,7 @@ public interface HeathTrackingRepository {
     void getHealthTrackingByTimeSpace(Account account, long startDate, long endDate,
                                       @Nullable Consumer<List<HealthTracking>> onSuccess,
                                       @Nullable Consumer<Throwable> onError);
+    void checkAddOnlyOneHealthTracking(Account account,
+                                       @Nullable Consumer<HealthTracking> onSuccess,
+                                       @Nullable Consumer<Throwable> onError);
 }

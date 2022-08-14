@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,11 +24,31 @@ import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import java.util.List;
 
 public class NavAppointmentFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack {
+
     private View view;
     private RecyclerView rcvListDoctor;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
     private LoadingDialog dialog;
+    private int department = -1;
+
+    public static NavAppointmentFragment newInstance(int department) {
+
+        Bundle args = new Bundle();
+        args.putInt("department", department);
+        NavAppointmentFragment fragment = new NavAppointmentFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            department = bundle.getInt("department");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,10 +62,14 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         userAppointmentPresenter = new UserAppointmentPresenter(this);
-        if (getActivity() != null){
+        if (getActivity() != null) {
             dialog = new LoadingDialog(getActivity());
         }
-        setData();
+        if (department == -1) {
+            setData();
+        } else {
+            setDataByDoctorType();
+        }
     }
 
     private void setData() {
@@ -62,7 +87,24 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
         rcvListDoctor.setAdapter(doctorListAdapter);
     }
 
+    private void setDataByDoctorType() {
+
+        userAppointmentPresenter.getDoctorsByDepartment(department,this);
+
+        doctorListAdapter = new DoctorListAdapter(new DoctorListAdapter.OnItemCLickListener() {
+            @Override
+            public void onItemClick(Account account) {
+                Toast.makeText(getActivity(), "" + account.getFirstName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rcvListDoctor.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rcvListDoctor.setAdapter(doctorListAdapter);
+    }
+
     private void initView(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
         rcvListDoctor = view.findViewById(R.id.rcv_list_doctor);
     }
 
@@ -74,6 +116,11 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     @Override
     public void getNameAcc(Account account) {
 
+    }
+
+    @Override
+    public void doctorListByDepartment(List<Account> accounts) {
+        doctorListAdapter.setDoctorList(accounts);
     }
 
     @Override
