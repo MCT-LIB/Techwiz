@@ -26,7 +26,6 @@ public class App extends Application {
         return getApp().getApplicationContext();
     }
 
-    @Nullable
     public Account getAccount() {
         return account;
     }

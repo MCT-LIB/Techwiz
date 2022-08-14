@@ -67,6 +67,17 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Account account = App.getApp().getAccount();
+        Glide.with(this).load(account.getAvatar())
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
+                .into(avatar);
+        name.setText(account.getLastName() + " " + account.getFirstName());
+    }
+
     private void init(View view) {
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
         rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
@@ -85,17 +96,6 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     @SuppressLint("SetTextI18n")
     private void setDataForUI() {
         Account account = App.getApp().getAccount();
-
-        if (account.getAvatar() == null) {
-            avatar.setImageResource(R.drawable.ic_baseline_person_pin_24);
-        } else {
-            Glide.with(getActivity()).load(account.getAvatar())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(avatar);
-        }
-
-        name.setText(account.getLastName() + " " + account.getFirstName());
-
         setDataAppointmentList();
         userHomePresenter.getUpcomingAppointment(account, this);
     }
@@ -156,8 +156,8 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     @Override
     public void showLoading() {
         if (getContext() == null) return;
-        if (dialog != null) {
-            dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);

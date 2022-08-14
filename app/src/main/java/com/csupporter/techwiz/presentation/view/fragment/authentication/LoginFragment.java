@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
@@ -89,7 +88,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void dataInvalid(String alert) {
-        ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, alert + "", true).show();
+        showToast(alert, ToastUtils.WARNING,true);
     }
 
     @Override
@@ -109,19 +108,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void showLoading() {
         if (getContext() == null) return;
-        if (dialog != null) {
-            dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);
-    }
-
-    @Override
-    public void hideLoading() {
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
     }
 
     @NonNull

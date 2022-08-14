@@ -3,6 +3,8 @@ package com.csupporter.techwiz.presentation.view.fragment.main;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -40,16 +42,35 @@ public class MainFragment extends BaseNavFragment implements BaseActivity.OnBack
 
         mainAdapter = new MainAdapter(getActivity());
 
-        Account acc = App.getApp().getAccount();
-        Toast.makeText(getActivity(), acc.getType()+"", Toast.LENGTH_SHORT).show();
         init(view);
         setDataViewPager2();
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        int currentPage = viewPager2.getCurrentItem();
+        if (currentPage == 0 || currentPage == 4) {
+            Fragment fragment = findFragmentByIndex(currentPage);
+            if (fragment != null) {
+                fragment.onResume();
+            }
+        }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (viewPager2 != null && viewPager2.getCurrentItem() != 0) {
+            changeTap(0, false);
+            return true;
+        }
+        return false;
+    }
+
     private void init(View view) {
         viewPager2 = view.findViewById(R.id.view_pager2);
-        viewPager2.setOffscreenPageLimit(4);
+        viewPager2.setOffscreenPageLimit(5);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
         btnMakeAppointment = view.findViewById(R.id.btn_appointment);
     }
@@ -130,12 +151,12 @@ public class MainFragment extends BaseNavFragment implements BaseActivity.OnBack
         }
     }
 
-    @Override
-    public boolean onBackPressed() {
-        if (viewPager2 != null && viewPager2.getCurrentItem() != 0) {
-            changeTap(0, false);
-            return true;
+    @Nullable
+    private Fragment findFragmentByIndex(int index) {
+        if (getActivity() != null) {
+            return getParentFragmentManager().findFragmentByTag("f" + index);
         }
-        return false;
+        return null;
     }
+
 }

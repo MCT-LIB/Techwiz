@@ -45,4 +45,16 @@ public abstract class MainViewCallBack {
         void onDeleteSuccess();
         void onDeleteFailure();
     }
+
+    public interface UploadAvatarCallback {
+        void onSuccess(String url);
+
+        void onError(Throwable throwable);
+    }
+
+    public interface UpdateProfileCallback {
+        void onSuccess();
+
+        void onError(Throwable throwable);
+    }
 }

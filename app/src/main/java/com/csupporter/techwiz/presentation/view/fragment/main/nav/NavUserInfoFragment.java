@@ -1,22 +1,22 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
@@ -24,37 +24,64 @@ import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
+import com.csupporter.techwiz.presentation.view.dialog.CropImageDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.csupporter.techwiz.utils.PermissionUtils;
 import com.csupporter.techwiz.utils.PickPictureResult;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
-import com.permissionx.guolindev.callback.RequestCallback;
+import com.mct.components.toast.ToastUtils;
 
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.io.ByteArrayOutputStream;
 
 
 public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, MainViewCallBack.NavUserInfoCallBack {
 
     private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemLogout, itemHealthTrack;
-    private CircleImageView btnOpenGallery;
-    private CircleImageView imgAvatar;
+    private RelativeLayout itemLogout, itemHealthTrack, itemProfile;
+    private ImageView btnOpenGallery;
+    private ImageView imgAvatar;
     private LoadingDialog dialog;
 
     private NavUserInfoPresenter navUserInfoPresenter;
-    private Uri mUri;
 
     private final ActivityResultLauncher<Void> mPickPictureResult =
             registerForActivityResult(new PickPictureResult(), uri -> {
                 if (isContextNull() || uri == null) {
                     return;
                 }
-                mUri = uri;
-                imgAvatar.setImageURI(uri);
+                new CropImageDialog(requireContext(), uri, new CropImageDialog.CropImageListener() {
+
+                    @Override
+                    public void onCropSuccess(BaseOverlayDialog dialog, Bitmap bitmap) {
+                        dialog.dismiss();
+                        showLoading();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                navUserInfoPresenter.uploadAvatar(App.getApp().getAccount(), stream.toByteArray(), new MainViewCallBack.UploadAvatarCallback() {
+                                    @Override
+                                    public void onSuccess(String url) {
+                                        hideLoading();
+                                        imgAvatar.post(() -> imgAvatar.setImageBitmap(bitmap));
+                                        showToast("Change success!", ToastUtils.SUCCESS, true);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        hideLoading();
+                                        showToast("Change error!", ToastUtils.ERROR, true);
+                                    }
+                                });
+                            }
+                        }.start();
+                    }
+
+                }).create(null);
             });
 
     @Override
@@ -71,23 +98,17 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         eventClick();
     }
 
-    private void eventClick() {
-        itemLogout.setOnClickListener(this);
-        itemHealthTrack.setOnClickListener(this);
-        btnOpenGallery.setOnClickListener(this);
-    }
-
-    private void initView(@NonNull View view) {
-        tvName = view.findViewById(R.id.tv_name);
-        tvEmail = view.findViewById(R.id.tv_email);
-        itemLogout = view.findViewById(R.id.item_logout);
-        itemHealthTrack = view.findViewById(R.id.item_health_track);
-        btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
-        imgAvatar = view.findViewById(R.id.avatar_personal);
+    @Override
+    public void onResume() {
+        super.onResume();
         if (App.getApp().getAccount() != null) {
             Account account = App.getApp().getAccount();
             tvName.setText(account.getFirstName() + " " + account.getLastName());
             tvEmail.setText(account.getEmail());
+            Glide.with(this).load(account.getAvatar())
+                    .placeholder(R.drawable.ic_default_avatar)
+                    .error(R.drawable.ic_default_avatar)
+                    .into(imgAvatar);
         }
     }
 
@@ -127,14 +148,35 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                     }
                 });
                 break;
+            case R.id.item_profile:
+                Fragment fragment = new ProfileFragment();
+                replaceFragment(fragment, true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                break;
         }
+    }
+
+    private void eventClick() {
+        itemLogout.setOnClickListener(this);
+        itemHealthTrack.setOnClickListener(this);
+        itemProfile.setOnClickListener(this);
+        btnOpenGallery.setOnClickListener(this);
+    }
+
+    private void initView(@NonNull View view) {
+        tvName = view.findViewById(R.id.tv_name);
+        tvEmail = view.findViewById(R.id.tv_email);
+        itemLogout = view.findViewById(R.id.item_logout);
+        itemHealthTrack = view.findViewById(R.id.item_health_track);
+        itemProfile = view.findViewById(R.id.item_profile);
+        btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
+        imgAvatar = view.findViewById(R.id.avatar_personal);
     }
 
     @Override
     public void showLoading() {
         if (getContext() == null) return;
-        if (dialog != null) {
-            dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);
@@ -147,4 +189,5 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
             dialog = null;
         }
     }
+
 }

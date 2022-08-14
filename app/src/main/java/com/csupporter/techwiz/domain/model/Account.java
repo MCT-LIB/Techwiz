@@ -10,6 +10,8 @@ public class Account extends BaseModel {
     public static final int TYPE_DOCTOR = 2;
     public static final int STATUS_INACTIVE = 0;
     public static final int STATUS_ACTIVE = 1;
+    public static final int MALE = 0;
+    public static final int FEMALE = 1;
 
     private String firstName;
     private String lastName;
@@ -24,6 +26,25 @@ public class Account extends BaseModel {
     private int status;     // 0 -> inactive, 1 -> active
     private int department = -1;
     private String certificationUrl;
+
+    public Account() {
+    }
+
+    public Account(String firstName, String lastName, String password, String email, String location, String phone, int gender, int age, String avatar, int type, int status, int department, String certificationUrl) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.location = location;
+        this.phone = phone;
+        this.gender = gender;
+        this.age = age;
+        this.avatar = avatar;
+        this.type = type;
+        this.status = status;
+        this.department = department;
+        this.certificationUrl = certificationUrl;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -134,4 +155,9 @@ public class Account extends BaseModel {
         return type == TYPE_USER;
     }
 
+    public Account copy() {
+        Account account = new Account(firstName, lastName, password, email, location, phone, gender, age, avatar, type, status, department, certificationUrl);
+        account.setId(getId());
+        return account;
+    }
 }

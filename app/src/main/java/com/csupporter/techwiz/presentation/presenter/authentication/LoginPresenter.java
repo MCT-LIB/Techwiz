@@ -22,7 +22,9 @@ public class LoginPresenter extends BasePresenter {
 
     public void login(String userName, String password, AuthenticationCallback.LoginCallback callback) {
 
-        verifyDataInputLogin(userName, password, callback);
+        if (!verifyDataInputLogin(userName, password, callback)) {
+            return;
+        }
 
         getBaseView().showLoading();
         password = EncryptUtils.encrypt(password);
@@ -40,23 +42,23 @@ public class LoginPresenter extends BasePresenter {
     }
 
 
-    private void verifyDataInputLogin(@NonNull String userName, String password, AuthenticationCallback.LoginCallback callback) {
+    private boolean verifyDataInputLogin(@NonNull String userName, String password, AuthenticationCallback.LoginCallback callback) {
         if (userName.isEmpty() || password.isEmpty()) {
             callback.dataInvalid("Please complete the input field !");
-            return;
+            return false;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(userName).matches()) {
             getBaseView().hideLoading();
             callback.dataInvalid("Email is invalid !");
-            return;
+            return false;
         }
 
         if (!Pattern.matches(PASSWORD_REGEX, password)) {
             callback.dataInvalid(
                     "Password must contain at least one uppercase letter, lowercase letter and number!");
-            return;
+            return false;
         }
-
+        return true;
     }
 }

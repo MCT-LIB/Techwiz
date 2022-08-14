@@ -14,7 +14,8 @@ public class RepositoryImpl extends Repository {
     }
 
     private RepositoryImpl() {
-        super(new AccountRepositoryImpl(),
+        super(new ImageManagerImpl(),
+                new AccountRepositoryImpl(),
                 new AppointmentRepositoryImpl(),
                 new HeathTrackingRepositoryImpl()
         );

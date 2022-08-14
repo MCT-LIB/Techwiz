@@ -35,6 +35,32 @@ public class FirebaseUtils {
 
     /**
      * @param path      path
+     * @param bytes     image bytes
+     * @param onSuccess listener
+     * @param onError   listener
+     */
+    public static void uploadImage(@NonNull String path, @NonNull byte[] bytes,
+                                   @Nullable Consumer<Uri> onSuccess,
+                                   @Nullable Consumer<Throwable> onError) {
+        StorageReference ref = storage().getReference(path);
+        ref.putBytes(bytes).continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                error(onError, task.getException());
+            }
+            // Continue with the task to get the download URL
+            return ref.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                success(onSuccess, task.getResult());
+            } else {
+                error(onError, task.getException());
+            }
+        }).addOnFailureListener(e -> error(onError, e));
+
+    }
+
+    /**
+     * @param path      path
      * @param uri       image uri
      * @param onSuccess listener
      * @param onError   listener

@@ -249,8 +249,8 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
     @Override
     public void showLoading() {
         if (getContext() == null) return;
-        if (dialog != null) {
-            dialog.dismiss();
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);
