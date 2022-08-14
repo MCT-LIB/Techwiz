@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavAddAppointmentFragment;
-import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavAppointmentFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavHistoryFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavHomeFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavSearchFragment;

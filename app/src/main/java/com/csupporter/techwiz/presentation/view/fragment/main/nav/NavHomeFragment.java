@@ -10,25 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 
-import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
-import com.csupporter.techwiz.presentation.presenter.AuthenticationCallback;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
-import com.mct.components.baseui.BaseFragment;
-import com.mct.components.toast.ToastUtils;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 
 import java.util.ArrayList;
@@ -125,7 +119,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     @Override
     public void onClickCategoryItem(int typeDoctor) {
-        replaceFragment(new NavAppointmentFragment().newInstance(typeDoctor), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT_70);
+        replaceFragment(AddDoctorFragment.newInstance(typeDoctor), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT_70);
     }
 
     @Override

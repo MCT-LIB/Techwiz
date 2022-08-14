@@ -20,8 +20,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -83,14 +85,15 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             doctorAvatar = itemView.findViewById(R.id.doctor_avatar);
             doctorName = itemView.findViewById(R.id.doctor_name);
             imgLike = itemView.findViewById(R.id.like_doctor);
-            imgNotLike = itemView.findViewById(R.id.not_like);
+//            imgNotLike = itemView.findViewById(R.id.not_like);
             doctor_major = itemView.findViewById(R.id.doctor_major);
         }
 
         public void setData(Account doctorModel) {
 
             Glide.with(App.getContext()).load(doctorModel.getAvatar())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_default_avatar)
+                    .error(R.drawable.ic_default_avatar)
                     .into(doctorAvatar);
 
             doctorName.setText(doctorModel.getFirstName());
@@ -117,16 +120,20 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
                     break;
             }
 
-            imgLike.setOnClickListener(view -> {imgNotLike.setVisibility(View.VISIBLE);
-                                                imgLike.setVisibility(View.GONE);});
-            imgNotLike.setOnClickListener(view->{imgNotLike.setVisibility(View.GONE);
-                                                imgLike.setVisibility(View.VISIBLE);});
+            imgLike.setOnClickListener(view -> {
+                imgNotLike.setVisibility(View.VISIBLE);
+                imgLike.setVisibility(View.GONE);
+                mOnItemCLickListener.onClickLike(doctorModel);
+            });
+
 
         }
     }
 
-
     public interface OnItemCLickListener {
         void onItemClick(Account account);
+
+        void onClickLike(Account account);
+
     }
 }

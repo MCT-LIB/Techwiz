@@ -25,6 +25,7 @@ import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.AppointmentOfUserAdapter;
@@ -38,7 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQueryTextListener, View.OnClickListener, AdapterView.OnItemSelectedListener, MainViewCallBack.UserAppointmentCallBack  {
+public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQueryTextListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
     private final int SEARCH_NO_TYPE = 0;
     private final int SEARCH_TYPE_DOCTOR = 1;
     private final int SEARCH_TYPE_PRESCRIPTION = 2;
@@ -122,19 +123,19 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
     }
 
     private void setAdapterAppointment() {
-        userAppointmentPresenter.getAllAppointmentOfUserByDate(App.getApp().getAccount(), System.currentTimeMillis() - 19 * 60 * 60 * 1000, this);
+       /* userAppointmentPresenter.getAllAppointmentOfUserByDate(App.getApp().getAccount(), System.currentTimeMillis() - 19 * 60 * 60 * 1000, this);
         rcvSearchSt.setLayoutManager(new LinearLayoutManager(getActivity()));
         appointment = new AppointmentOfUserAdapter(account, appointment -> {
 
-        });
+        });*/
     }
 
     private void setAdapterDoctor() {
-        userAppointmentPresenter.getAllDoctor(this);
-        rcvSearchSt.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        doctorListAdapter = new DoctorListAdapter(account -> {
-
-        });
+//        userAppointmentPresenter.getAllDoctor(this);
+//        rcvSearchSt.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+//        doctorListAdapter = new DoctorListAdapter(account -> {
+//
+//        });
     }
 
     @Override
@@ -142,25 +143,6 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         showToast("Choose at least a type to search!!", ToastUtils.WARNING);
     }
 
-    @Override
-    public void doctorList(List<Account> accounts) {
-        doctorListAdapter.setDoctorList(accounts);
-    }
-
-    @Override
-    public void getNameAcc(Account account) {
-        this.account = account;
-    }
-
-    @Override
-    public void doctorListByDepartment(List<Account> accounts) {
-
-    }
-
-    @Override
-    public void onFailure() {
-
-    }
 
     @Override
     public void showLoading() {

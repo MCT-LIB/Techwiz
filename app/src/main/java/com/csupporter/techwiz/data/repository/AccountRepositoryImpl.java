@@ -9,6 +9,8 @@ import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.repository.AccountRepository;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +102,8 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void filterDoctorByDepartment(int department, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereEqualTo("department", department).get()
+                .whereEqualTo("department", department)
+                .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Account> accounts = new ArrayList<>();
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
@@ -131,4 +134,28 @@ public class AccountRepositoryImpl implements AccountRepository {
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 
+    @Override
+    public void getAllDoctorNotFavorite(int department, List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        Query query = FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo("type", Account.TYPE_DOCTOR);
+        if (!favoriteDoctor.isEmpty()) {
+            query.whereNotIn(FieldPath.documentId(), favoriteDoctor);
+        }
+        Log.e( "aaa: ", department+"");
+        if (department != -1) {
+            query.whereEqualTo("department", department);
+
+        }
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<Account> accounts = new ArrayList<>();
+            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                Account account = document.toObject(Account.class);
+                if (account != null) {
+                    account.setId(document.getId());
+                    accounts.add(account);
+                }
+            }
+            FirebaseUtils.success(onSuccess, accounts);
+        }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
 }

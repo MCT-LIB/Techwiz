@@ -8,6 +8,7 @@
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_doctor_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -21,6 +22,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_name_doctor"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
@@ -30,6 +32,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_doctor_location"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
@@ -39,12 +42,14 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/img_doctor_major"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_heart" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_book_appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

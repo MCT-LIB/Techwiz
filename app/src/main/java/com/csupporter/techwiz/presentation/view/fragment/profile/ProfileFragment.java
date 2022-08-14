@@ -139,7 +139,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public boolean onBackPressed() {
-        showToast(""+isDataChange(), ToastUtils.INFO);
+        showToast("" + isDataChange(), ToastUtils.INFO);
         if (isDataChange()) {
             new ConfirmDialog(requireContext(),
                     R.drawable.ic_discard,

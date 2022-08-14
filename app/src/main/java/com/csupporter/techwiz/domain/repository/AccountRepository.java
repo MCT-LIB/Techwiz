@@ -39,4 +39,8 @@ public interface AccountRepository {
 
     void getAllDoctor(@Nullable Consumer<List<Account>> onSuccess,
                       @Nullable Consumer<Throwable> onError);
+
+    void getAllDoctorNotFavorite(int department,List<String> favoriteDoctor,
+                                 @Nullable Consumer<List<Account>> onSuccess,
+                                 @Nullable Consumer<Throwable> onError);
 }

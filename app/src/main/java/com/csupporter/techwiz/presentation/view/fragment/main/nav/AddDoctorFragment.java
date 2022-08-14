@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,23 +18,23 @@ import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.DoctorListAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.mct.components.toast.ToastUtils;
 
 import java.util.List;
 
-public class NavAppointmentFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack {
+public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBack.UserAppointmentCallBack, DoctorListAdapter.OnItemCLickListener {
 
     private View view;
     private RecyclerView rcvListDoctor;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
     private LoadingDialog dialog;
-    private int department = -1;
+    private int department ;
 
-    public static NavAppointmentFragment newInstance(int department) {
-
+    public static AddDoctorFragment newInstance(int department) {
         Bundle args = new Bundle();
         args.putInt("department", department);
-        NavAppointmentFragment fragment = new NavAppointmentFragment();
+        AddDoctorFragment fragment = new AddDoctorFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,7 +43,7 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        if (bundle != null) {
+        if(bundle != null){
             department = bundle.getInt("department");
         }
     }
@@ -65,42 +63,11 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
         if (getActivity() != null) {
             dialog = new LoadingDialog(getActivity());
         }
-        if (department == -1) {
-            setData();
-        } else {
-            setDataByDoctorType();
-        }
-    }
-
-    private void setData() {
-
-        userAppointmentPresenter.getAllDoctor(this);
-
-        doctorListAdapter = new DoctorListAdapter(new DoctorListAdapter.OnItemCLickListener() {
-            @Override
-            public void onItemClick(Account account) {
-                Toast.makeText(getActivity(), "" + account.getFirstName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         rcvListDoctor.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        doctorListAdapter = new DoctorListAdapter(this);
         rcvListDoctor.setAdapter(doctorListAdapter);
-    }
-
-
-    private void setDataByDoctorType() {
-
-        userAppointmentPresenter.getDoctorsByDepartment(department,this);
-
-        doctorListAdapter = new DoctorListAdapter(new DoctorListAdapter.OnItemCLickListener() {
-            @Override
-            public void onItemClick(Account account) {
-                Toast.makeText(getActivity(), "" + account.getFirstName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        rcvListDoctor.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rcvListDoctor.setAdapter(doctorListAdapter);
+        userAppointmentPresenter.getDoctorsByDepartment(department, this);
+        userAppointmentPresenter.getAllMyDoctor(this);
     }
 
     private void initView(View view) {
@@ -110,17 +77,7 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
     }
 
     @Override
-    public void doctorList(List<Account> accounts) {
-        doctorListAdapter.setDoctorList(accounts);
-    }
-
-    @Override
-    public void getNameAcc(Account account) {
-
-    }
-
-    @Override
-    public void doctorListByDepartment(List<Account> accounts) {
+    public void onRequestSuccess(List<Account> accounts) {
         doctorListAdapter.setDoctorList(accounts);
     }
 
@@ -147,4 +104,13 @@ public class NavAppointmentFragment extends BaseNavFragment implements MainViewC
         }
     }
 
+    @Override
+    public void onItemClick(Account account) {
+
+    }
+
+    @Override
+    public void onClickLike(Account account) {
+
+    }
 }

@@ -17,6 +17,7 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
 
     private FloatingActionButton btnAddNew;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_new_doctor:
-                replaceFragment(new NavAppointmentFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                replaceFragment(new AddDoctorFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
     }
