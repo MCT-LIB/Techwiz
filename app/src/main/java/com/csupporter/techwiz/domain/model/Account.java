@@ -62,6 +62,11 @@ public class Account extends BaseModel {
         this.lastName = lastName;
     }
 
+    @Exclude
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getPassword() {
         return password;
     }

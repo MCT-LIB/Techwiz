@@ -3,7 +3,6 @@ package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,18 @@ import android.widget.Spinner;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.view.adapter.CustomSpinnerAdapter;
-import com.mct.components.baseui.BaseFragment;
 
 public class NavHistoryFragment extends BaseNavFragment {
 
     private Spinner classifyList;
     private String classifySelected;
-    private String[] classifyName = {"Completed", "Cancelled"};
-    private int[] classifyIcon = {R.drawable.ic_baseline_check_circle_24, R.drawable.ic_baseline_cancel_presentation_24};
+    private final String[] classifyName = {"All", "Waiting", "Scheduled", "Completed", "Cancelled"};
+    private final int[] classifyIcon = {
+            R.drawable.ic_all_circle,
+            R.drawable.ic_wait_circle,
+            R.drawable.ic_schedule_circle,
+            R.drawable.ic_check_circle,
+            R.drawable.ic_cancel_circle};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

@@ -102,8 +102,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void filterDoctorByDepartment(int department, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
-                .whereEqualTo("department", department)
-                .get()
+                .whereEqualTo("department", department).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Account> accounts = new ArrayList<>();
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots) {

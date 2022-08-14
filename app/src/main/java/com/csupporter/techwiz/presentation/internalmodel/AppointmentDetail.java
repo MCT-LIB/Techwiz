@@ -22,11 +22,11 @@ public class AppointmentDetail  {
         this.appointment = appointment;
     }
 
-    public Account getmAcc() {
+    public Account getAcc() {
         return mAcc;
     }
 
-    public void setmAcc(Account mAcc) {
+    public void setAcc(Account mAcc) {
         this.mAcc = mAcc;
     }
 }

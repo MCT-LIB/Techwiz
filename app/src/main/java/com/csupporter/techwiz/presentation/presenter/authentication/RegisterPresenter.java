@@ -28,6 +28,10 @@ public class RegisterPresenter extends BasePresenter {
             callBack.dataInvalid("Please enter your first name", ErrorTo.FIRST_NAME);
             return;
         }
+        if (TextUtils.isEmpty(account.getLastName())) {
+            callBack.dataInvalid("Please enter your last name", ErrorTo.LAST_NAME);
+            return;
+        }
         if (TextUtils.isEmpty(account.getEmail())) {
             callBack.dataInvalid("Please enter your email", ErrorTo.EMAIL);
             return;

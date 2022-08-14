@@ -12,16 +12,14 @@ import com.csupporter.techwiz.R;
 
 
 public class CustomSpinnerAdapter extends BaseAdapter {
-    Context context;
-    int flags[];
-    String[] countryNames;
-    LayoutInflater inflter;
+    private final Context context;
+    private final int[] flags;
+    private final String[] filterNames;
 
-    public CustomSpinnerAdapter(Context applicationContext, int[] flags, String[] countryNames) {
+    public CustomSpinnerAdapter(Context applicationContext, int[] flags, String[] filterNames) {
         this.context = applicationContext;
         this.flags = flags;
-        this.countryNames = countryNames;
-        inflter = (LayoutInflater.from(applicationContext));
+        this.filterNames = filterNames;
     }
 
     @Override
@@ -39,15 +37,13 @@ public class CustomSpinnerAdapter extends BaseAdapter {
         return 0;
     }
 
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(R.layout.custom_spinner_items, null);
+        view = LayoutInflater.from(context).inflate(R.layout.custom_spinner_items, null);
         ImageView icon = (ImageView) view.findViewById(R.id.imageView);
         TextView names = (TextView) view.findViewById(R.id.textView);
         icon.setImageResource(flags[i]);
-        icon.setColorFilter(R.color.blue);
-        names.setText(countryNames[i]);
+        names.setText(filterNames[i]);
         return view;
     }
 }
