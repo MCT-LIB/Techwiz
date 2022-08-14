@@ -23,6 +23,11 @@ import java.util.List;
 public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppointmentAdapter.HistoryAppointmentViewHolder> {
 
     private List<AppointmentDetail> appointmentDetails;
+    private final OnSetAgainClickListener listener;
+
+    public HistoryAppointmentAdapter(OnSetAgainClickListener listener) {
+        this.listener = listener;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setAppointmentDetails(List<AppointmentDetail> appointmentDetails) {
@@ -71,7 +76,7 @@ public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppoi
         }
         holder.imgStatus.setImageResource(imgRes);
         holder.btnSetAgain.setOnClickListener(v -> {
-
+            if (listener != null) listener.onClickSetAgain(detail, position);
         });
     }
 
@@ -101,6 +106,6 @@ public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppoi
     }
 
     public interface OnSetAgainClickListener {
-        void onClicked(AppointmentDetail detail, int position);
+        void onClickSetAgain(AppointmentDetail detail, int position);
     }
 }

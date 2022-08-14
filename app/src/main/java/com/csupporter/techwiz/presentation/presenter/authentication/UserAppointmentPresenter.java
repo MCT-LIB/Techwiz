@@ -32,41 +32,40 @@ public class UserAppointmentPresenter extends BasePresenter {
         Account account = App.getApp().getAccount();
 
         DataInjection.provideRepository().myDoctor.getAllMyDoctor(account, myDoctorList -> {
-
             List<String> doctorsId = new ArrayList<>();
             for (MyDoctor doctor : myDoctorList) {
-
                 doctorsId.add(doctor.getDoctorId());
-
             }
-            DataInjection.provideRepository().account.getAllDoctorNotFavorite(department, doctorsId, accounts -> {
-
+            DataInjection.provideRepository().account.getAllDoctorNotFavorite(doctorsId, accounts -> {
+                if (department == -1) {
+                    for (int i = accounts.size() - 1; i >= 0; i--) {
+                        if (accounts.get(i).getDepartment() == -1) {
+                            accounts.remove(i);
+                        }
+                    }
+                } else {
+                    for (int i = accounts.size() - 1; i >= 0; i--) {
+                        if (accounts.get(i).getDepartment() != department) {
+                            accounts.remove(i);
+                        }
+                    }
+                }
                 getBaseView().hideLoading();
-
                 callBack.onRequestSuccess(accounts);
-
             }, throwable -> getBaseView().hideLoading());
         }, throwable -> getBaseView().hideLoading());
-
-        if (department != -1) {
-
-            DataInjection.provideRepository().account.filterDoctorByDepartment(department, accounts -> {
-                getBaseView().hideLoading();
-
-                callBack.onRequestSuccess(accounts);
-
-            }, throwable -> getBaseView().hideLoading());
-
-        } else {
-
-            DataInjection.provideRepository().account.getAllDoctor(accounts -> {
-                getBaseView().hideLoading();
-
-                callBack.onRequestSuccess(accounts);
-
-            }, throwable -> getBaseView().hideLoading());
-
-        }
+//        if (department != -1) {
+//            DataInjection.provideRepository().account.filterDoctorByDepartment(department, accounts -> {
+//                getBaseView().hideLoading();
+//                callBack.onRequestSuccess(accounts);
+//            }, throwable -> getBaseView().hideLoading());
+//
+//        } else {
+//            DataInjection.provideRepository().account.getAllDoctor(accounts -> {
+//                getBaseView().hideLoading();
+//                callBack.onRequestSuccess(accounts);
+//            }, throwable -> getBaseView().hideLoading());
+//        }
     }
 
     public void getAllAppointmentOfUserByDate(Account account, long date, MainViewCallBack.UserAppointmentCallBack callBack) {
