@@ -53,6 +53,12 @@ public abstract class MainViewCallBack {
         void onError(Throwable throwable);
     }
 
+    public interface UpdateCertificate {
+        void onSuccess(String url);
+
+        void onError(Throwable throwable);
+    }
+
     public interface UpdateProfileCallback {
         void onSuccess();
 

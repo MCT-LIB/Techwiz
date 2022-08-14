@@ -5,63 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_fragment_nav"
     tools:context=".presentation.view.fragment.main.nav.NavUserInfoFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@color/primary"
         android:orientation="vertical"
         android:weightSum="10">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/card_view"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:layout_toStartOf="@+id/card_view"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Name Doctor" />
-
-            <TextView
-                android:id="@+id/tv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:text="emaildoctor@gmail.com" />
-
-        </LinearLayout>
-
         <RelativeLayout
             android:id="@+id/card_view"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
-            app:cardCornerRadius="60dp">
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar_personal"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@mipmap/app_launcher_round" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:src="@drawable/ic_default_avatar"
+                app:civ_border_color="@color/white_smoke"
+                app:civ_border_width="1dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/crl_open_gallery"
@@ -69,9 +36,43 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:elevation="2dp"
                 android:src="@drawable/ic_camera" />
 
         </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/card_view"
+            android:layout_alignBottom="@id/card_view"
+            android:layout_toEndOf="@id/card_view"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Nam Tran" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="nam.td.986@aptechlaenrning.edu.vn" />
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 

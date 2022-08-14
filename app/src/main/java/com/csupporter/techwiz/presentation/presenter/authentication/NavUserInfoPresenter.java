@@ -33,4 +33,20 @@ public class NavUserInfoPresenter extends BasePresenter {
                             callback.onError(throwable);
                         });
     }
+
+    public void uploadCertificate(Account account, byte[] source, MainViewCallBack.UpdateCertificate callback) {
+        getBaseView().showLoading();
+        DataInjection.provideRepository().imageManager
+                .upload(ImageManager.Type.CERTIFICATION, App.getApp().getAccount().getId(), source,
+                        uri -> {
+                            getBaseView().hideLoading();
+                            callback.onSuccess(uri.toString());
+                            account.setCertificationUrl(uri.toString());
+                            DataInjection.provideRepository().account.updateAccount(account, null, null);
+                        }, throwable -> {
+                            getBaseView().hideLoading();
+                            callback.onError(throwable);
+                        });
+    }
+
 }

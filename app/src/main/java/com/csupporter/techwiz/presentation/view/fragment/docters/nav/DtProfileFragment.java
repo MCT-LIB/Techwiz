@@ -16,59 +16,17 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.presenter.doctor.DoctorProfilePresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
+import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DtProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DtProfileFragment extends BaseFragment implements View.OnClickListener{
 
     private View view;
     private RelativeLayout itemProfile, itemLogout;
     private DoctorProfilePresenter doctorProfilePresenter;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DtProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DtProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DtProfileFragment newInstance(String param1, String param2) {
-        DtProfileFragment fragment = new DtProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -99,7 +57,7 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.item_profile:
-
+                replaceFragment(new ProfileFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
             case R.id.item_logout:
                 if (getActivity() != null){

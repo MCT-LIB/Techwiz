@@ -29,6 +29,7 @@ import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.csupporter.techwiz.utils.PermissionUtils;
 import com.csupporter.techwiz.utils.PickPictureResult;
+import com.isseiaoki.simplecropview.CropImageView;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
@@ -52,7 +53,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
                 if (isContextNull() || uri == null) {
                     return;
                 }
-                new CropImageDialog(requireContext(), uri, new CropImageDialog.CropImageListener() {
+                new CropImageDialog(requireContext(), uri, CropImageView.CropMode.SQUARE, new CropImageDialog.CropImageListener() {
 
                     @Override
                     public void onCropSuccess(BaseOverlayDialog dialog, Bitmap bitmap) {

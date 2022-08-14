@@ -1,12 +1,15 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.Departments;
+import com.mct.components.toast.ToastUtils;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -23,19 +27,30 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
 
     private Departments[] departments;
     private OnClickCategoryItems callback;
+    private int layout;
+    private int currentType = App.getApp().getAccount().getDepartment();
 
-    public HomeCategoryDoctorAdapter(OnClickCategoryItems callback) {
+    public HomeCategoryDoctorAdapter(OnClickCategoryItems callback, int layout) {
         this.callback = callback;
+        this.layout = layout;
     }
 
     public void setCategoryDoctorList() {
         this.departments = Departments.values();
     }
 
+    public int getCurrentType() {
+        return currentType;
+    }
+
+    public void setCurrentType(int currentType) {
+        this.currentType = currentType;
+    }
+
     @NonNull
     @Override
     public HomeCategoryDoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_home_category_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(this.layout, parent, false);
         return new HomeCategoryDoctorViewHolder(view);
     }
 
@@ -70,11 +85,18 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
         holder.image.setImageResource(depart.getResourceFile());
         holder.name.setText(depart.getCategory());
 
-        int department = getTypeByString(type);
+        int typeDoctor = getTypeByString(type);
+
+        holder.cbCheckType.setVisibility(typeDoctor == getCurrentType()  ? View.VISIBLE : View.GONE);
 
         holder.layout.setOnClickListener(view -> {
-            if (department >= 0) {
-                callback.onClickCategoryItem(department);
+            if (typeDoctor >= 0) {
+                if (getCurrentType() != typeDoctor) {
+                    setCurrentType(typeDoctor);
+                    notifyDataSetChanged();
+                }
+                callback.onClickCategoryItem(typeDoctor);
+                Log.d("aaa", "onBindViewHolder: " + typeDoctor);
             }
         });
     }
@@ -105,12 +127,15 @@ public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategory
         private final LinearLayout layout;
         private final ImageView image;
         private final TextView name;
+        private final CheckBox cbCheckType;
+
 
         public HomeCategoryDoctorViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.category_doctor_image);
             name = itemView.findViewById(R.id.category_doctor_type);
             layout = itemView.findViewById(R.id.nav_home_category_items_layout);
+            cbCheckType = itemView.findViewById(R.id.cb_check_type);
         }
     }
 

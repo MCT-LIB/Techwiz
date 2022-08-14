@@ -35,7 +35,6 @@ public class EnterNameDialog extends BaseOverlayDialog {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_enter_name, null);
         edtFirstName = view.findViewById(R.id.edt_first_name);
         edtLastName = view.findViewById(R.id.edt_last_name);
-        Toast.makeText(context, "" + account.getLastName(), Toast.LENGTH_SHORT).show();
         edtFirstName.setText(account.getFirstName());
         edtLastName.setText(account.getLastName());
         Button btnCancel = view.findViewById(R.id.btn_cancel);

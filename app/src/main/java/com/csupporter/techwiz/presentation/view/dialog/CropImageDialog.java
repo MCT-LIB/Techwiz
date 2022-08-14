@@ -25,11 +25,13 @@ public class CropImageDialog extends BaseOverlayDialog {
 
     private CropImageView cropImageView;
     private Uri mUri;
+    private CropImageView.CropMode cropMode;
     private final CropImageListener listener;
 
-    public CropImageDialog(@NonNull Context context, Uri uri, CropImageListener listener) {
+    public CropImageDialog(@NonNull Context context, Uri uri, CropImageView.CropMode mode, CropImageListener listener) {
         super(context);
         this.mUri = uri;
+        this.cropMode = mode;
         this.listener = listener;
     }
 
