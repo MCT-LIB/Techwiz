@@ -37,13 +37,15 @@ public abstract class MainViewCallBack {
 
     }
 
-    public interface UpdateTrackCallBack{
+    public interface UpdateTrackCallBack {
         void onSuccess();
+
         void onFailure();
     }
 
-    public interface DeleteTrackCallBack{
+    public interface DeleteTrackCallBack {
         void onDeleteSuccess();
+
         void onDeleteFailure();
     }
 
@@ -63,5 +65,9 @@ public abstract class MainViewCallBack {
         void onSuccess();
 
         void onError(Throwable throwable);
+    }
+
+    public interface GetAllMyDoctorCallBack {
+        void allMyDoctor(List<Account> myDoctorList);
     }
 }

@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -8,27 +9,56 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.MyDoctor;
+import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
+import com.csupporter.techwiz.presentation.presenter.authentication.AddAppointmentPresenter;
+import com.csupporter.techwiz.presentation.view.adapter.AddAppointmentAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseActivity;
 
+import java.util.List;
 
-public class NavAddAppointmentFragment extends BaseNavFragment implements View.OnClickListener {
+
+public class NavAddAppointmentFragment extends BaseNavFragment implements View.OnClickListener,
+        MainViewCallBack.GetAllMyDoctorCallBack {
 
     private FloatingActionButton btnAddNew;
+    private RecyclerView rcvListMyDoctor;
 
+    private AddAppointmentAdapter addAppointmentAdapter;
+    private AddAppointmentPresenter addAppointmentPresenter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        addAppointmentPresenter = new AddAppointmentPresenter(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_add_appointment, container, false);
         init(view);
+        addAppointmentPresenter.getAllMyDoctor(this);
         return view;
     }
 
     private void init(View view) {
+        rcvListMyDoctor = view.findViewById(R.id.rcv_list_my_doctor);
         btnAddNew = view.findViewById(R.id.add_new_doctor);
         btnAddNew.setOnClickListener(this);
+
+        addAppointmentAdapter = new AddAppointmentAdapter();
+        rcvListMyDoctor.setAdapter(addAppointmentAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        rcvListMyDoctor.setLayoutManager(linearLayoutManager);
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -39,5 +69,11 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
                 replaceFragment(AddDoctorFragment.newInstance(-1), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
+    }
+
+
+    @Override
+    public void allMyDoctor(List<Account> myDoctorList) {
+        addAppointmentAdapter.setDoctorList(myDoctorList);
     }
 }

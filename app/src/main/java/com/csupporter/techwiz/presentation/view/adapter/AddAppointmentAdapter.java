@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAdapter.AddAppointmentViewHolder> {
 
     private List<Account> doctorList;
+    private OnClickBookAppointment onClickBookAppointment;
 
-    public AddAppointmentAdapter(List<Account> doctorList) {
+    public AddAppointmentAdapter() {
+
+    }
+
+    public void setDoctorList(List<Account> doctorList){
         this.doctorList = doctorList;
     }
 
@@ -35,6 +41,7 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
         return new AddAppointmentAdapter.AddAppointmentViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull AddAppointmentViewHolder holder, int position) {
         Account doctor = doctorList.get(position);
@@ -42,12 +49,36 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .into(holder.doctorImage);
-        holder.tvNameDoctor.setText(doctor.getLastName()+doctor.getFirstName());
+        holder.tvNameDoctor.setText(doctor.getLastName() + doctor.getFirstName());
+        int department = doctor.getDepartment();
+        switch (department) {
+            case 0:
+                holder.img_major.setImageResource(R.drawable.dentist);
+                break;
+            case 1:
+                holder.img_major.setImageResource(R.drawable.pediatrician_doctor);
+                break;
+            case 2:
+                holder.img_major.setImageResource(R.drawable.cardiologist_doctor);
+                break;
+            case 3:
+                holder.img_major.setImageResource(R.drawable.beauty_surgeon);
+                break;
+            case 4:
+                holder.img_major.setImageResource(R.drawable.psycho_doctor);
+                break;
+            case 5:
+                holder.img_major.setImageResource(R.drawable.obstetrical);
+                break;
+        }
+        holder.btnBookAppointment.setOnClickListener(view -> {
+            onClickBookAppointment.onClickBookAppointment();
+        });
     }
 
     @Override
     public int getItemCount() {
-        if(doctorList != null){
+        if (doctorList != null) {
             return doctorList.size();
         }
         return 0;
@@ -69,5 +100,9 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
             img_major = itemView.findViewById(R.id.img_doctor_major);
             btnBookAppointment = itemView.findViewById(R.id.btn_book_appointment);
         }
+    }
+
+    public interface OnClickBookAppointment {
+        void onClickBookAppointment();
     }
 }
