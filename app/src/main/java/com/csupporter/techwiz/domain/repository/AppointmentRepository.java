@@ -32,7 +32,7 @@ public interface AppointmentRepository {
 
     void getAppointmentByDateAndStatus(Account account,
                                        long date,
-                                       int status,
+                                       List<Integer> status,
                                        @Nullable Consumer<List<Appointment>> onSuccess,
                                        @Nullable Consumer<Throwable> onError);
 }

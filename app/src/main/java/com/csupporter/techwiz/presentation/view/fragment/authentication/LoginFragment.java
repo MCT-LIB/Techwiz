@@ -88,7 +88,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void dataInvalid(String alert) {
-        showToast(alert, ToastUtils.WARNING,true);
+        showToast(alert, ToastUtils.WARNING, true);
     }
 
     @Override
@@ -113,6 +113,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         }
         dialog = new LoadingDialog(getContext());
         dialog.create(null);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     @NonNull

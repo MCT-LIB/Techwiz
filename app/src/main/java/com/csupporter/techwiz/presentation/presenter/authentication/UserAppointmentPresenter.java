@@ -18,6 +18,7 @@ import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -37,6 +38,7 @@ public class UserAppointmentPresenter extends BasePresenter {
                 doctorsId.add(doctor.getDoctorId());
             }
             DataInjection.provideRepository().account.getAllDoctorNotFavorite(doctorsId, accounts -> {
+                Log.e("ddd", "getDoctorsByDepartment: " + accounts);
                 if (department == -1) {
                     for (int i = accounts.size() - 1; i >= 0; i--) {
                         if (accounts.get(i).getDepartment() == -1) {

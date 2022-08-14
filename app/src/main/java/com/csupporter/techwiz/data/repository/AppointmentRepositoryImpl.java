@@ -100,10 +100,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public void getAppointmentByDateAndStatus(@NonNull Account account, long date, int status, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void getAppointmentByDateAndStatus(@NonNull Account account, long date, List<Integer> status, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
-                .whereEqualTo("status", status)
+                .whereIn("status", status)
                 .whereGreaterThan("createAt", date)
                 .whereLessThan("createAt", date + 24 * 60 * 60 * 1000)
                 .get()

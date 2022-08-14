@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
@@ -20,7 +22,8 @@ public class HistoryAppointmentPresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void requestAppointments(int status, long date, @NonNull MainViewCallBack.GetAppointmentHistoryCallback callback) {
+    public void requestAppointments(List<Integer> status, long date, @NonNull MainViewCallBack.GetAppointmentHistoryCallback callback) {
+        getBaseView().showLoading();
         DataInjection.provideRepository().appointment.getAppointmentByDateAndStatus(App.getApp().getAccount(), date, status,
                 new Consumer<List<Appointment>>() {
                     int count;
@@ -30,9 +33,25 @@ public class HistoryAppointmentPresenter extends BasePresenter {
                     public void accept(List<Appointment> appointments) {
                         appointmentDetails = new ArrayList<>();
                         for (Appointment appointment : appointments) {
-
+                            DataInjection.provideRepository().account
+                                    .findAccountById(App.getApp().getAccount().isUser() ? appointment.getDoctorId() : appointment.getUserId(), fillAcc -> {
+                                        ++count;
+                                        if (fillAcc != null) {
+                                            AppointmentDetail detail = new AppointmentDetail(appointment, fillAcc);
+                                            appointmentDetails.add(detail);
+                                        }
+                                        if (count == appointments.size()) {
+                                            getBaseView().hideLoading();
+                                            callback.onGetHistorySuccess(appointmentDetails);
+                                        }
+                                    }, throwable -> {
+                                        ++count;
+                                        if (count == appointments.size()) {
+                                            getBaseView().hideLoading();
+                                            callback.onGetHistorySuccess(appointmentDetails);
+                                        }
+                                    });
                         }
-
                     }
                 }, callback::onError);
     }
