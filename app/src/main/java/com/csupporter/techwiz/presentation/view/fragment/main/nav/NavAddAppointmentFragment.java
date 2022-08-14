@@ -28,7 +28,7 @@ import java.util.List;
 
 
 public class NavAddAppointmentFragment extends BaseNavFragment implements View.OnClickListener,
-        MainViewCallBack.GetAllMyDoctorCallBack,AddAppointmentAdapter.OnClickBookAppointment {
+        MainViewCallBack.GetAllMyDoctorCallBack, AddAppointmentAdapter.OnClickBookAppointment {
 
     private FloatingActionButton btnAddNew;
     private RecyclerView rcvListMyDoctor;
@@ -80,10 +80,10 @@ public class NavAddAppointmentFragment extends BaseNavFragment implements View.O
 
     @Override
     public void onClickBookAppointment() {
-        new AddAppointmentDialog(getActivity(), new AddAppointmentDialog.OnClickAddNewAppointment() {
+        new AddAppointmentDialog(requireContext(), new AddAppointmentDialog.OnClickAddNewAppointment() {
             @Override
             public void onClickAddNew(Appointment appointment) {
-                addAppointmentPresenter.
+//                addAppointmentPresenter.
             }
         }).create(null);
     }

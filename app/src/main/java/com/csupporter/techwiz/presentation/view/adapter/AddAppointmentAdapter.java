@@ -58,7 +58,7 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
                 .error(R.drawable.ic_default_avatar)
                 .into(holder.doctorImage);
 
-        holder.tvNameDoctor.setText(doctor.getLastName() + doctor.getFirstName());
+        holder.tvNameDoctor.setText(doctor.getFullName());
         int department = doctor.getDepartment();
         switch (department) {
             case 0:

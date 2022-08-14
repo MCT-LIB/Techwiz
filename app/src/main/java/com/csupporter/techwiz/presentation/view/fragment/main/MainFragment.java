@@ -54,7 +54,6 @@ public class MainFragment extends BaseNavFragment implements BaseActivity.OnBack
             Fragment fragment = findFragmentByIndex(currentPage);
             if (fragment != null) {
                 fragment.onResume();
-
             }
         }
     }

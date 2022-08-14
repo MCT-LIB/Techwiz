@@ -31,6 +31,10 @@ public class HistoryAppointmentPresenter extends BasePresenter {
 
                     @Override
                     public void accept(List<Appointment> appointments) {
+                        if(appointments.isEmpty()){
+                            getBaseView().hideLoading();
+                            return;
+                        }
                         appointmentDetails = new ArrayList<>();
                         for (Appointment appointment : appointments) {
                             DataInjection.provideRepository().account

@@ -71,7 +71,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 if (isContextNull() || uri == null) {
                     return;
                 }
-                new CropImageDialog(requireContext(), uri, CropImageView.CropMode.SQUARE, new CropImageDialog.CropImageListener() {
+                new CropImageDialog(requireContext(), uri, CropImageView.CropMode.FREE, new CropImageDialog.CropImageListener() {
 
                     @Override
                     public void onCropSuccess(BaseOverlayDialog dialog, Bitmap bitmap) {
@@ -204,7 +204,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void setData() {
-        tvName.setText(tmpAccount.getFirstName() + " " + tmpAccount.getLastName());
+        tvName.setText(tmpAccount.getFullName());
         tvPhone.setText(TextUtils.isEmpty(tmpAccount.getPhone()) ? "- - - - - -" : tmpAccount.getPhone());
         tvGender.setText(tmpAccount.getGender() == 0 ? "Male" : "Female");
         tvLocation.setText((tmpAccount.getLocation()));

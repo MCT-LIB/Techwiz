@@ -15,9 +15,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
+import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.toast.ToastUtils;
 
 public class DtHomeFragment extends BaseFragment implements View.OnClickListener {
 
@@ -36,10 +39,11 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         eventClick();
-        setData();
     }
 
-    private void setData() {
+    @Override
+    public void onResume() {
+        super.onResume();
         Glide.with(this).load(App.getApp().getAccount().getAvatar())
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
@@ -52,16 +56,33 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         imgAvatar.setOnClickListener(this);
     }
 
-    private void initView(View view) {
+    private void initView(@NonNull View view) {
         imgAvatar = view.findViewById(R.id.img_avatar);
         tvUserName = view.findViewById(R.id.tv_username);
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.img_avatar){
-            Fragment fragment = new DtProfileFragment();
-            replaceFragment(fragment , true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+    public void onClick(@NonNull View v) {
+        if (v.getId() == R.id.img_avatar) {
+            changeTap(2, false);
         }
     }
+
+    public void changeTap(int index, boolean smooth) {
+        DoctorFragment doctorFragment = getMainParentFragment();
+        if (doctorFragment == null) {
+            return;
+        }
+        doctorFragment.changePage(index, smooth);
+    }
+
+    @Nullable
+    private DoctorFragment getMainParentFragment() {
+        Fragment fragment = getParentFragmentManager().findFragmentByTag(DoctorFragment.class.getName());
+        if (fragment instanceof DoctorFragment) {
+            return (DoctorFragment) fragment;
+        }
+        return null;
+    }
+
 }

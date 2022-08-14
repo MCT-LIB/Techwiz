@@ -68,7 +68,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .into(avatar);
-        name.setText(account.getLastName() + " " + account.getFirstName());
+        name.setText(account.getFullName());
     }
 
     private void init(View view) {

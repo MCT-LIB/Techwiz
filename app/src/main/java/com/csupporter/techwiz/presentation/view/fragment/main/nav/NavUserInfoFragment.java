@@ -104,7 +104,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         super.onResume();
         if (App.getApp().getAccount() != null) {
             Account account = App.getApp().getAccount();
-            tvName.setText(account.getFirstName() + " " + account.getLastName());
+            tvName.setText(account.getFullName());
             tvEmail.setText(account.getEmail());
             Glide.with(this).load(account.getAvatar())
                     .placeholder(R.drawable.ic_default_avatar)

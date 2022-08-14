@@ -40,6 +40,7 @@ public class CropImageDialog extends BaseOverlayDialog {
     protected AlertDialog.Builder onCreateDialog() {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_crop_image, null);
         cropImageView = view.findViewById(R.id.crop_image_view);
+        cropImageView.setCropMode(cropMode);
         view.findViewById(R.id.btn_cancel).setOnClickListener(v -> dismiss());
         view.findViewById(R.id.btn_confirm).setOnClickListener(v -> cropImage());
         loadImage();

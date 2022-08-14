@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.csupporter.techwiz.R;
@@ -17,24 +18,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
 
-public class DoctorFragment extends BaseFragment implements View.OnClickListener {
+public class DoctorFragment extends BaseFragment {
 
-    private View view;
     private ViewPager2 viewPager2;
-    private FloatingActionButton btn_appointment;
     private BottomNavigationView bottomNavigationView;
-    private DoctorAdapter doctorAdapter;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_doctor, container, false);
-        if (getActivity() == null) {
-            return null;
-        }
-        doctorAdapter = new DoctorAdapter(getActivity());
-        return view;
+        return inflater.inflate(R.layout.fragment_doctor, container, false);
     }
 
     @Override
@@ -42,8 +34,19 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
-        eventClick();
         setDataViewPager2();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        int currentPage = viewPager2.getCurrentItem();
+        if (currentPage == 0 || currentPage == 2) {
+            Fragment fragment = findFragmentByIndex(currentPage);
+            if (fragment != null) {
+                fragment.onResume();
+            }
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -51,6 +54,7 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
         BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.item_home);
         badgeDrawable.setVisible(true);
         badgeDrawable.setNumber(3);
+        DoctorAdapter doctorAdapter = new DoctorAdapter(requireActivity());
         viewPager2.setAdapter(doctorAdapter);
         viewPager2.setUserInputEnabled(false);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -88,17 +92,24 @@ public class DoctorFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    private void eventClick() {
-    }
-
-    private void initView(View view) {
+    private void initView(@NonNull View view) {
         viewPager2 = view.findViewById(R.id.dt_view_pager2);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
-        btn_appointment = view.findViewById(R.id.btn_appointment);
     }
 
-    @Override
-    public void onClick(View v) {
-
+    @Nullable
+    private Fragment findFragmentByIndex(int index) {
+        if (getActivity() != null) {
+            return getParentFragmentManager().findFragmentByTag("f" + index);
+        }
+        return null;
     }
+
+    public void changePage(int index, boolean smooth) {
+        if (viewPager2 != null) {
+            viewPager2.setCurrentItem(index, smooth);
+        }
+    }
+
+
 }

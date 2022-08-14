@@ -18,7 +18,7 @@ public class DoctorAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position){
+        switch (position) {
             case 1:
                 return new DtHistoryMedicalFragment();
             case 2:

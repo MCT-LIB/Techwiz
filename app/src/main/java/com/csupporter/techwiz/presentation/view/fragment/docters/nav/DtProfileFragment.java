@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.presenter.doctor.DoctorProfilePresenter;
@@ -41,6 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DtProfileFragment extends BaseFragment implements View.OnClickListener{
 
     private View view;
+    private TextView tvName, tvEmail;
     private RelativeLayout itemProfile, itemLogout;
     private DoctorProfilePresenter doctorProfilePresenter;
     private CircleImageView crlOpenGallery, avatarPersonal;
@@ -96,12 +99,16 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         eventClick();
-        setData();
         doctorProfilePresenter = new DoctorProfilePresenter(this);
         navUserInfoPresenter = new NavUserInfoPresenter(this);
     }
 
-    private void setData() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        Account account = App.getApp().getAccount();
+        tvName.setText(account.getFullName());
+        tvEmail.setText(account.getEmail());
         Glide.with(this).load(App.getApp().getAccount().getAvatar())
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
@@ -115,6 +122,8 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initView(View view) {
+        tvName = view.findViewById(R.id.tv_name);
+        tvEmail = view.findViewById(R.id.tv_email);
         itemProfile = view.findViewById(R.id.item_profile);
         itemLogout = view.findViewById(R.id.item_logout);
         crlOpenGallery = view.findViewById(R.id.crl_open_gallery);
