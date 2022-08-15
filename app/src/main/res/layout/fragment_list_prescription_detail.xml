@@ -10,8 +10,9 @@
         android:id="@+id/tb_toolbar"
         app:navigationIcon="@drawable/ic_back"
         style="@style/AppToolbar.NavBack"
-        app:title="Prescriptions"
-        app:titleTextColor="@color/white" />
+        app:title="Prescription Details"
+        app:titleTextColor="@color/white"
+        app:menu="@menu/menu_add"/>
 
     <RelativeLayout
         android:id="@+id/rl_info_person"

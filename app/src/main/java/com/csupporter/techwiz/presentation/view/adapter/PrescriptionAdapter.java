@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Prescription;
 import com.csupporter.techwiz.domain.model.PrescriptionDetail;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.ViewHolder> {
@@ -19,11 +23,19 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
     private List<Prescription> prescriptionsList;
     private OnItemClickListener mOnItemClickListener;
 
-    public PrescriptionAdapter(List<Prescription> prescriptionsList, OnItemClickListener mOnItemClickListener) {
-        this.prescriptionsList = prescriptionsList;
+    public PrescriptionAdapter( OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setPrescriptionsList(List<Prescription> prescriptionsList){
+        this.prescriptionsList = prescriptionsList;
+        notifyDataSetChanged();
+    }
+    public void addNewItemTrack(Prescription prescription) {
+        prescriptionsList.add(0, prescription);
+        notifyItemInserted(0);
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,8 +73,8 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         }
 
         private void setData(Prescription model){
-            tvTitlePres.setText(String.valueOf(model.getNote()));
-                    tvDateTime.setText(String.valueOf(model.getCreateAt()));
+            tvTitlePres.setText(String.valueOf(model.getTitlePrescription()));
+                    tvDateTime.setText(DateFormat.getDateTimeInstance().format(new Date(model.getCreateAt())));
         }
 
     }

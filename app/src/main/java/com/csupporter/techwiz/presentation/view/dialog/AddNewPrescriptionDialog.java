@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.MyDoctor;
@@ -134,10 +135,12 @@ public class AddNewPrescriptionDialog extends BaseOverlayDialog implements Choos
         btnCreate.setOnClickListener(view -> {
             String title = edtTitle.getText().toString().trim();
             Prescription prescription = new Prescription();
+            prescription.setId(FirebaseUtils.uniqueId());
             prescription.setDoctorId(doctorId);
             prescription.setUserId(acc.getId());
             prescription.setTitlePrescription(title);
             prescription.setCreateAt(System.currentTimeMillis());
+            prescription.setUserCreate(true);
             onClickCreateNew.onClickCreateNew(prescription,this);
         });
 

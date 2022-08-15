@@ -19,7 +19,9 @@ public class RepositoryImpl extends Repository {
                 new AppointmentRepositoryImpl(),
                 new HeathTrackingRepositoryImpl(),
                 new MyDoctorRepositoryImpl(),
-                new PrescriptionRepositoryImpl()
+                new PrescriptionRepositoryImpl(),
+                new PrescriptionDetailRepositoryImpl(),
+                new ListPrescriptionDetailImpl()
         );
     }
 }

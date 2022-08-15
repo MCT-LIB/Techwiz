@@ -9,6 +9,9 @@ public class PrescriptionDetail extends BaseModel{
     private int quantity;
     private String imageUrl;
 
+    public PrescriptionDetail(){
+
+    }
     public PrescriptionDetail(String medicineName, int timePerADay, int timePerWeek, int quantity, String imageUrl) {
         this.medicineName = medicineName;
         this.timePerADay = timePerADay;

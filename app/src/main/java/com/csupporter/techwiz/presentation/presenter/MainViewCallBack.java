@@ -74,7 +74,7 @@ public abstract class MainViewCallBack {
     }
 
     public interface AddMyDoctor {
-        void addMyDoctorSuccess(Account doctor , int position);
+        void addMyDoctorSuccess(Account doctor, int position);
 
         void addMyDoctorFail();
     }
@@ -91,8 +91,19 @@ public abstract class MainViewCallBack {
         void onError(Throwable throwable);
     }
 
-    public interface CreatePrescriptionCallBack{
+    public interface CreatePrescriptionCallBack {
         void onCreateSuccess(Prescription prescription);
+
         void onCreateFail();
+    }
+
+    public interface GetAllPrescriptionCallBack {
+        void allPrescriptions(List<Prescription> prescriptionList);
+    }
+
+    public interface CreatePrescriptionDetailCallBack {
+        void createPrescriptionDetailSuccess();
+
+        void createPrescriptionFail();
     }
 }
