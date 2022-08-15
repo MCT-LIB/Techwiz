@@ -81,7 +81,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public void getAppointmentsByDate(Account account, long date, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void getAppointmentsByDate(@NonNull Account account, long date, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
                 .whereGreaterThan("createAt", date)

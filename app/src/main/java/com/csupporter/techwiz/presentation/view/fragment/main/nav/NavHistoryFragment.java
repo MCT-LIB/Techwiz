@@ -240,6 +240,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                         historyAppointmentPresenter.updateAppointment(detail.getAppointment(), false, new MainViewCallBack.UpdateAppointmentCallback() {
                             @Override
                             public void onCreateSuccess() {
+                                historyAppointmentAdapter.notifyItemChanged(position);
                                 showToast("Update success!", ToastUtils.SUCCESS);
                             }
 
@@ -261,7 +262,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
         new ConfirmDialog(requireContext(),
                 ConfirmDialog.LAYOUT_CONFIRM,
                 R.drawable.ic_check_circle,
-                "Click ok to confirm!",
+                "Click yes to confirm!",
                 new ConfirmDialog.OnConfirmListener() {
                     @Override
                     public void onConfirm(BaseOverlayDialog overlayDialog) {
@@ -269,6 +270,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                         historyAppointmentPresenter.updateAppointment(detail.getAppointment(), true, new MainViewCallBack.UpdateAppointmentCallback() {
                             @Override
                             public void onCreateSuccess() {
+                                historyAppointmentAdapter.notifyItemChanged(position);
                                 showToast("Update success!", ToastUtils.SUCCESS);
                             }
 
