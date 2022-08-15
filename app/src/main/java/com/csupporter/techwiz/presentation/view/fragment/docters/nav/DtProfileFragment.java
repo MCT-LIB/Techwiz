@@ -26,6 +26,7 @@ import com.csupporter.techwiz.presentation.presenter.doctor.DoctorProfilePresent
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.CropImageDialog;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.csupporter.techwiz.utils.PermissionUtils;
 import com.csupporter.techwiz.utils.PickPictureResult;
