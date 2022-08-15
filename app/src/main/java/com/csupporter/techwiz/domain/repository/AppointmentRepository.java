@@ -25,7 +25,7 @@ public interface AppointmentRepository {
                          @Nullable Consumer<List<Appointment>> onSuccess,
                          @Nullable Consumer<Throwable> onError);
 
-    void getAppointmentsByDate(Account account, long date,
+    void getAppointmentsByDate(Account account,
                                @Nullable Consumer<List<Appointment>> onSuccess,
                                @Nullable Consumer<Throwable> onError
     );

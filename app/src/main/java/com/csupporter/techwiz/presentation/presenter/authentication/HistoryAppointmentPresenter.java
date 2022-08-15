@@ -1,10 +1,13 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.di.DataInjection;
+import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
@@ -102,5 +105,42 @@ public class HistoryAppointmentPresenter extends BasePresenter {
             getBaseView().hideLoading();
             callback.onError(throwable);
         });
+    }
+
+    public void requestAppointmentsDoctor(@NonNull MainViewCallBack.GetAppointmentHistoryCallback callback) {
+        DataInjection.provideRepository().appointment.getAppointmentsByDate(App.getApp().getAccount(),
+                new Consumer<List<Appointment>>() {
+                    int count;
+                    List<AppointmentDetail> appointmentDetails;
+
+                    @Override
+                    public void accept(List<Appointment> appointments) {
+                        Log.d("TAG", "accept: " + appointments.size());
+                        appointmentDetails = new ArrayList<>();
+                        if (appointments.isEmpty()) {
+                            callback.onGetHistorySuccess(appointmentDetails);
+                            return;
+                        }
+                        for (Appointment appointment : appointments) {
+                            DataInjection.provideRepository().account
+                                    .findAccountById(App.getApp().getAccount().isUser() ? appointment.getDoctorId() : appointment.getUserId(), fillAcc -> {
+                                        Log.d("TAG", "accept: " + fillAcc);
+                                        ++count;
+                                        if (fillAcc != null) {
+                                            AppointmentDetail detail = new AppointmentDetail(appointment, fillAcc);
+                                            appointmentDetails.add(detail);
+                                        }
+                                        if (count == appointments.size()) {
+                                            callback.onGetHistorySuccess(appointmentDetails);
+                                        }
+                                    }, throwable -> {
+                                        ++count;
+                                        if (count == appointments.size()) {
+                                            callback.onGetHistorySuccess(appointmentDetails);
+                                        }
+                                    });
+                        }
+                    }
+                }, callback::onError);
     }
 }

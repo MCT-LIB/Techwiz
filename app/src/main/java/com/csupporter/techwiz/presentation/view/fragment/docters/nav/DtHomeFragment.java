@@ -5,16 +5,27 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
+import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
+import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
+import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
+import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
+import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
@@ -22,15 +33,28 @@ import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
 
-public class DtHomeFragment extends BaseFragment implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DtHomeFragment extends BaseFragment implements View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback, UserHomeAppointmentsAdapter.OnclickListener {
 
     private View view;
     private ImageView imgAvatar;
     private TextView tvUserName;
+    private RecyclerView homeListAppointmentOfDay;
+    private UserHomeAppointmentsAdapter homeCategoryDoctorAdapter;
+    private HistoryAppointmentPresenter historyAppointmentPresenter;
+
+    private UserHomePresenter userHomePresenter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dt_home, container, false);
+        homeCategoryDoctorAdapter = new UserHomeAppointmentsAdapter();
+        homeCategoryDoctorAdapter.setOnclickListener(this);
+        historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
+        historyAppointmentPresenter.requestAppointmentsDoctor(this);
         return view;
     }
 
@@ -38,6 +62,7 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        setDataAppointmentList();
         eventClick();
     }
 
@@ -59,6 +84,9 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
     private void initView(@NonNull View view) {
         imgAvatar = view.findViewById(R.id.img_avatar);
         tvUserName = view.findViewById(R.id.tv_username);
+        homeListAppointmentOfDay = view.findViewById(R.id.home_list_appointment_of_day);
+
+        userHomePresenter = new UserHomePresenter(this);
     }
 
     @Override
@@ -76,6 +104,12 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         doctorFragment.changePage(index, smooth);
     }
 
+    private void setDataAppointmentList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        homeListAppointmentOfDay.setLayoutManager(linearLayoutManager);
+        homeListAppointmentOfDay.setAdapter(homeCategoryDoctorAdapter);
+    }
+
     @Nullable
     private DoctorFragment getMainParentFragment() {
         Fragment fragment = getParentFragmentManager().findFragmentByTag(DoctorFragment.class.getName());
@@ -85,4 +119,24 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         return null;
     }
 
+
+    @Override
+    public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
+        homeCategoryDoctorAdapter.setDetailList(appointmentDetails);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onConfirm(AppointmentDetail appointmentDetail, int pos) {
+
+    }
+
+    @Override
+    public void onCancel(AppointmentDetail appointmentDetail, int pos) {
+
+    }
 }

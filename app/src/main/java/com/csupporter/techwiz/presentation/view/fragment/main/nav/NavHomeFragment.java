@@ -18,7 +18,9 @@ import com.csupporter.techwiz.R;
 
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
+import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
@@ -31,8 +33,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack.UserHomeCallBack,
-        HomeCategoryDoctorAdapter.OnClickCategoryItems, View.OnClickListener {
+public class NavHomeFragment extends BaseNavFragment implements
+        HomeCategoryDoctorAdapter.OnClickCategoryItems, View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback {
 
     private TextView txtMyAppointment;
     private RecyclerView categoryDoctor;
@@ -42,18 +44,17 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
-    private UserHomePresenter userHomePresenter;
-    private final List<Appointment> listAppointment = new ArrayList<>();
+    private HistoryAppointmentPresenter historyAppointmentPresenter;
     private LoadingDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
-
+        historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
+        historyAppointmentPresenter.requestAppointmentsDoctor(this);
         homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this, R.layout.nav_home_category_items);
-        userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
-        userHomePresenter = new UserHomePresenter(this);
+        userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter( );
 
         init(view);
 
@@ -89,7 +90,6 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
     private void setDataForUI() {
         Account account = App.getApp().getAccount();
         setDataAppointmentList();
-        userHomePresenter.getUpcomingAppointment(account, this);
     }
 
     @Override
@@ -122,11 +122,6 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
         replaceFragment(AddDoctorFragment.newInstance(typeDoctor), true, BaseActivity.Anim.TRANSIT_FADE);
     }
 
-    @Override
-    public void listAppointment(List<Appointment> appointmentList) {
-        userHomeAppointmentsAdapter.setDataToAppointmentList(appointmentList);
-        rclAppointmentList.setAdapter(userHomeAppointmentsAdapter);
-    }
 
 
     @Override
@@ -145,5 +140,14 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
             dialog.dismiss();
             dialog = null;
         }
+    }
+
+    @Override
+    public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+
     }
 }

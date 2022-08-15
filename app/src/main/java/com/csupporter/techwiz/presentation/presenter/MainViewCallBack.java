@@ -16,9 +16,9 @@ public abstract class MainViewCallBack {
 
     }
 
-    public interface UserHomeCallBack {
-        void listAppointment(List<Appointment> appointmentList);
-    }
+//    public interface UserHomeCallBack {
+//        void listAppointment(List<Appointment> appointmentList);
+//    }
 
     public interface UserAppointmentCallBack {
         void onRequestSuccess(List<Account> accounts);

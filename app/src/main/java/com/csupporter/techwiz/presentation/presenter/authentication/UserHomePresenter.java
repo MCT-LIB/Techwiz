@@ -16,13 +16,13 @@ public class UserHomePresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void getUpcomingAppointment(Account account, MainViewCallBack.UserHomeCallBack callBack) {
-        getBaseView().showLoading();
-        DataInjection.provideRepository().appointment.getAppointments(account, appointmentList -> {
-            getBaseView().hideLoading();
-            callBack.listAppointment(appointmentList);
-        }, throwable -> getBaseView().hideLoading());
-    }
+//    public void getUpcomingAppointment(Account account, MainViewCallBack.UserHomeCallBack callBack) {
+//        getBaseView().showLoading();
+//        DataInjection.provideRepository().appointment.getAppointments(account, appointmentList -> {
+//            getBaseView().hideLoading();
+//            callBack.listAppointment(appointmentList);
+//        }, throwable -> getBaseView().hideLoading());
+//    }
 
 
 }

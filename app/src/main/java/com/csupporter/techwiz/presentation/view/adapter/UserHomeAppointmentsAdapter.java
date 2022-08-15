@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,60 +9,57 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAppointmentsAdapter.UserHomeAppointments_ViewHolder> {
 
-    private List<Appointment> appointmentList;
 
-    public void setDataToAppointmentList(List<Appointment> appointmentList) {
-        this.appointmentList = appointmentList;
+    private List<AppointmentDetail> detailList;
+    private OnclickListener mOnclickListener;
+
+
+    public void setDetailList(List<AppointmentDetail> detailList) {
+        this.detailList = detailList;
+        notifyDataSetChanged();
+    }
+
+    public void setOnclickListener(OnclickListener mOnclickListener) {
+        this.mOnclickListener = mOnclickListener;
     }
 
     @NonNull
     @Override
     public UserHomeAppointments_ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_appointment_items, parent, false);
+
         return new UserHomeAppointmentsAdapter.UserHomeAppointments_ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserHomeAppointments_ViewHolder holder, int position) {
-        Appointment appointment = appointmentList.get(position);
+        AppointmentDetail detail = detailList.get(position);
 
-        if (appointment == null) {
-            return;
-        }
+        holder.name.setText(detail.getAcc().getFullName());
+        holder.address.setText(detail.getAppointment().getLocation());
 
-        DataInjection.provideRepository().account.findAccountById(appointment.getDoctorId(), account -> {
-            if (account.getAvatar() == null) {
-                holder.avatar.setImageResource(R.drawable.ic_baseline_person_pin_24);
-            } else {
-                Glide.with(App.getContext()).load(account.getAvatar())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(holder.avatar);
-            }
-        }, throwable -> {
-        });
-        holder.time.setText(DateFormat.getDateTimeInstance().format(new Date(appointment.getTime())));
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
+        String stringDate= dateFormat.format(detail.getAppointment().getTime());
+
+        holder.time.setText(stringDate);
+
     }
 
 
     @Override
     public int getItemCount() {
-        if (appointmentList != null) {
-            return appointmentList.size();
+        if (detailList != null) {
+            return detailList.size();
         }
         return 0;
     }
@@ -79,5 +77,11 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
             address = itemView.findViewById(R.id.appointments_address_doctor);
             time = itemView.findViewById(R.id.appointments_time_meeting);
         }
+    }
+
+    public interface OnclickListener {
+        void onConfirm(AppointmentDetail appointmentDetail, int pos);
+
+        void onCancel(AppointmentDetail appointmentDetail, int pos );
     }
 }

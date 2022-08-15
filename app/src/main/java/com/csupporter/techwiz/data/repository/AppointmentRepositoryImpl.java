@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -67,25 +68,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 
-    @NonNull
-    private Callback<Void> unUseCallback() {
-        return new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-            }
-        };
-    }
-
     @Override
-    public void getAppointmentsByDate(@NonNull Account account, long date, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void getAppointmentsByDate(Account account, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
-                .whereGreaterThan("createAt", date)
-                .whereLessThan("createAt", date + 24 * 60 * 60 * 1000)
+                .whereIn("status", Arrays.asList(0,1))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Appointment> appointments = new ArrayList<>();
@@ -98,7 +85,19 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
                     FirebaseUtils.success(onSuccess, appointments);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
 
+    @NonNull
+    private Callback<Void> unUseCallback() {
+        return new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            }
+        };
     }
 
     @Override
