@@ -1,7 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-
-import io.github.farshidroohi.ChartEntity;
 
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener
         , MainViewCallBack.HealthTrackingCallBack
@@ -254,39 +251,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
 
     }
 
-    private void setDataForLineChart(List<HealthTracking> healthTrackingList) {
-        // code cu luan
-        if (healthTrackingList.isEmpty()) {
-            return;
-        }
-        List<String> dateEntity = new ArrayList<>();
 
-        float[] heartBeat = new float[healthTrackingList.size()];
-        float[] bloodSugar = new float[healthTrackingList.size()];
-        float[] bloodPressure = new float[healthTrackingList.size()];
-
-
-        for (int i = 0; i < healthTrackingList.size(); i++) {
-            HealthTracking tracking = healthTrackingList.get(i);
-            heartBeat[i] = tracking.getHeartbeat();
-            bloodSugar[i] = tracking.getBloodSugar();
-            bloodPressure[i] = tracking.getBloodPressure();
-            dateEntity.add(DateFormat.getDateTimeInstance().format(new Date(tracking.getCreateAt())));
-
-        }
-        ChartEntity heartBeatEntity = new ChartEntity(Color.RED, heartBeat);
-        ChartEntity bloodSugarEntity = new ChartEntity(Color.MAGENTA, bloodSugar);
-        ChartEntity bloodPressureEntity = new ChartEntity(Color.BLUE, bloodPressure);
-
-        List<ChartEntity> chartEntityList = new ArrayList<>();
-        chartEntityList.add(heartBeatEntity);
-        chartEntityList.add(bloodPressureEntity);
-        chartEntityList.add(bloodSugarEntity);
-
-//        lineChart.setLegend(dateEntity);
-//        lineChart.setList(chartEntityList);
-
-    }
 
     private void initDataFOrChart(List<HealthTracking> trackingList){
         // code new

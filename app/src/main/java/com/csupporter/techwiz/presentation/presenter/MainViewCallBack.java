@@ -5,6 +5,7 @@ import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.domain.model.Prescription;
+import com.csupporter.techwiz.domain.model.PrescriptionDetail;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 
@@ -74,7 +75,7 @@ public abstract class MainViewCallBack {
     }
 
     public interface AddMyDoctor {
-        void addMyDoctorSuccess(Account doctor , int position);
+        void addMyDoctorSuccess(Account doctor, int position);
 
         void addMyDoctorFail();
     }
@@ -117,5 +118,9 @@ public abstract class MainViewCallBack {
         void createPrescriptionDetailSuccess();
 
         void createPrescriptionFail();
+    }
+
+    public interface ListPrescriptionDetailCallback {
+        void getAllListPrescription(List<PrescriptionDetail> prescriptionDetailList);
     }
 }

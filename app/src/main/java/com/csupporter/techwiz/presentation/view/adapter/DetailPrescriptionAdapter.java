@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +23,20 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
     private List<PrescriptionDetail> prescriptionDetailList;
     private OnItemClickListener mOnItemClickListener;
 
-    public DetailPrescriptionAdapter(List<PrescriptionDetail> prescriptionDetailList, OnItemClickListener mOnItemClickListener) {
-        this.prescriptionDetailList = prescriptionDetailList;
+    public DetailPrescriptionAdapter(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setPrescriptionDetailList(List<PrescriptionDetail> prescriptionDetailList) {
+        this.prescriptionDetailList = prescriptionDetailList;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public DetailPrescriptionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prescription_detail, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prescription_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,7 +49,7 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
 
     @Override
     public int getItemCount() {
-        if (prescriptionDetailList != null){
+        if (prescriptionDetailList != null) {
             return prescriptionDetailList.size();
         }
         return 0;
@@ -76,9 +82,6 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
             tvTimePerWeek.setText(String.valueOf(model.getTimePerWeek()));
             tvQuantity.setText(String.valueOf(model.getQuantity()));
         }
-
-        ;
-
     }
 
     public interface OnItemClickListener {
