@@ -42,11 +42,13 @@ import java.util.List;
 public class DtHomeFragment extends BaseFragment implements View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback, UserHomeAppointmentsAdapter.OnclickListener {
 
     private View view;
-    private ImageView imgAvatar;
+    private ImageView imgAvatar, imvNothing;
     private TextView tvUserName;
+
     private RecyclerView homeListAppointmentOfDay;
-    private UserHomeAppointmentsAdapter homeCategoryDoctorAdapter;
     private HistoryAppointmentPresenter historyAppointmentPresenter;
+    private UserHomeAppointmentsAdapter homeCategoryDoctorAdapter;
+
     private LoadingDialog dialog;
 
     private UserHomePresenter userHomePresenter;
@@ -87,8 +89,10 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
 
     private void initView(@NonNull View view) {
         imgAvatar = view.findViewById(R.id.img_avatar);
+        imvNothing = view.findViewById(R.id.imv_nothing);
         tvUserName = view.findViewById(R.id.tv_username);
         homeListAppointmentOfDay = view.findViewById(R.id.home_list_appointment_of_day);
+
 
         userHomePresenter = new UserHomePresenter(this);
     }
@@ -127,6 +131,11 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
         homeCategoryDoctorAdapter.setDetailList(appointmentDetails);
+        if (appointmentDetails.isEmpty()) {
+            imvNothing.setVisibility(View.VISIBLE);
+        } else {
+            imvNothing.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -179,8 +188,9 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
                             public void onCreateSuccess() {
                                 showToast("Update success!", ToastUtils.SUCCESS);
                                 homeCategoryDoctorAdapter.removeItem(appointmentDetail);
-
-
+                                if (homeCategoryDoctorAdapter.getItemCount() == 0) {
+                                    imvNothing.setVisibility(View.GONE);
+                                }
                             }
 
                             @Override

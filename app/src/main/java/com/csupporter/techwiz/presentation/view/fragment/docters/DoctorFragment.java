@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.view.adapter.DoctorAdapter;
+import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +23,7 @@ public class DoctorFragment extends BaseFragment {
 
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
+    private UserHomeAppointmentsAdapter adapter;
 
     @Nullable
     @Override
@@ -32,9 +34,9 @@ public class DoctorFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initView(view);
         setDataViewPager2();
+
     }
 
     @Override
@@ -51,9 +53,6 @@ public class DoctorFragment extends BaseFragment {
 
     @SuppressLint("NonConstantResourceId")
     private void setDataViewPager2() {
-        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.item_home);
-        badgeDrawable.setVisible(true);
-        badgeDrawable.setNumber(3);
         DoctorAdapter doctorAdapter = new DoctorAdapter(requireActivity());
         viewPager2.setAdapter(doctorAdapter);
         viewPager2.setUserInputEnabled(false);
@@ -93,6 +92,7 @@ public class DoctorFragment extends BaseFragment {
     }
 
     private void initView(@NonNull View view) {
+        adapter = new UserHomeAppointmentsAdapter();
         viewPager2 = view.findViewById(R.id.dt_view_pager2);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation_view);
     }

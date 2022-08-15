@@ -23,8 +23,8 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
 
 
     private List<AppointmentDetail> detailList;
-    private OnclickListener mOnclickListener;
 
+    private OnclickListener mOnclickListener;
 
     public void setDetailList(List<AppointmentDetail> detailList) {
         this.detailList = detailList;
@@ -37,6 +37,10 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
             notifyDataSetChanged();
         }
     };
+
+    public List<AppointmentDetail> getDetailList() {
+        return detailList;
+    }
 
     public void setOnclickListener(OnclickListener mOnclickListener) {
         this.mOnclickListener = mOnclickListener;
@@ -53,6 +57,9 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
     @Override
     public void onBindViewHolder(@NonNull UserHomeAppointments_ViewHolder holder, int position) {
         AppointmentDetail detail = detailList.get(position);
+        if(detail==null){
+            return;
+        }
 
         holder.name.setText(detail.getAcc().getFullName());
         holder.address.setText(detail.getAcc().getLocation());
@@ -84,6 +91,8 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
         }
         return 0;
     }
+
+
 
     public static class UserHomeAppointments_ViewHolder extends RecyclerView.ViewHolder {
         private final CircleImageView avatar;

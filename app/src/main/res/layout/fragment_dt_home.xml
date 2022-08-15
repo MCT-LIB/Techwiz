@@ -65,8 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/search_bar"
-        android:gravity="center|start"
         android:layout_marginTop="20dp"
+        android:gravity="center|start"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="@string/nav_home_fragment_my_appointment"
@@ -88,5 +88,15 @@
         tools:listitem="@layout/home_appointment_items"
 
         />
+
+    <ImageView
+        android:id="@+id/imv_nothing"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/empty_page" />
 
 </RelativeLayout>
