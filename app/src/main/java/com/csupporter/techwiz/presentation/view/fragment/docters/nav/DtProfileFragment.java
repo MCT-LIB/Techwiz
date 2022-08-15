@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
     private TextView tvName, tvEmail;
     private RelativeLayout itemProfile, itemLogout,itemPrescription;
     private CircleImageView crlOpenGallery, avatarPersonal;
+    private LoadingDialog dialog;
 
     private DoctorProfilePresenter doctorProfilePresenter;
 
@@ -162,8 +164,8 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-    private void logOut() {
-        if (getActivity() != null) {
+    private void logOut(){
+        if (getActivity() != null){
             new ConfirmDialog(getActivity(), R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg), new ConfirmDialog.OnConfirmListener() {
                 @Override
                 public void onConfirm(BaseOverlayDialog overlayDialog) {
@@ -180,6 +182,24 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
                     overlayDialog.dismiss();
                 }
             }).create(null);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        if (getContext() == null) return;
+        if (dialog != null && dialog.isShowing()) {
+            return;
+        }
+        dialog = new LoadingDialog(getContext());
+        dialog.create(null);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
         }
     }
 }

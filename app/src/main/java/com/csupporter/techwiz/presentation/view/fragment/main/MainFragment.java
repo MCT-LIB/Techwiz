@@ -50,7 +50,7 @@ public class MainFragment extends BaseNavFragment implements BaseActivity.OnBack
     public void onResume() {
         super.onResume();
         int currentPage = viewPager2.getCurrentItem();
-        if (currentPage == 0 || currentPage == 4) {
+        if (currentPage != 1) {
             Fragment fragment = findFragmentByIndex(currentPage);
             if (fragment != null) {
                 fragment.onResume();

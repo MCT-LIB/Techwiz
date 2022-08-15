@@ -1,12 +1,13 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
-import android.util.Log;
-
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
+import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.mct.components.baseui.BasePresenter;
@@ -23,46 +24,41 @@ public class AddAppointmentPresenter extends BasePresenter {
 
     public void getAllMyDoctor(MainViewCallBack.GetAllMyDoctorCallBack callBack) {
         Account acc = App.getApp().getAccount();
-        getBaseView().showLoading();
         DataInjection.provideRepository().myDoctor.getAllMyDoctor(acc, new Consumer<List<MyDoctor>>() {
             int count;
-            List<Account> doctorList = new ArrayList<>();
+            final List<Account> doctorList = new ArrayList<>();
 
             @Override
             public void accept(List<MyDoctor> myDoctorList) {
                 getBaseView().hideLoading();
-
+                if (myDoctorList.isEmpty()) {
+                    callBack.allMyDoctor(doctorList);
+                    return;
+                }
                 for (MyDoctor data : myDoctorList) {
-
                     DataInjection.provideRepository().account.findAccountById(data.getDoctorId(), account -> {
-
                         if (account != null) {
                             doctorList.add(account);
                         }
                         ++count;
-                        Log.e("ddd", "accept: "+count + myDoctorList.size());
-
                         if (count == myDoctorList.size()) {
-                            Log.e("ddd", "EQUAL: "+doctorList.size());
-
                             callBack.allMyDoctor(doctorList);
                         }
-
-                    }, throwable -> {
-                        ++count;
-                        Log.e("ddd", "accept: "+count + myDoctorList.size());
-                        if (count == myDoctorList.size()) {
-                            getBaseView().hideLoading();
-                        }
-                    });
+                    }, throwable -> ++count);
                 }
             }
-        }, throwable -> getBaseView().hideLoading());
+        }, null);
     }
 
 
-    public void createAppointment(){
-
+    public void createAppointment(Appointment appointment, AppointmentSchedule schedule, @NonNull MainViewCallBack.CreateAppointmentCallback callback) {
+        getBaseView().showLoading();
+        DataInjection.provideRepository().appointment.addAppointment(appointment, schedule, unused -> {
+            getBaseView().hideLoading();
+            callback.onCreateSuccess();
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.onError(throwable);
+        });
     }
-
 }

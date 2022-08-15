@@ -1,14 +1,9 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,23 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.HealthTracking;
-import com.csupporter.techwiz.domain.model.MyDoctor;
-import com.csupporter.techwiz.presentation.internalmodel.Departments;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ViewHolder> {
 
     private List<Account> doctorList;
-    private OnItemCLickListener mOnItemCLickListener;
+    private final OnItemCLickListener mOnItemCLickListener;
 
     public DoctorListAdapter(OnItemCLickListener mOnItemCLickListener) {
         this.mOnItemCLickListener = mOnItemCLickListener;
@@ -50,12 +38,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         this.doctorList = doctorList;
         notifyDataSetChanged();
     }
-
-    public void deleteItemAccount(int pos) {
-        notifyItemRemoved(pos);
-        doctorList.remove(pos);
-    }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -87,14 +69,14 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
 
         }
 
-        public void initView(View itemView) {
-            doctorAvatar = itemView.findViewById(R.id.doctor_avatar);
+        public void initView(@NonNull View itemView) {
+            doctorAvatar = itemView.findViewById(R.id.img_avatar);
             doctorName = itemView.findViewById(R.id.doctor_name);
             imgLike = itemView.findViewById(R.id.like_doctor);
             doctor_major = itemView.findViewById(R.id.doctor_major);
         }
 
-        public void setData(Account doctorModel , int position) {
+        public void setData(@NonNull Account doctorModel , int position) {
 
             Glide.with(App.getContext()).load(doctorModel.getAvatar())
                     .placeholder(R.drawable.ic_default_avatar)

@@ -1,5 +1,7 @@
 package com.csupporter.techwiz.data.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
@@ -101,11 +103,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public void getAppointmentByDateAndStatus(@NonNull Account account, long date, List<Integer> status, @Nullable Consumer<List<Appointment>> onSuccess, @Nullable Consumer<Throwable> onError) {
+        Log.e("ddd", "getAppointmentByDateAndStatus: " + date + " " + status+ " " +System.currentTimeMillis());
         FirebaseUtils.db().collection(DEFAULT_PATH)
                 .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
                 .whereIn("status", status)
-                .whereGreaterThan("createAt", date)
-                .whereLessThan("createAt", date + 24 * 60 * 60 * 1000)
+                .whereGreaterThan("time", date)
+                .whereLessThan("time", date + 24 * 60 * 60 * 1000)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Appointment> appointments = new ArrayList<>();

@@ -1,18 +1,18 @@
 package com.csupporter.techwiz.presentation.view.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -23,9 +23,12 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mct.components.baseui.BaseOverlayDialog;
+import com.mct.components.toast.ToastUtils;
+import com.mct.components.utils.SizeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -37,110 +40,99 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
     private TextInputEditText txtTime;
     private TextInputEditText txtDescription;
     private TextInputEditText lastEdtClick;
-    private AppCompatButton btnBook;
+    private Toast mToast;
+    private final Account doctor;
+    private final OnBookNewAppointment onBookNewAppointment;
+    private Calendar mDate;
 
-
-    private OnClickAddNewAppointment onClickAddNew;
-
-    public AddAppointmentDialog(@NonNull Context context, OnClickAddNewAppointment onClickAddNewHealthTracking) {
+    public AddAppointmentDialog(@NonNull Context context, Account doctor, OnBookNewAppointment onClickAddNewHealthTracking) {
         super(context);
-        this.onClickAddNew = onClickAddNewHealthTracking;
-    }
-
-
-    public interface OnClickAddNewAppointment {
-        void onClickAddNew(Appointment appointment);
+        this.doctor = doctor;
+        this.onBookNewAppointment = onClickAddNewHealthTracking;
     }
 
     @NonNull
     @Override
-    protected androidx.appcompat.app.AlertDialog.Builder onCreateDialog() {
+    protected AlertDialog.Builder onCreateDialog() {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_book_appointment, null);
 
         init(view);
-        addEventAddClick();
 
-        return new androidx.appcompat.app.AlertDialog.Builder(context)
+        return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setView(view);
     }
 
-    private void init(View view) {
+    @Override
+    protected void onDialogCreated(@NonNull AlertDialog dialog) {
+        dialog.getWindow().getAttributes().windowAnimations = androidx.appcompat.R.style.Base_Animation_AppCompat_DropDownUp;
+        dialog.setCanceledOnTouchOutside(true);
+    }
+
+    @Override
+    protected int getCornerRadius() {
+        return 16;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(@NonNull View view) {
+        lastEdtClick = (TextInputEditText) view;
+        switch (view.getId()) {
+            case R.id.edt_date_end:
+                showDatePicker(getDateFrom(lastEdtClick));
+                break;
+            case R.id.edt_time_end:
+                showTimePicker(getTimeFrom(lastEdtClick));
+                break;
+        }
+    }
+
+    private void init(@NonNull View view) {
         txtDate = view.findViewById(R.id.edt_date_end);
         txtTime = view.findViewById(R.id.edt_time_end);
         txtDescription = view.findViewById(R.id.edt_event_description);
-        btnBook = view.findViewById(R.id.btn_book);
-
+        AppCompatButton btnBook = view.findViewById(R.id.btn_book);
+        initTime();
         txtDate.setOnClickListener(this);
         txtTime.setOnClickListener(this);
 
         getTextInputLayout(txtDate).setEndIconOnClickListener(v -> txtDate.performClick());
         getTextInputLayout(txtTime).setEndIconOnClickListener(v -> txtTime.performClick());
 
-    }
-
-
-
-    @Override
-    public void onClick(View view) {
-        lastEdtClick = (TextInputEditText) view;
-        switch (view.getId()) {
-
-            case R.id.edt_date_end:
-                showDatePicker(getDateFrom(lastEdtClick));
-                break;
-
-            case R.id.edt_time_end:
-                showTimePicker(getTimeFrom(lastEdtClick));
-                break;
-        }
-    }
-    private long getTime() {
-        Date date = getDateFrom(txtDate);
-        Date time =  getTimeFrom(txtTime);
-        Calendar calendar = mergeDateTime(date, time);
-        return calendar.getTimeInMillis();
-    }
-
-    @NonNull
-    private Calendar mergeDateTime(@NonNull Date date, Date time) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time == null ? date : new Date(date.getTime() + time.getTime()));
-        return calendar;
-    }
-    private void addEventAddClick() {
-
-        btnBook.setOnClickListener(view -> {
-
-            String description = txtDescription.getText().toString().trim();
+        btnBook.setOnClickListener(v -> {
+            long time = mDate.getTimeInMillis();
+            if (time < System.currentTimeMillis()) {
+                showToast("Time must be greater than present!", ToastUtils.WARNING);
+                return;
+            }
             Account account = App.getApp().getAccount();
-
             Appointment appointment = new Appointment();
             appointment.setId(FirebaseUtils.uniqueId());
             appointment.setUserId(account.getId());
-            appointment.setDescription(description);
-            appointment.setTime(getTime());
-            onClickAddNew.onClickAddNew(appointment);
+            appointment.setDoctorId(doctor.getId());
+            appointment.setDescription(txtDescription.getText().toString().trim());
+            appointment.setTime(time);
+
+            AppointmentSchedule appointmentSchedule = new AppointmentSchedule();
+            appointmentSchedule.setId(appointment.getId());
+            appointmentSchedule.setUserEmail(account.getEmail());
+            appointmentSchedule.setDoctorEmail(doctor.getEmail());
+            appointmentSchedule.setTime((int) (time / 1000));
+            appointmentSchedule.setLocation(doctor.getLocation());
+            appointmentSchedule.setStatus(appointment.getStatus());
+            onBookNewAppointment.onBook(this, appointment, appointmentSchedule);
         });
     }
 
-
-    @Override
-    protected void onDialogCreated(@NonNull AlertDialog dialog) {
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        dialog.getWindow().
-
-                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().
-
-                setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().
-
-                getAttributes().windowAnimations = androidx.appcompat.R.style.Base_Animation_AppCompat_DropDownUp;
-
-        dialog.setCanceledOnTouchOutside(true);
+    private void initTime() {
+        Date dateObj = new Date(System.currentTimeMillis() + 3 * 60 * 60 * 1000);
+        mDate = Calendar.getInstance();
+        mDate.setTime(dateObj);
+        txtDate.setText(getFormat(true).format(dateObj));
+        txtTime.setText(getFormat(false).format(dateObj));
     }
+
 
     private void showDatePicker(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -152,7 +144,10 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_radius_20);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(getBackgroundColor());
+        drawable.setCornerRadius(SizeUtils.dp2px(getCornerRadius()));
+        dialog.getWindow().setBackgroundDrawable(new InsetDrawable(drawable, SizeUtils.dp2px(16)));
         dialog.show();
     }
 
@@ -166,18 +161,24 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
                 true
         );
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_radius_20);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(getBackgroundColor());
+        drawable.setCornerRadius(SizeUtils.dp2px(getCornerRadius()));
+        dialog.getWindow().setBackgroundDrawable(new InsetDrawable(drawable, SizeUtils.dp2px(16)));
         dialog.show();
     }
 
 
     private void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        mDate.set(year, month, day);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
         onDateOrTimeSet(calendar.getTime(), true);
     }
 
     private void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        mDate.set(Calendar.HOUR_OF_DAY, hour);
+        mDate.set(Calendar.MINUTE, minute);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
@@ -185,8 +186,6 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
     }
 
     private void onDateOrTimeSet(Date date, boolean isDateFormat) {
-        getTextInputLayout(txtDate).setError(null);
-        getTextInputLayout(txtTime).setError(null);
         lastEdtClick.setText(getFormat(isDateFormat).format(date));
     }
 
@@ -231,5 +230,20 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
             parent = parent.getParent();
         }
         return null;
+    }
+
+    protected void showToast(String msg, int type) {
+        if (context != null) {
+            if (mToast != null) {
+                mToast.cancel();
+                mToast = null;
+            }
+            mToast = ToastUtils.makeText(context, Toast.LENGTH_SHORT, type, msg, true);
+            mToast.show();
+        }
+    }
+
+    public interface OnBookNewAppointment {
+        void onBook(BaseOverlayDialog dialog, Appointment appointment, AppointmentSchedule appointmentSchedule);
     }
 }

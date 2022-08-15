@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppoi
 import com.csupporter.techwiz.presentation.view.adapter.CustomSpinnerAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.HistoryAppointmentAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.utils.SimpleCalendarListener;
 import com.mct.components.toast.ToastUtils;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
@@ -29,9 +32,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
-public class NavHistoryFragment extends BaseNavFragment implements MainViewCallBack.GetAppointmentHistoryCallback {
+public class NavHistoryFragment extends BaseNavFragment implements MainViewCallBack.GetAppointmentHistoryCallback, HistoryAppointmentAdapter.OnItemClickListener {
 
 
     private final String[] classifyName = {"All", "Waiting", "Scheduled", "Completed", "Cancelled"};
@@ -44,6 +48,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     private int classifySelected;
     private CollapsibleCalendar collapsibleCalendar;
     private Spinner classifyList;
+    private View llLoading, llEmpty;
     private RecyclerView rcvHistoryMeet;
     private LoadingDialog dialog;
     private HistoryAppointmentAdapter historyAppointmentAdapter;
@@ -68,11 +73,27 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     }
 
     private void init(@NonNull View view) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
         collapsibleCalendar = view.findViewById(R.id.calendar_view);
+        collapsibleCalendar.setSelectedDay(new Day(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) - 1,
+                calendar.get(Calendar.DAY_OF_MONTH)));
         classifyList = view.findViewById(R.id.status_appointment);
+        llLoading = view.findViewById(R.id.ll_loading);
+        llEmpty = view.findViewById(R.id.ll_empty);
         rcvHistoryMeet = view.findViewById(R.id.rcv_history_meet);
+        collapsibleCalendar.setCalendarListener(new SimpleCalendarListener() {
+            @Override
+            public void onDaySelect() {
+                loadAppointment();
+            }
+        });
+
         initRecyclerView();
         initSpinner();
+
     }
 
     private void initSpinner() {
@@ -92,14 +113,12 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     }
 
     private void initRecyclerView() {
-        historyAppointmentAdapter = new HistoryAppointmentAdapter(this::onClickSetAgain);
+        historyAppointmentAdapter = new HistoryAppointmentAdapter(this);
         rcvHistoryMeet.setAdapter(historyAppointmentAdapter);
         rcvHistoryMeet.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void onClickSetAgain(AppointmentDetail appointmentDetail, int position) {
-
-    }
+    boolean isFirstCall;
 
     private void loadAppointment() {
         Day day = collapsibleCalendar.getSelectedDay();
@@ -107,8 +126,13 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
             return;
         }
         Calendar calendar = Calendar.getInstance();
-        calendar.set(day.getYear(), day.getMonth(), day.getDay());
+        calendar.set(day.getYear(), isFirstCall ? day.getMonth() : day.getMonth() - 1, day.getDay());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         historyAppointmentPresenter.requestAppointments(getStatus(), calendar.getTimeInMillis(), this);
+        showLoadingLocal();
+        isFirstCall = true;
     }
 
     private List<Integer> getStatus() {
@@ -145,14 +169,58 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
         }
     }
 
+    Handler handler = new Handler(Looper.getMainLooper());
+    Runnable runnable;
+
+    private void showLoadingLocal() {
+        handler.removeCallbacks(runnable);
+        rcvHistoryMeet.setVisibility(View.GONE);
+        llEmpty.setVisibility(View.GONE);
+        llLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingLocal(boolean hasData) {
+        llLoading.setVisibility(View.GONE);
+        if (hasData) {
+            rcvHistoryMeet.setVisibility(View.VISIBLE);
+            llEmpty.setVisibility(View.GONE);
+        } else {
+            rcvHistoryMeet.setVisibility(View.GONE);
+            llEmpty.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
-    public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
-        showToast("AP size" + appointmentDetails.size() , ToastUtils.INFO);
+    public void onGetHistorySuccess(@NonNull List<AppointmentDetail> appointmentDetails) {
+        runnable = () -> hideLoadingLocal(!appointmentDetails.isEmpty());
+        handler.postDelayed(runnable, 1000);
         historyAppointmentAdapter.setAppointmentDetails(appointmentDetails);
     }
 
     @Override
     public void onError(Throwable throwable) {
+        runnable = () -> hideLoadingLocal(false);
+        handler.postDelayed(runnable, 1000);
         Log.e("ddd", "onError: ", throwable);
+    }
+
+    @Override
+    public void onClickSetAgain(AppointmentDetail detail, int position) {
+
+    }
+
+    @Override
+    public void onClickCancel(AppointmentDetail detail, int position) {
+
+    }
+
+    @Override
+    public void onClickConfirm(AppointmentDetail detail, int position) {
+
+    }
+
+    @Override
+    public void onClickItem(AppointmentDetail detail, int position) {
+
     }
 }

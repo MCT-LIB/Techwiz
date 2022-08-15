@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.data.firebase_source;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.UUID;
 
 public class FirebaseUtils {
+
+    private static final String TAG = "FirebaseUtils";
 
     @NonNull
     public static String uniqueId() {
@@ -142,6 +145,7 @@ public class FirebaseUtils {
     }
 
     public static void error(Consumer<Throwable> onError, Throwable error) {
+        Log.e(TAG, "error: ",error );
         if (onError != null) {
             if (error == null)
                 onError.accept(new RuntimeException("Error"));

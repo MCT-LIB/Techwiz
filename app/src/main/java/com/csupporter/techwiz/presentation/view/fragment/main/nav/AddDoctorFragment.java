@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.UserAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.DoctorListAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.toast.ToastUtils;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
         MainViewCallBack.AddMyDoctor {
 
     private View view;
+    private View llNoData;
     private RecyclerView rcvListDoctor;
     private DoctorListAdapter doctorListAdapter;
     private UserAppointmentPresenter userAppointmentPresenter;
@@ -52,7 +55,7 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_nav_appointment, container, false);
         return view;
@@ -72,14 +75,16 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
         userAppointmentPresenter.getDoctorsByDepartment(department, this);
     }
 
-    private void initView(View view) {
+    private void initView(@NonNull View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
+        llNoData = view.findViewById(R.id.ll_no_data);
         rcvListDoctor = view.findViewById(R.id.rcv_list_doctor);
     }
 
     @Override
-    public void onRequestSuccess(List<Account> accounts) {
+    public void onRequestSuccess(@NonNull List<Account> accounts) {
+        llNoData.setVisibility(accounts.isEmpty() ? View.VISIBLE : View.GONE);
         doctorListAdapter.setDoctorList(accounts);
     }
 
@@ -108,7 +113,8 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
 
     @Override
     public void onItemClick(Account account) {
-
+        Fragment fragment = DoctorInfoFragment.newInstance(account);
+        replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
     }
 
     @Override
@@ -118,13 +124,12 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
 
     @Override
     public void addMyDoctorSuccess(Account doctor, int position) {
-        doctorListAdapter.deleteItemAccount(position);
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Be Added doctor in your favorite ! ", true).show();
+        showToast("Added a doctor in your favorites!", ToastUtils.SUCCESS);
     }
 
     @Override
     public void addMyDoctorFail() {
-        ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "Add doctor fail ! ", true).show();
+        showToast("Add doctor fail!", ToastUtils.ERROR);
     }
 
 }

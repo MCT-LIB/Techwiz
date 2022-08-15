@@ -15,8 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="25dp"
-        android:src="@mipmap/app_launcher_round"
-        android:tint="@color/primary" />
+        android:src="@mipmap/app_launcher_round" />
 
     <LinearLayout
         android:id="@+id/header_box"

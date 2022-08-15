@@ -23,9 +23,9 @@ import java.util.List;
 public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppointmentAdapter.HistoryAppointmentViewHolder> {
 
     private List<AppointmentDetail> appointmentDetails;
-    private final OnSetAgainClickListener listener;
+    private final OnItemClickListener listener;
 
-    public HistoryAppointmentAdapter(OnSetAgainClickListener listener) {
+    public HistoryAppointmentAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -56,27 +56,43 @@ public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppoi
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .into(holder.imgAvatar);
-        int imgRes = 0;
+
+        View view;
         switch (detail.getAppointment().getStatus()) {
             case 0:
-                imgRes = R.drawable.ic_wait_circle;
+                view = account.isUser() ? holder.btnConfirm : holder.btnCancel;
                 break;
             case 1:
-                imgRes = R.drawable.ic_schedule_circle;
+                view = holder.btnCancel;
                 break;
             case 2:
             case 3:
             case 4:
-                imgRes = R.drawable.ic_cancel_circle;
-                break;
             case 5:
             case 6:
-                imgRes = R.drawable.ic_check_circle;
+                view = holder.btnSetAgain;
                 break;
+            default:
+                view = null;
         }
-        holder.imgStatus.setImageResource(imgRes);
+        holder.btnSetAgain.setVisibility(View.GONE);
+        holder.btnCancel.setVisibility(View.GONE);
+        holder.btnConfirm.setVisibility(View.GONE);
+        if (view != null) {
+            view.setVisibility(View.VISIBLE);
+        }
+        holder.imgStatus.setImageResource(getImageByStatus(detail.getAppointment().getStatus()));
         holder.btnSetAgain.setOnClickListener(v -> {
             if (listener != null) listener.onClickSetAgain(detail, position);
+        });
+        holder.btnCancel.setOnClickListener(v -> {
+            if (listener != null) listener.onClickCancel(detail, position);
+        });
+        holder.btnConfirm.setOnClickListener(v -> {
+            if (listener != null) listener.onClickConfirm(detail, position);
+        });
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onClickItem(detail, position);
         });
     }
 
@@ -88,11 +104,28 @@ public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppoi
         return 0;
     }
 
+    private int getImageByStatus(int status) {
+        switch (status) {
+            case 0:
+                return R.drawable.ic_wait_circle;
+            case 1:
+                return R.drawable.ic_schedule_circle;
+            case 2:
+            case 3:
+            case 4:
+                return R.drawable.ic_cancel_circle;
+            case 5:
+            case 6:
+                return R.drawable.ic_check_circle;
+        }
+        return 0;
+    }
+
     static class HistoryAppointmentViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgAvatar, imgStatus;
         TextView tvName, tvAddress, tvTime;
-        Button btnSetAgain;
+        Button btnSetAgain, btnCancel, btnConfirm;
 
         public HistoryAppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,10 +135,18 @@ public class HistoryAppointmentAdapter extends RecyclerView.Adapter<HistoryAppoi
             tvAddress = itemView.findViewById(R.id.tv_address);
             tvTime = itemView.findViewById(R.id.tv_time);
             btnSetAgain = itemView.findViewById(R.id.btn_set_again);
+            btnCancel = itemView.findViewById(R.id.btn_cancel);
+            btnConfirm = itemView.findViewById(R.id.btn_confirm);
         }
     }
 
-    public interface OnSetAgainClickListener {
+    public interface OnItemClickListener {
         void onClickSetAgain(AppointmentDetail detail, int position);
+
+        void onClickCancel(AppointmentDetail detail, int position);
+
+        void onClickConfirm(AppointmentDetail detail, int position);
+
+        void onClickItem(AppointmentDetail detail, int position);
     }
 }

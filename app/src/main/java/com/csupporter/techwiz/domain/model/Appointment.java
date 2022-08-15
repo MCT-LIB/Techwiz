@@ -6,6 +6,7 @@ public class Appointment extends BaseModel {
     private String doctorId;
     private long time;
     private String description;
+    private String location;
     private int status;
 
     /**
@@ -49,6 +50,14 @@ public class Appointment extends BaseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getStatus() {

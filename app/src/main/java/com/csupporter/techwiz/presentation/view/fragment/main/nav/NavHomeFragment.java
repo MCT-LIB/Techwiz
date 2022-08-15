@@ -119,7 +119,7 @@ public class NavHomeFragment extends BaseNavFragment implements MainViewCallBack
 
     @Override
     public void onClickCategoryItem(int typeDoctor) {
-        replaceFragment(AddDoctorFragment.newInstance(typeDoctor), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT_70);
+        replaceFragment(AddDoctorFragment.newInstance(typeDoctor), true, BaseActivity.Anim.TRANSIT_FADE);
     }
 
     @Override

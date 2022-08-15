@@ -30,6 +30,11 @@ public class Account extends BaseModel {
     public Account() {
     }
 
+    @Override
+    public String toString() {
+        return getId();
+    }
+
     public Account(String firstName, String lastName, String password, String email, String location, String phone, int gender, int age, String avatar, int type, int status, int department, String certificationUrl) {
         this.firstName = firstName;
         this.lastName = lastName;

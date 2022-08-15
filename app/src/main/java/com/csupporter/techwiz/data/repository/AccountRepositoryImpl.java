@@ -134,22 +134,4 @@ public class AccountRepositoryImpl implements AccountRepository {
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 
-    @Override
-    public void getAllDoctorNotFavorite(@NonNull List<String> favoriteDoctor, @Nullable Consumer<List<Account>> onSuccess, @Nullable Consumer<Throwable> onError) {
-        Query query = FirebaseUtils.db().collection(DEFAULT_PATH).whereEqualTo("type", Account.TYPE_DOCTOR);
-        if (!favoriteDoctor.isEmpty()) {
-            query.whereNotIn(FieldPath.documentId(), favoriteDoctor);
-        }
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            List<Account> accounts = new ArrayList<>();
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                Account account = document.toObject(Account.class);
-                if (account != null) {
-                    account.setId(document.getId());
-                    accounts.add(account);
-                }
-            }
-            FirebaseUtils.success(onSuccess, accounts);
-        }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
-    }
 }

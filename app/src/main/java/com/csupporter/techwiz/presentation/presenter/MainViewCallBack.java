@@ -74,7 +74,7 @@ public abstract class MainViewCallBack {
     }
 
     public interface AddMyDoctor {
-        void addMyDoctorSuccess(Account doctor, int position);
+        void addMyDoctorSuccess(Account doctor , int position);
 
         void addMyDoctorFail();
     }
@@ -87,6 +87,12 @@ public abstract class MainViewCallBack {
 
     public interface GetAppointmentHistoryCallback {
         void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails);
+
+        void onError(Throwable throwable);
+    }
+
+    public interface CreateAppointmentCallback {
+        void onCreateSuccess();
 
         void onError(Throwable throwable);
     }

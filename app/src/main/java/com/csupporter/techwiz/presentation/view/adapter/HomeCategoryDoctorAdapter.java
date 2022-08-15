@@ -27,8 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeCategoryDoctorAdapter extends RecyclerView.Adapter<HomeCategoryDoctorAdapter.HomeCategoryDoctorViewHolder> {
 
     private Departments[] departments;
-    private OnClickCategoryItems callback;
-    private int layout;
+    private final OnClickCategoryItems callback;
+    private final int layout;
     private int currentType = App.getApp().getAccount().getDepartment();
 
     public HomeCategoryDoctorAdapter(OnClickCategoryItems callback, int layout) {

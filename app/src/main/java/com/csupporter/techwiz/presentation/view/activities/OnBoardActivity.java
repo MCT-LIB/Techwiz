@@ -33,7 +33,6 @@ public class OnBoardActivity extends AppCompatActivity {
             Log.e("AESCrypt", "False");
         }
         long startTime = System.currentTimeMillis();
-        Log.e("ddd", "onCreate: " + startTime);
         String id = DataInjection.provideSettingPreferences().getToken();
         if (id != null) {
             DataInjection.provideRepository().account.findAccountById(id, account -> {

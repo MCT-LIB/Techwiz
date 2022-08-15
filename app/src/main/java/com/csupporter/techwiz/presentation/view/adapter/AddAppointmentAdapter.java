@@ -2,6 +2,7 @@ package com.csupporter.techwiz.presentation.view.adapter;
 
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAdapter.AddAppointmentViewHolder> {
 
     private List<Account> doctorList;
-    private OnClickBookAppointment onClickBookAppointment;
+    private final OnClickBookAppointment onClickBookAppointment;
 
     public AddAppointmentAdapter(OnClickBookAppointment onClickBookAppointment) {
         this.onClickBookAppointment = onClickBookAppointment;
@@ -37,15 +38,11 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
         notifyDataSetChanged();
     }
 
-    public void addNewItemAccount(Account doctor) {
-        doctorList.add(0, doctor);
-        notifyItemInserted(0);
-    }
     @NonNull
     @Override
     public AddAppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_doctors_items, parent, false);
-        return new AddAppointmentAdapter.AddAppointmentViewHolder(view);
+        return new AddAppointmentViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
@@ -59,6 +56,14 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
                 .into(holder.doctorImage);
 
         holder.tvNameDoctor.setText(doctor.getFullName());
+        if (TextUtils.isEmpty(doctor.getLocation())) {
+            holder.tvLocation.setVisibility(View.GONE);
+            holder.btnBookAppointment.setVisibility(View.GONE);
+        } else {
+            holder.tvLocation.setText(doctor.getLocation());
+            holder.tvLocation.setVisibility(View.VISIBLE);
+            holder.btnBookAppointment.setVisibility(View.VISIBLE);
+        }
         int department = doctor.getDepartment();
         switch (department) {
             case 0:
@@ -80,8 +85,15 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
                 holder.img_major.setImageResource(R.drawable.obstetrical);
                 break;
         }
+        holder.itemView.setOnClickListener(v -> {
+            if (onClickBookAppointment != null) {
+                onClickBookAppointment.onClickItem(doctor);
+            }
+        });
         holder.btnBookAppointment.setOnClickListener(view -> {
-            onClickBookAppointment.onClickBookAppointment();
+            if (onClickBookAppointment != null) {
+                onClickBookAppointment.onClickBookAppointment(doctor);
+            }
         });
     }
 
@@ -95,7 +107,7 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
 
     public static class AddAppointmentViewHolder extends RecyclerView.ViewHolder {
 
-        private final CircleImageView doctorImage;
+        private final ImageView doctorImage;
         private final TextView tvNameDoctor;
         private final TextView tvLocation;
         private final ImageView img_major;
@@ -112,6 +124,9 @@ public class AddAppointmentAdapter extends RecyclerView.Adapter<AddAppointmentAd
     }
 
     public interface OnClickBookAppointment {
-        void onClickBookAppointment();
+
+        void onClickItem(Account account);
+
+        void onClickBookAppointment(Account doctor);
     }
 }

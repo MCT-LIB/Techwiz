@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_radius_20"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -18,11 +19,13 @@
             style="@style/TextInputLayout.Custom.Date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.4">
+            android:layout_weight="1.4"
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_date_end"
                 style="@style/TextInputEditText.Text.SingleLine.NoEditInput"
+                android:gravity="start|center"
                 android:hint="Date"
                 tools:text="11/10/2020" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -31,13 +34,14 @@
             style="@style/TextInputLayout.Custom.Time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="16dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_time_end"
                 style="@style/TextInputEditText.Text.SingleLine.NoEditInput"
+                android:gravity="start|center"
                 android:hint="Time"
                 tools:text="12:00 CH" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,9 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_radius_20"
-        android:backgroundTint="@color/orange"
-        android:padding="10dp"
+        android:backgroundTint="#0A9DEC"
+        android:paddingHorizontal="10dp"
         android:text="Book Appointment"
         android:textColor="@color/white" />
 </androidx.appcompat.widget.LinearLayoutCompat>

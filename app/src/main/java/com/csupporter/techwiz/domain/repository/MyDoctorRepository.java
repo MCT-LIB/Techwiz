@@ -12,12 +12,19 @@ import java.util.List;
 
 public interface MyDoctorRepository {
 
-    void createMyDoctor(MyDoctor myDoctor, @Nullable Consumer<Void> onSuccess,
+    void createMyDoctor(MyDoctor myDoctor,
+                        @Nullable Consumer<Void> onSuccess,
                         @Nullable Consumer<Throwable> onError);
 
-    void deleteMyDoctor(MyDoctor myDoctor, @Nullable Consumer<Void> onSuccess,
+    void deleteMyDoctor(MyDoctor myDoctor,
+                        @Nullable Consumer<Void> onSuccess,
                         @Nullable Consumer<Throwable> onError);
 
-    void getAllMyDoctor(Account account, @Nullable Consumer<List<MyDoctor>> onSuccess,
+    void hasLinked(String userId, String doctorId,
+                   @Nullable Consumer<MyDoctor> onSuccess,
+                   @Nullable Consumer<Throwable> onError);
+
+    void getAllMyDoctor(Account account,
+                        @Nullable Consumer<List<MyDoctor>> onSuccess,
                         @Nullable Consumer<Throwable> onError);
 }

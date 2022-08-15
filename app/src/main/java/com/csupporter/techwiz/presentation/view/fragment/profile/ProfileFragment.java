@@ -5,14 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -49,7 +45,6 @@ import com.mct.components.toast.ToastUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
-import java.util.PriorityQueue;
 
 public class ProfileFragment extends BaseFragment implements View.OnClickListener, BaseActivity.OnBackPressed, MainViewCallBack.UpdateProfileCallback {
 
@@ -61,7 +56,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private LinearLayoutCompat llDoctorInfo;
     private ImageView imvCertificate;
     private RecyclerView categoryDoctorList;
-    private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
 
     private NavUserInfoPresenter navUserInfoPresenter;
 
@@ -216,7 +210,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     private void setDataCategoryDoctor() {
 
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(typeDoctor -> {
+        HomeCategoryDoctorAdapter homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(typeDoctor -> {
             initTmpAcc();
             tmpAccount.setDepartment(typeDoctor);
         }, R.layout.item_category_doctor);
@@ -248,7 +242,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             if (!Objects.equals(realAcc.getLocation(), tmpAccount.getLocation())) {
                 return true;
             }
-            Log.d("aaa", "isDataChange: " + tmpAccount.getDepartment());
             if (!Objects.equals(realAcc.getDepartment(), tmpAccount.getDepartment())) {
                 return true;
             }
@@ -265,7 +258,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public boolean onBackPressed() {
-        showToast("" + isDataChange(), ToastUtils.INFO);
         if (isDataChange()) {
             new ConfirmDialog(requireContext(),
                     R.drawable.ic_discard,
