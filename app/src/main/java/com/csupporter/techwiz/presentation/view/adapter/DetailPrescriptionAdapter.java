@@ -35,8 +35,9 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
         notifyDataSetChanged();
     }
     public void deleteItemTrack(int pos) {
-        notifyItemRemoved(pos);
+
         prescriptionDetailList.remove(pos);
+        notifyDataSetChanged();
     }
 
     public void addNewItemTrack(PrescriptionDetail prescriptionDetail) {
