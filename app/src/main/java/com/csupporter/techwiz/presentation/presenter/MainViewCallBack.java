@@ -97,6 +97,12 @@ public abstract class MainViewCallBack {
         void onError(Throwable throwable);
     }
 
+    public interface UpdateAppointmentCallback {
+        void onCreateSuccess();
+
+        void onError(Throwable throwable);
+    }
+
     public interface CreatePrescriptionCallBack {
         void onCreateSuccess(Prescription prescription);
 

@@ -111,6 +111,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 .whereLessThan("time", date + 24 * 60 * 60 * 1000)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    Log.e("ddd", "getAppointmentByDateAndStatus: "+queryDocumentSnapshots.size() );
                     List<Appointment> appointments = new ArrayList<>();
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
                         Appointment appointment = snapshot.toObject(Appointment.class);

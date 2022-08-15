@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.domain.model.Appointment;
-import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
@@ -206,7 +203,6 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     public void onError(Throwable throwable) {
         runnable = () -> hideLoadingLocal(false);
         handler.postDelayed(runnable, 1000);
-        Log.e("ddd", "onError: ", throwable);
     }
 
     @Override
@@ -228,7 +224,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                     public void onError(Throwable throwable) {
                         showToast("Book appointment error", ToastUtils.ERROR);
                     }
-                }));
+                })).create(null);
     }
 
     @Override
@@ -241,7 +237,16 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                     @Override
                     public void onConfirm(BaseOverlayDialog overlayDialog) {
                         overlayDialog.dismiss();
+                        historyAppointmentPresenter.updateAppointment(detail.getAppointment(), false, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
                     }
 
                     @Override
@@ -261,7 +266,16 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                     @Override
                     public void onConfirm(BaseOverlayDialog overlayDialog) {
                         overlayDialog.dismiss();
+                        historyAppointmentPresenter.updateAppointment(detail.getAppointment(), true, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
                     }
 
                     @Override

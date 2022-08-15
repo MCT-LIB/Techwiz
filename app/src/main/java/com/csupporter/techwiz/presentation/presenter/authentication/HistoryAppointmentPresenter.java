@@ -66,4 +66,41 @@ public class HistoryAppointmentPresenter extends BasePresenter {
             callback.onError(throwable);
         });
     }
+
+    public void updateAppointment(@NonNull Appointment appointment, boolean isConfirm, MainViewCallBack.UpdateAppointmentCallback callback) {
+        int currentStatus = appointment.getStatus();
+        if (currentStatus != 0 && currentStatus != 1) {
+            return;
+        }
+        if (isConfirm && currentStatus == 1) {
+            return;
+        }
+        int newStatus;
+        getBaseView().showLoading();
+        if (isConfirm) {
+            newStatus = 1;
+        } else {
+            boolean isUser = App.getApp().getAccount().isUser();
+            if (isUser) {
+                newStatus = 4;
+            } else {
+                if (currentStatus == 0) {
+                    newStatus = 2;
+                } else {
+                    newStatus = 3;
+                }
+            }
+        }
+        appointment.setStatus(newStatus);
+        AppointmentSchedule schedule = new AppointmentSchedule();
+        schedule.setId(appointment.getId());
+        schedule.setStatus(newStatus);
+        DataInjection.provideRepository().appointment.updateAppointment(appointment, schedule, unused -> {
+            getBaseView().hideLoading();
+            callback.onCreateSuccess();
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.onError(throwable);
+        });
+    }
 }

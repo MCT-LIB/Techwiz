@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.csupporter.techwiz.presentation.view.fragment.docters.nav.DtHistoryMedicalFragment;
 import com.csupporter.techwiz.presentation.view.fragment.docters.nav.DtHomeFragment;
 import com.csupporter.techwiz.presentation.view.fragment.docters.nav.DtProfileFragment;
+import com.csupporter.techwiz.presentation.view.fragment.main.nav.NavHistoryFragment;
 
 public class DoctorAdapter extends FragmentStateAdapter {
 
@@ -20,7 +20,7 @@ public class DoctorAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return new DtHistoryMedicalFragment();
+                return new NavHistoryFragment();
             case 2:
                 return new DtProfileFragment();
             case 0:
