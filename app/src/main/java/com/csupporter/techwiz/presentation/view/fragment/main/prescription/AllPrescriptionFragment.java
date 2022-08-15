@@ -52,6 +52,9 @@ public class AllPrescriptionFragment extends BaseFragment implements View.OnClic
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (view != null) {
+            return view;
+        }
         view = inflater.inflate(R.layout.fragment_all_prescriotion, container, false);
         initView(view);
         allPrescriptionPresenter.getAllPrescription(this);
@@ -119,6 +122,6 @@ public class AllPrescriptionFragment extends BaseFragment implements View.OnClic
 
     @Override
     public void onItemCLick(Prescription prescription, int pos) {
-        replaceFragment(ListPrescriptionDetailFragment.newInstance(prescription), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+        replaceFragment(ListPrescriptionDetailFragment.newInstance(prescription), true, BaseActivity.Anim.TRANSIT_FADE);
     }
 }

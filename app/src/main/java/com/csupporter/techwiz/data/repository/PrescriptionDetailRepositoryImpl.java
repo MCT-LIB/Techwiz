@@ -17,4 +17,15 @@ public class PrescriptionDetailRepositoryImpl implements PrescriptionDetailRepos
     public void createPrescriptionDetail(PrescriptionDetail prescription, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.setData(DEFAULT_PATH, prescription.getId(), prescription, onSuccess, onError);
     }
+
+    @Override
+    public void updatePrescriptionDetail(PrescriptionDetail prescriptionDetail, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.setData(DEFAULT_PATH, prescriptionDetail.getId(), prescriptionDetail, onSuccess, onError);
+    }
+
+    @Override
+    public void deletePrescriptionDetail(PrescriptionDetail prescriptionDetail, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.deleteData(DEFAULT_PATH, prescriptionDetail.getId(), onSuccess, onError);
+    }
+
 }

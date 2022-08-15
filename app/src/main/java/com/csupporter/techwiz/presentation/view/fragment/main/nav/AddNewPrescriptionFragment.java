@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
@@ -38,22 +40,33 @@ import com.mct.components.toast.ToastUtils;
 import java.io.ByteArrayOutputStream;
 
 
-public class AddNewPrescriptionFragment extends BaseNavFragment implements View.OnClickListener {
+public class AddNewPrescriptionFragment extends BaseNavFragment implements View.OnClickListener,
+        MainViewCallBack.EditPrescriptionDetail {
 
     private EditText edtTimePerDay, edtTimePerWeek, edtQuantity, edtMedicineName;
 
     private ImageView imgMedicine;
     private AppCompatButton btnChooseImage;
     private AppCompatButton btnCreateNewPrescription;
+    private AppCompatButton btnEdit;
     private AddNewPrescriptionPresenter addNewPrescriptionPresenter;
 
     private LoadingDialog dialog;
     private Prescription prescription;
+    private PrescriptionDetail prescriptionDetail = null;
 
     public static AddNewPrescriptionFragment newInstance(Prescription prescription) {
 
         Bundle args = new Bundle();
         args.putSerializable("pres", prescription);
+        AddNewPrescriptionFragment fragment = new AddNewPrescriptionFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddNewPrescriptionFragment transferPrescriptionDetail(PrescriptionDetail prescriptionDetail) {
+        Bundle args = new Bundle();
+        args.putSerializable("prescription", prescriptionDetail);
         AddNewPrescriptionFragment fragment = new AddNewPrescriptionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,6 +78,7 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             prescription = (Prescription) bundle.getSerializable("pres");
+            prescriptionDetail = (PrescriptionDetail) bundle.getSerializable("prescription");
         }
     }
 
@@ -83,6 +97,8 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
     }
 
     private void init(View view) {
+        Toolbar toolbar = view.findViewById(R.id.tb_toolbar);
+        toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
         edtTimePerWeek = view.findViewById(R.id.edt_time_per_a_week);
         edtTimePerDay = view.findViewById(R.id.edt_time_per_a_day);
         edtQuantity = view.findViewById(R.id.edt_quantity);
@@ -91,8 +107,25 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
         btnChooseImage = view.findViewById(R.id.btnChooseImage);
         btnChooseImage.setOnClickListener(this);
 
+        btnEdit = view.findViewById(R.id.btn_edit_new_prescription);
+        btnEdit.setOnClickListener(this);
+
         btnCreateNewPrescription = view.findViewById(R.id.btn_create_new_prescription);
         btnCreateNewPrescription.setOnClickListener(this);
+
+        if (prescriptionDetail != null) {
+            edtMedicineName.setText(prescriptionDetail.getMedicineName());
+            edtTimePerDay.setText(String.valueOf(prescriptionDetail.getTimePerADay()));
+            edtTimePerWeek.setText(String.valueOf(prescriptionDetail.getTimePerWeek()));
+            edtQuantity.setText(String.valueOf(prescriptionDetail.getQuantity()));
+
+            btnEdit.setVisibility(View.VISIBLE);
+            btnCreateNewPrescription.setVisibility(View.GONE);
+            Glide.with(this).load(prescriptionDetail.getImageUrl())
+                    .placeholder(R.drawable.image_place_holder)
+                    .error(R.drawable.image_place_holder)
+                    .into(imgMedicine);
+        }
     }
 
 
@@ -107,21 +140,37 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
                 });
                 break;
             case R.id.btn_create_new_prescription:
+                if (stream == null) {
+                    showToast("Please select image", ToastUtils.WARNING);
+                    return;
+                }
                 PrescriptionDetail prescriptionDetail = getPrescriptionDetail();
+
                 addNewPrescriptionPresenter.createPrescriptionDetail(prescriptionDetail, stream.toByteArray(), new MainViewCallBack.CreatePrescriptionDetailCallBack() {
 
                     @Override
                     public void createPrescriptionDetailSuccess() {
+                        popLastFragment();
                         ToastUtils.makeSuccessToast(getActivity(), Toast.LENGTH_SHORT, "success", true).show();
                     }
 
                     @Override
                     public void createPrescriptionFail() {
-
+                        showToast("Add False!", ToastUtils.ERROR);
                     }
                 });
                 break;
         }
+    }
+
+    @Override
+    public void editPrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail) {
+
+    }
+
+    @Override
+    public void editPrescriptionDetailFail() {
+
     }
 
     private PrescriptionDetail getPrescriptionDetail() {
@@ -132,7 +181,9 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
 
         PrescriptionDetail prescriptionDetail = new PrescriptionDetail();
         prescriptionDetail.setId(FirebaseUtils.uniqueId());
-        prescriptionDetail.setPrescriptionId(prescription.getId());
+        if (prescription != null) {
+            prescriptionDetail.setPrescriptionId(prescription.getId());
+        }
         prescriptionDetail.setMedicineName(nameMedicine);
         prescriptionDetail.setQuantity(quantity);
         prescriptionDetail.setTimePerADay(timePerDay);

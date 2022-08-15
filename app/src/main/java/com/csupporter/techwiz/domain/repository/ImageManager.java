@@ -9,7 +9,7 @@ import androidx.core.util.Consumer;
 public interface ImageManager {
 
     enum Type {
-        AVATAR, CERTIFICATION,
+        AVATAR, CERTIFICATION,MEDICINE
     }
 
     void upload(@NonNull Type type, @NonNull String id, @NonNull byte[] source,

@@ -123,4 +123,16 @@ public abstract class MainViewCallBack {
     public interface ListPrescriptionDetailCallback {
         void getAllListPrescription(List<PrescriptionDetail> prescriptionDetailList);
     }
+
+    public interface GetUserCreatedPrescription {
+        void getUserCreatedPrescription(Account account);
+    }
+    public interface DeletePrescriptionDetail{
+        void deletePrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail,int pos);
+        void deletePrescriptionDetailFail();
+    }
+    public interface EditPrescriptionDetail{
+        void editPrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail);
+        void editPrescriptionDetailFail();
+    }
 }

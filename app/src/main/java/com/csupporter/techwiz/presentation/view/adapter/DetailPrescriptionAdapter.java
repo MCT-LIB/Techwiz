@@ -8,12 +8,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.domain.model.PrescriptionDetail;
 
 import java.util.List;
@@ -32,6 +34,15 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
         this.prescriptionDetailList = prescriptionDetailList;
         notifyDataSetChanged();
     }
+    public void deleteItemTrack(int pos) {
+        notifyItemRemoved(pos);
+        prescriptionDetailList.remove(pos);
+    }
+
+    public void addNewItemTrack(PrescriptionDetail prescriptionDetail) {
+        prescriptionDetailList.add(0, prescriptionDetail);
+        notifyItemInserted(0);
+    }
 
     @NonNull
     @Override
@@ -44,6 +55,12 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
     public void onBindViewHolder(@NonNull DetailPrescriptionAdapter.ViewHolder holder, int position) {
         PrescriptionDetail modelDetail = prescriptionDetailList.get(position);
         holder.setData(modelDetail);
+
+
+        holder.btnDelete.setOnClickListener(v -> {
+            mOnItemClickListener.onClickDelete(modelDetail, position);
+        });
+
         holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemCLick(modelDetail, holder.getAdapterPosition()));
     }
 
@@ -59,6 +76,8 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imvDescription;
         private TextView tvNameDescription, tvTimePerDay, tvTimePerWeek, tvQuantity;
+        private AppCompatButton btnEdit;
+        private AppCompatButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +90,7 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
             tvTimePerDay = model.findViewById(R.id.tv_time_per_day);
             tvTimePerWeek = model.findViewById(R.id.tv_time_per_week);
             tvQuantity = model.findViewById(R.id.tv_quantity);
+            btnDelete = model.findViewById(R.id.delete_prescription_detail);
         }
 
         public void setData(PrescriptionDetail model) {
@@ -86,5 +106,9 @@ public class DetailPrescriptionAdapter extends RecyclerView.Adapter<DetailPrescr
 
     public interface OnItemClickListener {
         void onItemCLick(PrescriptionDetail pressDetail, int pos);
+
+        void onClickDelete(PrescriptionDetail pressDetail, int pos);
+
+        void onClickEdit(PrescriptionDetail pressDetail, int pos);
     }
 }

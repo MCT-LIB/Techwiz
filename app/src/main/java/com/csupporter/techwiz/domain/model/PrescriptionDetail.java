@@ -1,6 +1,6 @@
 package com.csupporter.techwiz.domain.model;
 
-public class PrescriptionDetail extends BaseModel{
+public class PrescriptionDetail extends BaseModel {
 
     private String prescriptionId;
     private String medicineName;
@@ -9,9 +9,10 @@ public class PrescriptionDetail extends BaseModel{
     private int quantity;
     private String imageUrl;
 
-    public PrescriptionDetail(){
+    public PrescriptionDetail() {
 
     }
+
     public PrescriptionDetail(String medicineName, int timePerADay, int timePerWeek, int quantity, String imageUrl) {
         this.medicineName = medicineName;
         this.timePerADay = timePerADay;
@@ -66,5 +67,11 @@ public class PrescriptionDetail extends BaseModel{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public PrescriptionDetail copy() {
+        PrescriptionDetail detail = new PrescriptionDetail(medicineName, timePerADay, timePerWeek, quantity, imageUrl);
+        detail.setId(getId());
+        return detail;
     }
 }
