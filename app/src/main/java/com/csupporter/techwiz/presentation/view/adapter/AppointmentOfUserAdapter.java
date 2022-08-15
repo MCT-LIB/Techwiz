@@ -3,6 +3,7 @@ package com.csupporter.techwiz.presentation.view.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class AppointmentOfUserAdapter extends RecyclerView.Adapter<AppointmentOf
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView appointmentsNameDoctor, appointmentsAddressDoctor, appointmentsTimeMeeting;
+        private Button icCancel,icConfirm;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +59,8 @@ public class AppointmentOfUserAdapter extends RecyclerView.Adapter<AppointmentOf
             appointmentsNameDoctor = itemView.findViewById(R.id.appointments_name_doctor);
             appointmentsAddressDoctor = itemView.findViewById(R.id.appointments_address_doctor);
             appointmentsTimeMeeting = itemView.findViewById(R.id.appointments_time_meeting);
+            icCancel = itemView.findViewById(R.id.ic_cancel);
+            icConfirm = itemView.findViewById(R.id.ic_confirm);
         }
 
         private void setData(Appointment data, Account account) {
