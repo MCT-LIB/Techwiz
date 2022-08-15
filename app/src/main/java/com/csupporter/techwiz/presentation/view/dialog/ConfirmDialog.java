@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,13 +15,17 @@ import com.mct.components.baseui.BaseOverlayDialog;
 
 public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickListener {
 
+    public static final int LAYOUT_HOLD_USER = R.layout.dialog_cf_hold;
+    public static final int LAYOUT_CONFIRM = R.layout.dialog_cf_confirm;
     private View view;
     private final int icon;
+    private final int layout;
     private final String msg;
     private final OnConfirmListener mOnConfirmListener;
 
-    public ConfirmDialog(@NonNull Context context, int icon, String msg, OnConfirmListener mOnConfirmListener) {
+    public ConfirmDialog(@NonNull Context context, int layout, int icon, String msg, OnConfirmListener mOnConfirmListener) {
         super(context);
+        this.layout = layout;
         this.icon = icon;
         this.msg = msg;
         this.mOnConfirmListener = mOnConfirmListener;
@@ -31,7 +34,7 @@ public class ConfirmDialog extends BaseOverlayDialog implements View.OnClickList
     @NonNull
     @Override
     protected AlertDialog.Builder onCreateDialog() {
-        view = LayoutInflater.from(context).inflate(R.layout.dialog_cofirm_logout, null);
+        view = LayoutInflater.from(context).inflate(layout, null);
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setView(view);

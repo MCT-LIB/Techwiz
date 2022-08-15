@@ -260,6 +260,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public boolean onBackPressed() {
         if (isDataChange()) {
             new ConfirmDialog(requireContext(),
+                    ConfirmDialog.LAYOUT_HOLD_USER,
                     R.drawable.ic_discard,
                     "Do you want to discard change?",
                     new ConfirmDialog.OnConfirmListener() {

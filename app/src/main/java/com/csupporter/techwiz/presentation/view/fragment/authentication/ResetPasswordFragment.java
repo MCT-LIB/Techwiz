@@ -83,6 +83,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
             return false;
         }
         new ConfirmDialog(getContext(),
+                ConfirmDialog.LAYOUT_HOLD_USER,
                 R.drawable.ic_discard,
                 "Do you want to cancel the password change?",
                 new ConfirmDialog.OnConfirmListener() {

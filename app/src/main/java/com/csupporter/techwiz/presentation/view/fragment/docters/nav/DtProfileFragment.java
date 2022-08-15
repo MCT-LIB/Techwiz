@@ -45,7 +45,7 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
 
     private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemProfile, itemLogout,itemPrescription;
+    private RelativeLayout itemProfile, itemLogout, itemPrescription;
     private CircleImageView crlOpenGallery, avatarPersonal;
     private LoadingDialog dialog;
 
@@ -160,29 +160,32 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
                 });
                 break;
             case R.id.prescription_layout:
-                replaceFragment(new MyUsersFragment(),true,BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                replaceFragment(new MyUsersFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
         }
     }
 
-    private void logOut(){
-        if (getActivity() != null){
-            new ConfirmDialog(getActivity(), R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg), new ConfirmDialog.OnConfirmListener() {
-                @Override
-                public void onConfirm(BaseOverlayDialog overlayDialog) {
-                    doctorProfilePresenter.logOut();
-                    Intent intent = new Intent(getContext(), AuthenticateActivity.class);
-                    startActivity(intent);
-                    if (getActivity() != null) {
-                        getActivity().finish();
-                    }
-                }
+    private void logOut() {
+        if (getActivity() != null) {
+            new ConfirmDialog(getActivity(),
+                    ConfirmDialog.LAYOUT_HOLD_USER,
+                    R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg),
+                    new ConfirmDialog.OnConfirmListener() {
+                        @Override
+                        public void onConfirm(BaseOverlayDialog overlayDialog) {
+                            doctorProfilePresenter.logOut();
+                            Intent intent = new Intent(getContext(), AuthenticateActivity.class);
+                            startActivity(intent);
+                            if (getActivity() != null) {
+                                getActivity().finish();
+                            }
+                        }
 
-                @Override
-                public void onCancel(BaseOverlayDialog overlayDialog) {
-                    overlayDialog.dismiss();
-                }
-            }).create(null);
+                        @Override
+                        public void onCancel(BaseOverlayDialog overlayDialog) {
+                            overlayDialog.dismiss();
+                        }
+                    }).create(null);
         }
     }
 

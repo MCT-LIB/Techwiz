@@ -16,13 +16,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
+import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.CustomSpinnerAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.HistoryAppointmentAdapter;
+import com.csupporter.techwiz.presentation.view.dialog.AddAppointmentDialog;
+import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;
+import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.utils.SimpleCalendarListener;
+import com.mct.components.baseui.BaseOverlayDialog;
+import com.mct.components.baseui.BaseOverlayLifecycle;
+import com.mct.components.toast.ToastUtils;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
@@ -202,18 +210,65 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     }
 
     @Override
-    public void onClickSetAgain(AppointmentDetail detail, int position) {
+    public void onClickSetAgain(@NonNull AppointmentDetail detail, int position) {
+        new AddAppointmentDialog(requireContext(), detail.getAcc(), (dialog, appointment, appointmentSchedule) ->
+                historyAppointmentPresenter.createAppointment(appointment, appointmentSchedule, new MainViewCallBack.CreateAppointmentCallback() {
+                    @Override
+                    public void onCreateSuccess() {
+                        dialog.dismiss();
+                        if (getContext() != null) {
+                            new AlertDialog(getContext(),
+                                    R.drawable.ic_check_circle,
+                                    "Appointment sent to doctor successfully!",
+                                    BaseOverlayLifecycle::dismiss).create(null);
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable throwable) {
+                        showToast("Book appointment error", ToastUtils.ERROR);
+                    }
+                }));
     }
 
     @Override
     public void onClickCancel(AppointmentDetail detail, int position) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_HOLD_USER,
+                R.drawable.ic_cancel_circle,
+                "Are you sure to cancel this appointment?",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
 
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
     }
 
     @Override
     public void onClickConfirm(AppointmentDetail detail, int position) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_CONFIRM,
+                R.drawable.ic_check_circle,
+                "Click ok to confirm!",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
 
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
     }
 
     @Override

@@ -120,7 +120,9 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.item_logout:
                 if (getActivity() != null) {
-                    new ConfirmDialog(getActivity(), R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg),
+                    new ConfirmDialog(getActivity(),
+                            ConfirmDialog.LAYOUT_HOLD_USER,
+                            R.drawable.ic_logout, getString(R.string.dialog_confirm_logout_msg),
                             new ConfirmDialog.OnConfirmListener() {
                                 @Override
                                 public void onConfirm(BaseOverlayDialog overlayDialog) {
