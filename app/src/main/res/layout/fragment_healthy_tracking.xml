@@ -58,17 +58,11 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_radius_20">
 
-        <io.github.farshidroohi.LineChart
-            android:id="@+id/lineChart"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:chart_bg_color="#8BB2FB"
-            app:chart_line_size="2dp"
-            app:chart_padding_bottom="10dp"
-            app:chart_padding_left="10dp"
-            app:chart_padding_right="10dp"
-            app:chart_padding_top="10dp" />
+            android:layout_height="300dp" />
+
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView

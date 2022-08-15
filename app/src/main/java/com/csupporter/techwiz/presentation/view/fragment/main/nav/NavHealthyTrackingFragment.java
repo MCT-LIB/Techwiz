@@ -1,6 +1,5 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,19 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.HealthTrackItemAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddNewHealthTracking;
 import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;
-import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.DetailHealthTracDialog;
 import com.csupporter.techwiz.presentation.view.dialog.EditHealthTracking;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
@@ -44,7 +45,6 @@ import java.util.List;
 import java.util.Locale;
 
 import io.github.farshidroohi.ChartEntity;
-import io.github.farshidroohi.LineChart;
 
 public class NavHealthyTrackingFragment extends BaseFragment implements View.OnClickListener
         , MainViewCallBack.HealthTrackingCallBack
@@ -59,7 +59,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
     private final Calendar endCalendar = Calendar.getInstance();
 
     private LoadingDialog dialog;
-    private LineChart lineChart;
+    private BarChart barChart;
 
     private HealthyTrackingPresenter healthyTrackingPresenter;
     private AddNewHealthTracking dialogAddHealthTracking;
@@ -149,7 +149,7 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view1 -> popLastFragment());
         rcvListTrack = view.findViewById(R.id.rcv_list_track);
-        lineChart = view.findViewById(R.id.lineChart);
+        barChart = view.findViewById(R.id.barChart);
         edtEndTime = view.findViewById(R.id.endTime);
         edtStartTime = view.findViewById(R.id.startTime);
         FloatingActionButton btnAddTrack = view.findViewById(R.id.btn_add_track);
@@ -249,9 +249,13 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
     public void onGetDataSuccess(List<HealthTracking> trackingList) {
         healthTrackItemAdapter.setTrackingList(trackingList);
         // setDataForLineChart(trackingList);
+        initDataFOrChart(trackingList);
+
+
     }
 
     private void setDataForLineChart(List<HealthTracking> healthTrackingList) {
+        // code cu luan
         if (healthTrackingList.isEmpty()) {
             return;
         }
@@ -279,8 +283,30 @@ public class NavHealthyTrackingFragment extends BaseFragment implements View.OnC
         chartEntityList.add(bloodPressureEntity);
         chartEntityList.add(bloodSugarEntity);
 
-        lineChart.setLegend(dateEntity);
-        lineChart.setList(chartEntityList);
+//        lineChart.setLegend(dateEntity);
+//        lineChart.setList(chartEntityList);
+
+    }
+
+    private void initDataFOrChart(List<HealthTracking> trackingList){
+        // code new
+
+        int pos = 0;
+        List<BarEntry> listHeartBeat = new ArrayList<BarEntry>();
+        for (HealthTracking heartBeat : trackingList){
+            listHeartBeat.add(new BarEntry(++pos, heartBeat.getHeartbeat()));
+        }
+
+        List<BarEntry> listBloodSugar = new ArrayList<BarEntry>();
+        for (HealthTracking heartBeat : trackingList){
+            listHeartBeat.add(new BarEntry(++pos, heartBeat.getBloodSugar()));
+        }
+
+        BarDataSet dataHeartBeat = new BarDataSet(listHeartBeat, "Heart beat");
+        BarDataSet dataBloodSugar = new BarDataSet(listBloodSugar, "Blood sugar");
+
+        BarData data = new BarData(dataBloodSugar, dataHeartBeat);
+        barChart.setData(data);
 
     }
 
