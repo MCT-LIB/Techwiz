@@ -242,6 +242,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                             public void onCreateSuccess() {
                                 historyAppointmentAdapter.notifyItemChanged(position);
                                 showToast("Update success!", ToastUtils.SUCCESS);
+                                historyAppointmentAdapter.notifyItemChanged(position);
                             }
 
                             @Override
@@ -272,6 +273,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                             public void onCreateSuccess() {
                                 historyAppointmentAdapter.notifyItemChanged(position);
                                 showToast("Update success!", ToastUtils.SUCCESS);
+                                historyAppointmentAdapter.notifyItemChanged(position);
                             }
 
                             @Override

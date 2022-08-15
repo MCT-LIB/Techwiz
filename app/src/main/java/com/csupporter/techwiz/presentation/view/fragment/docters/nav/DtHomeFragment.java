@@ -26,11 +26,14 @@ import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppoi
 import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
+import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
+import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
 import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
 import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
+import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
 
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
     private RecyclerView homeListAppointmentOfDay;
     private UserHomeAppointmentsAdapter homeCategoryDoctorAdapter;
     private HistoryAppointmentPresenter historyAppointmentPresenter;
+    private LoadingDialog dialog;
 
     private UserHomePresenter userHomePresenter;
 
@@ -132,11 +136,82 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onConfirm(AppointmentDetail appointmentDetail, int pos) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_CONFIRM,
+                R.drawable.ic_check_circle,
+                "Click ok to confirm!",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                        historyAppointmentPresenter.updateAppointment(appointmentDetail.getAppointment(), true, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                                homeCategoryDoctorAdapter.notifyItemChanged(pos);
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
     }
 
     @Override
     public void onCancel(AppointmentDetail appointmentDetail, int pos) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_HOLD_USER,
+                R.drawable.ic_cancel_circle,
+                "Are you sure to cancel this appointment?",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                        historyAppointmentPresenter.updateAppointment(appointmentDetail.getAppointment(), false, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                                homeCategoryDoctorAdapter.removeItem(appointmentDetail);
 
+
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
+    }
+
+
+    @Override
+    public void showLoading() {
+        if (getContext() == null) return;
+        if (dialog != null && dialog.isShowing()) {
+            return;
+        }
+        dialog = new LoadingDialog(getContext());
+        dialog.create(null);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }
