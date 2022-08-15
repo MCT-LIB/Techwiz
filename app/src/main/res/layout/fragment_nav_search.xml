@@ -55,7 +55,7 @@
             android:id="@+id/spinner2"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
@@ -70,7 +70,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@id/spinner2"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginEnd="8dp"
