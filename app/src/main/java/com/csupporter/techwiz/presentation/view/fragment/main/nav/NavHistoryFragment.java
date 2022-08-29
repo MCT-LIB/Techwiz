@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,21 +67,17 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nav_history, container, false);
         init(view);
+        loadAppointment();
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void init(@NonNull View view) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         collapsibleCalendar = view.findViewById(R.id.calendar_view);
-        collapsibleCalendar.setSelectedDay(new Day(
+        collapsibleCalendar.setSelectedItem(new Day(
                 calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) - 1,
+                calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)));
         classifyList = view.findViewById(R.id.status_appointment);
         llLoading = view.findViewById(R.id.ll_loading);
@@ -101,7 +98,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
     private void initSpinner() {
         CustomSpinnerAdapter customAdapter = new CustomSpinnerAdapter(getActivity(), classifyIcon, classifyName);
         classifyList.setAdapter(customAdapter);
-        classifyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        classifyList.postDelayed(() -> classifyList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 classifySelected = i;
@@ -111,7 +108,7 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
-        });
+        }), 100);
     }
 
     private void initRecyclerView() {
@@ -120,21 +117,18 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
         rcvHistoryMeet.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    boolean isFirstCall;
-
     private void loadAppointment() {
         Day day = collapsibleCalendar.getSelectedDay();
         if (day == null) {
             return;
         }
         Calendar calendar = Calendar.getInstance();
-        calendar.set(day.getYear(), isFirstCall ? day.getMonth() : day.getMonth() - 1, day.getDay());
+        calendar.set(day.getYear(), day.getMonth(), day.getDay());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         historyAppointmentPresenter.requestAppointments(getStatus(), calendar.getTimeInMillis(), this);
         showLoadingLocal();
-        isFirstCall = true;
     }
 
     private List<Integer> getStatus() {

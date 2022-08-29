@@ -1,7 +1,5 @@
 package com.csupporter.techwiz.presentation.presenter.authentication;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 

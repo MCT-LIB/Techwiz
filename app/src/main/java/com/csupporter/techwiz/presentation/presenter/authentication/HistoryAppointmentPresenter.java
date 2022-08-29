@@ -115,13 +115,15 @@ public class HistoryAppointmentPresenter extends BasePresenter {
 
                     @Override
                     public void accept(List<Appointment> appointments) {
-                        Log.d("TAG", "accept: " + appointments.size());
                         appointmentDetails = new ArrayList<>();
                         if (appointments.isEmpty()) {
                             callback.onGetHistorySuccess(appointmentDetails);
                             return;
                         }
                         for (Appointment appointment : appointments) {
+                            if(appointment.getTime() < System.currentTimeMillis()){
+                                continue;
+                            }
                             DataInjection.provideRepository().account
                                     .findAccountById(App.getApp().getAccount().isUser() ? appointment.getDoctorId() : appointment.getUserId(), fillAcc -> {
                                         Log.d("TAG", "accept: " + fillAcc);

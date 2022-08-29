@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 
@@ -62,7 +63,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
         holder.name.setText(detail.getAcc().getFullName());
         if (TextUtils.isEmpty(detail.getAcc().getLocation())) {
             holder.address.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.address.setVisibility(View.VISIBLE);
         }
         holder.address.setText(detail.getAcc().getLocation());
@@ -77,7 +78,7 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
 
         if (detail.getAppointment().getStatus() == 0) {
             holder.icCancel.setVisibility(View.VISIBLE);
-            holder.icConfirm.setVisibility(View.VISIBLE);
+            holder.icConfirm.setVisibility(App.getApp().getAccount().isUser() ? View.GONE : View.VISIBLE);
         } else {
             holder.icConfirm.setVisibility(View.GONE);
             holder.icCancel.setVisibility(View.VISIBLE);
