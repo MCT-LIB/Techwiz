@@ -128,7 +128,6 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
         }
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -145,6 +144,13 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
                     return;
                 }
                 PrescriptionDetail prescriptionDetail = getPrescriptionDetail();
+
+                if (prescriptionDetail.getMedicineName().isEmpty() || String.valueOf(prescriptionDetail.getTimePerADay()).isEmpty()
+
+                        || String.valueOf(prescriptionDetail.getTimePerWeek()).isEmpty() || String.valueOf(prescriptionDetail.getQuantity()).isEmpty()) {
+                    ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, "Please enter information completely !", true).show();
+                    return;
+                }
 
                 addNewPrescriptionPresenter.createPrescriptionDetail(prescriptionDetail, stream.toByteArray(), new MainViewCallBack.CreatePrescriptionDetailCallBack() {
 

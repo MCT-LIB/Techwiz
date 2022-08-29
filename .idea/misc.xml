@@ -108,7 +108,10 @@
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/add_new_prescription_dialog.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/alert_dialog.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/custom_spinner_items.xml" value="0.2484375" />
+        <entry key="..\:/Android/Techwiz/app/src/main/res/layout/dialog_crop_image.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/doctor_list_items.xml" value="0.24739583333333334" />
+        <entry key="..\:/Android/Techwiz/app/src/main/res/layout/doctors_for_prescription_item.xml" value="0.2484375" />
+        <entry key="..\:/Android/Techwiz/app/src/main/res/layout/fragment_add_new_prescription.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/fragment_healthy_tracking.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/fragment_main.xml" value="0.2484375" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/layout/fragment_my_user_list.xml" value="0.2484375" />

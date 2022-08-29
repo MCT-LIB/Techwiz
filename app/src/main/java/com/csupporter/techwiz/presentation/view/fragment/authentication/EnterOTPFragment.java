@@ -135,6 +135,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
 
         btnVerifyCode.setOnClickListener(this);
         btnResentOTP.setOnClickListener(this);
+
         edtOtp.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

@@ -55,8 +55,8 @@ public class CropImageDialog extends BaseOverlayDialog {
         cropImageView.load(mUri).execute(new LoadCallback() {
             @Override
             public void onSuccess() {
-            }
 
+            }
             @Override
             public void onError(Throwable e) {
                 mUri = null;

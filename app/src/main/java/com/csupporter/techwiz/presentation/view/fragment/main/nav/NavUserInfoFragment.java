@@ -51,6 +51,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
 
     private final ActivityResultLauncher<Void> mPickPictureResult =
             registerForActivityResult(new PickPictureResult(), uri -> {
+
                 if (isContextNull() || uri == null) {
                     return;
                 }
