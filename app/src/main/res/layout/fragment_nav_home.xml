@@ -9,13 +9,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="50dp"
-        app:civ_border_width="1.5dp"
-        app:civ_border_color="@color/primary"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="25dp"
-        android:src="@mipmap/app_launcher_round" />
+        android:src="@mipmap/app_launcher_round"
+        app:civ_border_color="@color/primary"
+        app:civ_border_width="1.5dp" />
 
     <LinearLayout
         android:id="@+id/header_box"
@@ -84,26 +84,50 @@
         app:drawableRightCompat="@drawable/ic_baseline_navigate_next_24"
         app:drawableTint="@color/blue" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_list_appointment_of_day"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/nav_home_text"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        tools:listitem="@layout/home_appointment_items" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nav_home_text">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imv_nothing"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="100dp"
-        android:src="@drawable/empty_page"
-        android:visibility="visible" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_list_appointment_of_day"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:listitem="@layout/home_appointment_items" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_nothing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imv_nothing"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/empty_page"
+                    android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No appointment yet."
+                    android:textSize="16sp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

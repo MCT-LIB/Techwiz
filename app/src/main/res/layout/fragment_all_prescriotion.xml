@@ -9,7 +9,6 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_toolbar"
         style="@style/AppToolbar.NavBack"
-        android:elevation="8dp"
         app:menu="@menu/menu_add" />
 
     <LinearLayout

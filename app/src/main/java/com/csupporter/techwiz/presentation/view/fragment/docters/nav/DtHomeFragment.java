@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.presentation.view.fragment.docters.nav;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,25 +44,26 @@ import java.util.List;
 public class DtHomeFragment extends BaseFragment implements View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback, UserHomeAppointmentsAdapter.OnclickListener {
 
     private View view;
-    private ImageView imgAvatar, imvNothing;
+    private ImageView imgAvatar;
     private TextView tvUserName;
 
+    private SwipeRefreshLayout refreshLayout;
+    private View llNothing;
     private RecyclerView homeListAppointmentOfDay;
     private HistoryAppointmentPresenter historyAppointmentPresenter;
     private UserHomeAppointmentsAdapter homeCategoryDoctorAdapter;
 
     private LoadingDialog dialog;
 
-    private UserHomePresenter userHomePresenter;
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dt_home, container, false);
-        homeCategoryDoctorAdapter = new UserHomeAppointmentsAdapter();
-        homeCategoryDoctorAdapter.setOnclickListener(this);
-        historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
-        historyAppointmentPresenter.requestAppointmentsDoctor(this);
         return view;
     }
 
@@ -69,7 +72,7 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         setDataAppointmentList();
-        eventClick();
+        historyAppointmentPresenter.requestAppointmentsDoctor(this);
     }
 
     @Override
@@ -83,18 +86,14 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         tvUserName.setText(App.getApp().getAccount().getFullName());
     }
 
-    private void eventClick() {
-        imgAvatar.setOnClickListener(this);
-    }
-
     private void initView(@NonNull View view) {
         imgAvatar = view.findViewById(R.id.img_avatar);
-        imvNothing = view.findViewById(R.id.imv_nothing);
+        imgAvatar.setOnClickListener(this);
         tvUserName = view.findViewById(R.id.tv_username);
+        llNothing = view.findViewById(R.id.ll_nothing);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(() -> historyAppointmentPresenter.requestAppointmentsDoctor(this));
         homeListAppointmentOfDay = view.findViewById(R.id.home_list_appointment_of_day);
-
-
-        userHomePresenter = new UserHomePresenter(this);
     }
 
     @Override
@@ -113,6 +112,8 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setDataAppointmentList() {
+        homeCategoryDoctorAdapter = new UserHomeAppointmentsAdapter();
+        homeCategoryDoctorAdapter.setOnclickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         homeListAppointmentOfDay.setLayoutManager(linearLayoutManager);
         homeListAppointmentOfDay.setAdapter(homeCategoryDoctorAdapter);
@@ -130,17 +131,22 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
+        refreshLayout.setRefreshing(false);
         homeCategoryDoctorAdapter.setDetailList(appointmentDetails);
         if (appointmentDetails.isEmpty()) {
-            imvNothing.setVisibility(View.VISIBLE);
+            homeListAppointmentOfDay.setVisibility(View.GONE);
+            llNothing.setVisibility(View.VISIBLE);
         } else {
-            imvNothing.setVisibility(View.GONE);
+            homeListAppointmentOfDay.setVisibility(View.VISIBLE);
+            llNothing.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onError(Throwable throwable) {
-
+        refreshLayout.setRefreshing(false);
+        homeListAppointmentOfDay.setVisibility(View.GONE);
+        llNothing.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -189,7 +195,7 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
                                 showToast("Update success!", ToastUtils.SUCCESS);
                                 homeCategoryDoctorAdapter.removeItem(appointmentDetail);
                                 if (homeCategoryDoctorAdapter.getItemCount() == 0) {
-                                    imvNothing.setVisibility(View.GONE);
+                                    llNothing.setVisibility(View.VISIBLE);
                                 }
                             }
 

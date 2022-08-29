@@ -21,17 +21,17 @@ public class OnBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_board);
 
-        try {
-            String s = EncryptUtils.encrypt("123456aA");
-            Log.e("AESCrypt en", "-\n\n " + s + " \n\n -");
-            String dc = EncryptUtils.decrypt("123456aA", s);
-            Log.e("AESCrypt dc", "-\n\n " + dc + " \n\n -");
-            boolean b = EncryptUtils.checkPassword("123456aA", s);
-            Log.e("AESCrypt dc", "-\n\n " + b + " \n\n -");
-
-        } catch (GeneralSecurityException e) {
-            Log.e("AESCrypt", "False");
-        }
+//        try {
+//            String s = EncryptUtils.encrypt("123456aA");
+//            Log.e("AESCrypt en", "-\n\n " + s + " \n\n -");
+//            String dc = EncryptUtils.decrypt("123456aA", s);
+//            Log.e("AESCrypt dc", "-\n\n " + dc + " \n\n -");
+//            boolean b = EncryptUtils.checkPassword("123456aA", s);
+//            Log.e("AESCrypt dc", "-\n\n " + b + " \n\n -");
+//
+//        } catch (GeneralSecurityException e) {
+//            Log.e("AESCrypt", "False");
+//        }
         long startTime = System.currentTimeMillis();
         String id = DataInjection.provideSettingPreferences().getToken();
         if (id != null) {

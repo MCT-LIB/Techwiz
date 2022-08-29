@@ -1,6 +1,7 @@
 package com.csupporter.techwiz.presentation.view.adapter;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 
@@ -31,15 +33,11 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
         notifyDataSetChanged();
     }
 
-    public void removeItem(AppointmentDetail detail){
-        if (detailList != null){
+    public void removeItem(AppointmentDetail detail) {
+        if (detailList != null) {
             detailList.remove(detail);
             notifyDataSetChanged();
         }
-    };
-
-    public List<AppointmentDetail> getDetailList() {
-        return detailList;
     }
 
     public void setOnclickListener(OnclickListener mOnclickListener) {
@@ -57,27 +55,36 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
     @Override
     public void onBindViewHolder(@NonNull UserHomeAppointments_ViewHolder holder, int position) {
         AppointmentDetail detail = detailList.get(position);
-        if(detail==null){
+        if (detail == null) {
             return;
         }
 
         holder.name.setText(detail.getAcc().getFullName());
+        if (TextUtils.isEmpty(detail.getAcc().getLocation())) {
+            holder.address.setVisibility(View.GONE);
+        }else {
+            holder.address.setVisibility(View.VISIBLE);
+        }
         holder.address.setText(detail.getAcc().getLocation());
+        Glide.with(holder.itemView.getContext()).load(detail.getAcc().getAvatar())
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
+                .into(holder.avatar);
 
         holder.icConfirm.setOnClickListener(v -> mOnclickListener.onConfirm(detail, holder.getAdapterPosition()));
 
         holder.icCancel.setOnClickListener(v -> mOnclickListener.onCancel(detail, holder.getAdapterPosition()));
 
-        if (detail.getAppointment().getStatus() == 0 ){
+        if (detail.getAppointment().getStatus() == 0) {
             holder.icCancel.setVisibility(View.VISIBLE);
             holder.icConfirm.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.icConfirm.setVisibility(View.GONE);
             holder.icCancel.setVisibility(View.VISIBLE);
         }
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
-        String stringDate= dateFormat.format(detail.getAppointment().getTime());
+        String stringDate = dateFormat.format(detail.getAppointment().getTime());
 
         holder.time.setText(stringDate);
 
@@ -93,13 +100,12 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
     }
 
 
-
     public static class UserHomeAppointments_ViewHolder extends RecyclerView.ViewHolder {
         private final CircleImageView avatar;
         private final TextView name;
         private final TextView address;
         private final TextView time;
-        private ImageView icConfirm,icCancel;
+        private ImageView icConfirm, icCancel;
 
         public UserHomeAppointments_ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +121,6 @@ public class UserHomeAppointmentsAdapter extends RecyclerView.Adapter<UserHomeAp
     public interface OnclickListener {
         void onConfirm(AppointmentDetail appointmentDetail, int pos);
 
-        void onCancel(AppointmentDetail appointmentDetail, int pos );
+        void onCancel(AppointmentDetail appointmentDetail, int pos);
     }
 }

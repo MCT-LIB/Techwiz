@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appointments_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/nav_home_text"
-    android:layout_alignParentStart="true"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="6dp"
     android:background="@drawable/bg_radius_20"
     android:backgroundTint="@color/blue"
-    android:orientation="vertical"
     android:elevation="6dp"
-    android:layout_marginBottom="6dp"
     android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -39,10 +36,10 @@
             android:id="@+id/appointments_name_doctor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="150dp"
-            android:text="Dr.Maximum"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLines="1"
+            android:text="Dr.Maximum"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -51,10 +48,10 @@
             android:id="@+id/appointments_address_doctor"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:maxLines="1"
-            android:ellipsize="end"
             tools:text="Ha Noi" />
 
     </LinearLayout>
@@ -80,20 +77,21 @@
 
     <LinearLayout
         android:id="@+id/ll_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="76dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
+        android:gravity="end"
         android:orientation="horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ic_cancel"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginHorizontal="4dp"
             android:src="@drawable/ic_cancel_circle" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ic_confirm"
             android:layout_width="30dp"
             android:layout_height="30dp"

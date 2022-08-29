@@ -1,37 +1,32 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
-
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
-import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
+import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.mct.components.baseui.BaseActivity;
-import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,30 +35,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NavHomeFragment extends BaseNavFragment implements
         HomeCategoryDoctorAdapter.OnClickCategoryItems, View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback, UserHomeAppointmentsAdapter.OnclickListener {
 
-    private TextView txtMyAppointment;
-    private ImageView imvNothing;
     private RecyclerView categoryDoctor;
-
     private RecyclerView rclAppointmentList;
+    private SwipeRefreshLayout refreshLayout;
+    private View llNothing;
+
     private HistoryAppointmentPresenter historyAppointmentPresenter;
     private UserHomeAppointmentsAdapter userHomeAppointmentsAdapter;
 
-    private HomeCategoryDoctorAdapter homeCategoryDoctorAdapter;
     private CircleImageView avatar;
     private TextView name;
 
     private LoadingDialog dialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
         historyAppointmentPresenter = new HistoryAppointmentPresenter(this);
-        historyAppointmentPresenter.requestAppointmentsDoctor(this);
-        homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this, R.layout.nav_home_category_items);
-        userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
-        userHomeAppointmentsAdapter.setOnclickListener(this);
+    }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_nav_home, container, false);
         init(view);
 
         return view;
@@ -80,57 +73,49 @@ public class NavHomeFragment extends BaseNavFragment implements
         name.setText(account.getFullName());
     }
 
-    private void init(View view) {
+    private void init(@NonNull View view) {
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
         rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
-        imvNothing = view.findViewById(R.id.imv_nothing);
+        llNothing = view.findViewById(R.id.ll_nothing);
         name = view.findViewById(R.id.tv_username);
-        txtMyAppointment = view.findViewById(R.id.nav_home_text);
 
         avatar = view.findViewById(R.id.img_avatar);
         avatar.setOnClickListener(this);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(() -> historyAppointmentPresenter.requestAppointmentsDoctor(this));
 
-        setDataForUI();
         setDataCategoryDoctor();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void setDataForUI() {
-        Account account = App.getApp().getAccount();
         setDataAppointmentList();
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.search_bar:
-
-                break;
-            case R.id.img_avatar:
-                changeTap(4, false);
-                break;
+    public void onClick(@NonNull View view) {
+        if (view.getId() == R.id.img_avatar) {
+            changeTap(4, false);
         }
     }
 
     private void setDataCategoryDoctor() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         categoryDoctor.setLayoutManager(linearLayoutManager);
+        HomeCategoryDoctorAdapter homeCategoryDoctorAdapter = new HomeCategoryDoctorAdapter(this, R.layout.nav_home_category_items);
         homeCategoryDoctorAdapter.setCategoryDoctorList();
         categoryDoctor.setAdapter(homeCategoryDoctorAdapter);
     }
 
     private void setDataAppointmentList() {
+        userHomeAppointmentsAdapter = new UserHomeAppointmentsAdapter();
+        userHomeAppointmentsAdapter.setOnclickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rclAppointmentList.setLayoutManager(linearLayoutManager);
         rclAppointmentList.setAdapter(userHomeAppointmentsAdapter);
+        historyAppointmentPresenter.requestAppointmentsDoctor(this);
     }
-
 
     @Override
     public void onClickCategoryItem(int typeDoctor) {
         replaceFragment(AddDoctorFragment.newInstance(typeDoctor), true, BaseActivity.Anim.TRANSIT_FADE);
     }
-
 
     @Override
     public void showLoading() {
@@ -152,17 +137,22 @@ public class NavHomeFragment extends BaseNavFragment implements
 
     @Override
     public void onGetHistorySuccess(List<AppointmentDetail> appointmentDetails) {
+        refreshLayout.setRefreshing(false);
         userHomeAppointmentsAdapter.setDetailList(appointmentDetails);
         if (appointmentDetails.isEmpty()) {
-            imvNothing.setVisibility(View.VISIBLE);
+            rclAppointmentList.setVisibility(View.GONE);
+            llNothing.setVisibility(View.VISIBLE);
         } else {
-            imvNothing.setVisibility(View.GONE);
+            rclAppointmentList.setVisibility(View.VISIBLE);
+            llNothing.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onError(Throwable throwable) {
-
+        refreshLayout.setRefreshing(false);
+        rclAppointmentList.setVisibility(View.GONE);
+        llNothing.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -211,7 +201,7 @@ public class NavHomeFragment extends BaseNavFragment implements
                                 showToast("Update success!", ToastUtils.SUCCESS);
                                 userHomeAppointmentsAdapter.removeItem(appointmentDetail);
                                 if (userHomeAppointmentsAdapter.getItemCount() == 0) {
-                                    imvNothing.setVisibility(View.GONE);
+                                    llNothing.setVisibility(View.VISIBLE);
                                 }
                             }
 
