@@ -143,15 +143,11 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
                     showToast("Please select image", ToastUtils.WARNING);
                     return;
                 }
+
                 PrescriptionDetail prescriptionDetail = getPrescriptionDetail();
-
-                if (prescriptionDetail.getMedicineName().isEmpty() || String.valueOf(prescriptionDetail.getTimePerADay()).isEmpty()
-
-                        || String.valueOf(prescriptionDetail.getTimePerWeek()).isEmpty() || String.valueOf(prescriptionDetail.getQuantity()).isEmpty()) {
-                    ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, "Please enter information completely !", true).show();
+                if (prescriptionDetail == null) {
                     return;
                 }
-
                 addNewPrescriptionPresenter.createPrescriptionDetail(prescriptionDetail, stream.toByteArray(), new MainViewCallBack.CreatePrescriptionDetailCallBack() {
 
                     @Override
@@ -180,20 +176,31 @@ public class AddNewPrescriptionFragment extends BaseNavFragment implements View.
     }
 
     private PrescriptionDetail getPrescriptionDetail() {
-        int timePerDay = Integer.parseInt(edtTimePerDay.getText().toString().trim());
-        int timePerWeek = Integer.parseInt(edtTimePerWeek.getText().toString().trim());
-        int quantity = Integer.parseInt(edtQuantity.getText().toString().trim());
+        String timePerDay = edtTimePerDay.getText().toString().trim();
+        String timePerWeek = edtTimePerWeek.getText().toString().trim();
+        String quantity = edtQuantity.getText().toString().trim();
         String nameMedicine = edtMedicineName.getText().toString().trim();
+
+        if (timePerDay.isEmpty() || timePerWeek.isEmpty() || quantity.isEmpty() || nameMedicine.isEmpty()) {
+            ToastUtils.makeWarningToast(getActivity(), Toast.LENGTH_SHORT, "Please enter information completely !", true).show();
+            return null;
+        }
+
+        int timesPerDay = Integer.parseInt(timePerDay);
+        int timesPerWeek = Integer.parseInt(timePerWeek);
+        int quantities = Integer.parseInt(quantity);
 
         PrescriptionDetail prescriptionDetail = new PrescriptionDetail();
         prescriptionDetail.setId(FirebaseUtils.uniqueId());
+
         if (prescription != null) {
             prescriptionDetail.setPrescriptionId(prescription.getId());
         }
+
         prescriptionDetail.setMedicineName(nameMedicine);
-        prescriptionDetail.setQuantity(quantity);
-        prescriptionDetail.setTimePerADay(timePerDay);
-        prescriptionDetail.setTimePerWeek(timePerWeek);
+        prescriptionDetail.setQuantity(quantities);
+        prescriptionDetail.setTimePerADay(timesPerDay);
+        prescriptionDetail.setTimePerWeek(timesPerWeek);
         return prescriptionDetail;
     }
 
