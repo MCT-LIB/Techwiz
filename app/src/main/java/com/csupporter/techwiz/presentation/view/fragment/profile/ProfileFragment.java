@@ -173,7 +173,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 }).create(null);
                 break;
             case R.id.cv_password:
-                new EnterChangePasswordDialog(requireContext(), tmpAccount, tmpAccount::setPassword).create(null);
+                new EnterChangePasswordDialog(requireContext(), tmpAccount, password -> {
+                    tmpAccount.setPassword(password);
+                    showToast("Done", ToastUtils.INFO);
+                }).create(null);
                 break;
             case R.id.cv_gender:
                 new ChooseGenderDialog(requireContext(), gender -> {

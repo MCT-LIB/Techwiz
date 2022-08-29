@@ -28,12 +28,14 @@ public class EnterChangePasswordDialog extends BaseOverlayDialog {
     private EditText edtCfNewPass;
     private final OnSubmitListener listener;
     private final Account account;
+    private String hash;
     private Toast mToast;
 
     public EnterChangePasswordDialog(@NonNull Context context, Account account, OnSubmitListener listener) {
         super(context);
         this.listener = listener;
         this.account = account;
+        hash = account.getPassword();
     }
 
     @NonNull
@@ -53,6 +55,7 @@ public class EnterChangePasswordDialog extends BaseOverlayDialog {
             String cfNewPass = edtCfNewPass.getText().toString().trim();
             if (verify(currentPass, newPass, cfNewPass)) {
                 listener.onSubmit(EncryptUtils.encrypt(newPass));
+                dismiss();
             }
 
         });
@@ -79,7 +82,7 @@ public class EnterChangePasswordDialog extends BaseOverlayDialog {
             edtCurrentPass.requestFocus();
             return false;
         }
-        if (!EncryptUtils.checkPassword(currentPass, account.getPassword())) {
+        if (!EncryptUtils.checkPassword(currentPass, hash)) {
             showToast("Current password incorrect", ToastUtils.WARNING);
             edtCurrentPass.requestFocus();
             return false;
