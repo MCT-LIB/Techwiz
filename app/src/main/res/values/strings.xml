@@ -119,8 +119,8 @@
     <string name="fragment_dt_profile_hint_prescription">Prescription</string>
     <string name="fragment_dt_profile_logout">Log out</string>
     <string name="fragment_dt_profile_hint_logout">Log out</string>
-    <string name="fragment_dt_profile_feedback">Feedback</string>
-    <string name="fragment_dt_profile_hint_feedback">Share your feedback</string>
+    <string name="fragment_dt_profile_feedback">Share your feedback</string>
+    <string name="fragment_dt_profile_hint_feedback">Feedback</string>
 
     <!--    fragment history meeting-->
     <string name="fragment_dt_history_meeting_notify">No notice</string>

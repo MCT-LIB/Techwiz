@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,10 +41,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DtProfileFragment extends BaseFragment implements View.OnClickListener {
 
-    private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemProfile, itemLogout, itemPrescription;
-    private CircleImageView crlOpenGallery, avatarPersonal;
+    private CircleImageView avatarPersonal;
     private LoadingDialog dialog;
 
     private DoctorProfilePresenter doctorProfilePresenter;
@@ -91,17 +88,14 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
             });
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_dt_profile, container, false);
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_dt_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        eventClick();
         doctorProfilePresenter = new DoctorProfilePresenter(this);
         navUserInfoPresenter = new NavUserInfoPresenter(this);
     }
@@ -118,22 +112,15 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
                 .into(avatarPersonal);
     }
 
-    private void eventClick() {
-        itemProfile.setOnClickListener(this);
-        itemLogout.setOnClickListener(this);
-        crlOpenGallery.setOnClickListener(this);
-        itemPrescription.setOnClickListener(this);
-    }
-
-    private void initView(View view) {
+    private void initView(@NonNull View view) {
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
 
-        itemProfile = view.findViewById(R.id.item_profile);
-        itemLogout = view.findViewById(R.id.item_logout);
-        itemPrescription = view.findViewById(R.id.prescription_layout);
+        view.findViewById(R.id.item_profile).setOnClickListener(this);
+        view.findViewById(R.id.item_logout).setOnClickListener(this);
+        view.findViewById(R.id.item_feedback).setOnClickListener(this);
+        view.findViewById(R.id.crl_open_gallery).setOnClickListener(this);
 
-        crlOpenGallery = view.findViewById(R.id.crl_open_gallery);
         avatarPersonal = view.findViewById(R.id.avatar_personal);
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
@@ -160,6 +147,14 @@ public class DtProfileFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.prescription_layout:
                 replaceFragment(new MyUsersFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
+                break;
+            case R.id.item_feedback:
+                Intent it = new Intent(Intent.ACTION_SEND);
+                it.putExtra(Intent.EXTRA_EMAIL, new String[]{"son.nc.993@aptechlearning.edu.vn"});
+                it.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                it.putExtra(Intent.EXTRA_TEXT, "");
+                it.setType("message/rfc822");
+                startActivity(it);
                 break;
         }
     }

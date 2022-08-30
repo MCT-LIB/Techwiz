@@ -81,6 +81,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                                     public void onSuccess(String url) {
                                         hideLoading();
                                         imvCertificate.post(() -> imvCertificate.setImageBitmap(bitmap));
+                                        if (tmpAccount != null) {
+                                            tmpAccount.setCertificationUrl(url);
+                                        }
+                                        App.getApp().getAccount().setCertificationUrl(url);
+                                        profilePresenter.updateProfile(App.getApp().getAccount(), null);
                                         showToast("Change success!", ToastUtils.SUCCESS, true);
                                     }
 

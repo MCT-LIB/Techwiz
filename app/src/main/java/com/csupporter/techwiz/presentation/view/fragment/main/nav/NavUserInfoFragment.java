@@ -40,9 +40,8 @@ import java.io.ByteArrayOutputStream;
 
 public class NavUserInfoFragment extends BaseNavFragment implements View.OnClickListener, MainViewCallBack.NavUserInfoCallBack {
 
-    private View view;
     private TextView tvName, tvEmail;
-    private RelativeLayout itemLogout, itemHealthTrack, itemProfile, itemPrescription;
+    private RelativeLayout itemLogout, itemHealthTrack, itemProfile, itemPrescription, itemFeedback;
     private ImageView btnOpenGallery;
     private ImageView imgAvatar;
     private LoadingDialog dialog;
@@ -89,8 +88,7 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_nav_user_info, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_nav_user_info, container, false);
     }
 
     @Override
@@ -160,6 +158,14 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
             case R.id.item_view_prescription:
                 replaceFragment(new AllPrescriptionFragment(), true, BaseActivity.Anim.RIGHT_IN_LEFT_OUT);
                 break;
+            case R.id.item_feedback:
+                Intent it = new Intent(Intent.ACTION_SEND);
+                it.putExtra(Intent.EXTRA_EMAIL, new String[]{"son.nc.993@aptechlearning.edu.vn"});
+                it.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                it.putExtra(Intent.EXTRA_TEXT, "");
+                it.setType("message/rfc822");
+                startActivity(it);
+                break;
         }
     }
 
@@ -167,8 +173,9 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemLogout.setOnClickListener(this);
         itemHealthTrack.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
-        btnOpenGallery.setOnClickListener(this);
         itemPrescription.setOnClickListener(this);
+        itemFeedback.setOnClickListener(this);
+        btnOpenGallery.setOnClickListener(this);
     }
 
     private void initView(@NonNull View view) {
@@ -177,9 +184,10 @@ public class NavUserInfoFragment extends BaseNavFragment implements View.OnClick
         itemLogout = view.findViewById(R.id.item_logout);
         itemHealthTrack = view.findViewById(R.id.item_health_track);
         itemProfile = view.findViewById(R.id.item_profile);
+        itemPrescription = view.findViewById(R.id.item_view_prescription);
+        itemFeedback = view.findViewById(R.id.item_feedback);
         btnOpenGallery = view.findViewById(R.id.crl_open_gallery);
         imgAvatar = view.findViewById(R.id.avatar_personal);
-        itemPrescription = view.findViewById(R.id.item_view_prescription);
     }
 
     @Override

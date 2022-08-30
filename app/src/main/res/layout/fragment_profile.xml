@@ -138,7 +138,6 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:gravity="center|end"
-
                             android:text="**************"
                             android:textSize="18sp" />
 
@@ -237,7 +236,7 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="Specialized"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/category_doctor_list"
@@ -274,7 +273,6 @@
                         android:src="@drawable/ic_camera" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
 
             </LinearLayout>
 

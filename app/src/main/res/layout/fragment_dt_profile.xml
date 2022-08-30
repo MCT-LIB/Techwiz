@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_fragment_nav"
+    android:orientation="vertical"
     tools:context=".presentation.view.fragment.main.nav.NavUserInfoFragment">
 
     <RelativeLayout
@@ -150,7 +150,8 @@
             android:focusable="true"
             android:gravity="center_vertical"
             android:paddingStart="32dp"
-            android:paddingEnd="32dp">
+            android:paddingEnd="32dp"
+            android:visibility="gone">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view_prescription"
@@ -195,6 +196,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/item_feedback"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:background="?android:selectableItemBackground"

@@ -1,8 +1,5 @@
 package com.csupporter.techwiz.presentation.presenter.user;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
-
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
@@ -15,16 +12,16 @@ public class ProfilePresenter extends BasePresenter {
         super(baseView);
     }
 
-    public void updateProfile(Account account, @NonNull MainViewCallBack.UpdateProfileCallback callback) {
+    public void updateProfile(Account account, MainViewCallBack.UpdateProfileCallback callback) {
         getBaseView().showLoading();
-
         DataInjection.provideRepository().account.updateAccount(account, unused -> {
             getBaseView().hideLoading();
-            callback.onSuccess();
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                getBaseView().hideLoading();
+            if (callback != null) {
+                callback.onSuccess();
+            }
+        }, throwable -> {
+            getBaseView().hideLoading();
+            if (callback != null) {
                 callback.onError(throwable);
             }
         });
