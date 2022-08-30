@@ -33,6 +33,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnClickListener {
     private TextInputEditText txtDate;
@@ -115,9 +116,12 @@ public class AddAppointmentDialog extends BaseOverlayDialog implements View.OnCl
 
             AppointmentSchedule appointmentSchedule = new AppointmentSchedule();
             appointmentSchedule.setId(appointment.getId());
+            appointmentSchedule.setUserName(account.getFullName());
+            appointmentSchedule.setDoctorName(doctor.getFullName());
             appointmentSchedule.setUserEmail(account.getEmail());
             appointmentSchedule.setDoctorEmail(doctor.getEmail());
             appointmentSchedule.setTime((int) (time / 1000));
+            appointmentSchedule.setTimeZone(TimeZone.getDefault().getID());
             appointmentSchedule.setLocation(doctor.getLocation());
             appointmentSchedule.setStatus(appointment.getStatus());
             onBookNewAppointment.onBook(this, appointment, appointmentSchedule);

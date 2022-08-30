@@ -1,18 +1,13 @@
 package com.csupporter.techwiz.presentation.view.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.utils.EncryptUtils;
-
-import java.security.GeneralSecurityException;
-import java.util.Date;
 
 public class OnBoardActivity extends AppCompatActivity {
 

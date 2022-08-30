@@ -8,6 +8,12 @@ public class AppointmentSchedule {
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("user_name")
+    @Expose
+    private String userName;
+    @SerializedName("doctor_name")
+    @Expose
+    private String doctorName;
     @SerializedName("user_email")
     @Expose
     private String userEmail;
@@ -17,6 +23,9 @@ public class AppointmentSchedule {
     @SerializedName("time")
     @Expose
     private Integer time;
+    @SerializedName("time_zone")
+    @Expose
+    private String timeZone;
     @SerializedName("location")
     @Expose
     private String location;
@@ -27,21 +36,28 @@ public class AppointmentSchedule {
     public AppointmentSchedule() {
     }
 
-    public AppointmentSchedule(String id, String userEmail, String doctorEmail, Integer time, String location, Integer status) {
-        this.id = id;
-        this.userEmail = userEmail;
-        this.doctorEmail = doctorEmail;
-        this.time = time;
-        this.location = location;
-        this.status = status;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public String getUserEmail() {
@@ -66,6 +82,14 @@ public class AppointmentSchedule {
 
     public void setTime(Integer time) {
         this.time = time;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 
     public String getLocation() {
