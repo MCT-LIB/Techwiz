@@ -2,7 +2,6 @@ package com.csupporter.techwiz.presentation.view.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,13 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.HealthTracking;
-import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
-import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 
 public class DetailHealthTracDialog extends BaseOverlayDialog implements View.OnClickListener{

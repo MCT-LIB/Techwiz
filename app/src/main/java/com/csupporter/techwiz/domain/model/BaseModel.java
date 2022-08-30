@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-abstract class BaseModel implements Serializable {
+public abstract class BaseModel implements Serializable {
 
     private String id;
 

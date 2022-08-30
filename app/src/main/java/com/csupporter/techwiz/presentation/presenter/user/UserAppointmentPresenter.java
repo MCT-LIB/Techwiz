@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.presenter.authentication;
+package com.csupporter.techwiz.presentation.presenter.user;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,11 +25,8 @@ import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.domain.model.Prescription;
-import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.AddAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.ChooseMyDoctorAdapter;
 import com.mct.components.baseui.BaseOverlayDialog;
-import com.mct.components.baseui.BaseView;
 
 import java.util.ArrayList;
 import java.util.List;

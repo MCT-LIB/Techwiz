@@ -91,7 +91,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                     List<Account> accounts = new ArrayList<>();
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
                         Account account = snapshot.toObject(Account.class);
-                        if (account != null) {
+                        if (account != null && account.getFullName().toLowerCase().contains(name.toLowerCase())) {
                             account.setId(snapshot.getId());
                             accounts.add(account);
                         }

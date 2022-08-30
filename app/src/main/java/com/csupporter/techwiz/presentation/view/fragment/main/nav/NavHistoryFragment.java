@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,15 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.CustomSpinnerAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.HistoryAppointmentAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddAppointmentDialog;
@@ -26,6 +27,7 @@ import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.utils.SimpleCalendarListener;
+import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.baseui.BaseOverlayLifecycle;
 import com.mct.components.toast.ToastUtils;
@@ -267,7 +269,6 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
                             public void onCreateSuccess() {
                                 historyAppointmentAdapter.notifyItemChanged(position);
                                 showToast("Update success!", ToastUtils.SUCCESS);
-                                historyAppointmentAdapter.notifyItemChanged(position);
                             }
 
                             @Override
@@ -285,6 +286,9 @@ public class NavHistoryFragment extends BaseNavFragment implements MainViewCallB
 
     @Override
     public void onClickItem(AppointmentDetail detail, int position) {
-
+        if (App.getApp().getAccount().isUser()) {
+            Fragment fragment = DoctorInfoFragment.newInstance(detail.getAcc());
+            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
+        }
     }
 }

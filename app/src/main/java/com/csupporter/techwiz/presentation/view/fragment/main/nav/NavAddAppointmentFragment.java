@@ -1,6 +1,5 @@
 package com.csupporter.techwiz.presentation.view.fragment.main.nav;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.Appointment;
-import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.AddAppointmentPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.AddAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.AddAppointmentAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddAppointmentDialog;
 import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;

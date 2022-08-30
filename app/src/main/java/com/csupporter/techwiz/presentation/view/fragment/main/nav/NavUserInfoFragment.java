@@ -21,7 +21,7 @@ import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.CropImageDialog;

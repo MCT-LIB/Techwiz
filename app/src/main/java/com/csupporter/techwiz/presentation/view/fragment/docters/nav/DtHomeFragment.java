@@ -14,31 +14,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
-import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
-import com.csupporter.techwiz.presentation.presenter.authentication.UserHomePresenter;
-import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
+import com.csupporter.techwiz.presentation.presenter.user.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
 import com.csupporter.techwiz.presentation.view.fragment.docters.DoctorFragment;
-import com.csupporter.techwiz.presentation.view.fragment.main.MainFragment;
-import com.csupporter.techwiz.presentation.view.fragment.profile.ProfileFragment;
-import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DtHomeFragment extends BaseFragment implements View.OnClickListener, MainViewCallBack.GetAppointmentHistoryCallback, UserHomeAppointmentsAdapter.OnclickListener {

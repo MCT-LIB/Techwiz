@@ -18,7 +18,7 @@ import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.HistoryAppointmentPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.HistoryAppointmentPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.HomeCategoryDoctorAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.UserHomeAppointmentsAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;

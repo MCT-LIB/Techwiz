@@ -4,26 +4,22 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Prescription;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.AllPrescriptionPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.AllPrescriptionPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.PrescriptionAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddNewPrescriptionDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.csupporter.techwiz.presentation.view.fragment.main.nav.AddNewPrescriptionFragment;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;

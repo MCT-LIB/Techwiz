@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.presenter.authentication;
+package com.csupporter.techwiz.presentation.presenter.user;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;

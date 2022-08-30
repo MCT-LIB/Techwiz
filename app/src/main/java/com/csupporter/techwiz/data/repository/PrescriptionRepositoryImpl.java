@@ -2,6 +2,7 @@ package com.csupporter.techwiz.data.repository;
 
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
@@ -40,6 +41,26 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                         }
                     }
                     FirebaseUtils.success(onSuccess, prescriptionsList);
+                }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
+    }
+
+    @Override
+    public void findPrescriptionByName(@NonNull Account account, String name,
+                                       @Nullable Consumer<List<Prescription>> onSuccess,
+                                       @Nullable Consumer<Throwable> onError) {
+        FirebaseUtils.db().collection(DEFAULT_PATH)
+                .whereEqualTo(account.isUser() ? "userId" : "doctorId", account.getId())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Prescription> prescriptions = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        Prescription prescription = snapshot.toObject(Prescription.class);
+                        if (prescription != null && prescription.getTitlePrescription().toLowerCase().contains(name.toLowerCase())) {
+                            prescription.setId(snapshot.getId());
+                            prescriptions.add(prescription);
+                        }
+                    }
+                    FirebaseUtils.success(onSuccess, prescriptions);
                 }).addOnFailureListener(e -> FirebaseUtils.error(onError, e));
     }
 

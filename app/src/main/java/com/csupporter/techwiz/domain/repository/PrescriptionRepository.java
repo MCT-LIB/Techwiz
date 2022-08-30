@@ -16,4 +16,8 @@ public interface PrescriptionRepository {
 
     void getAllPrescription(Account account, @Nullable Consumer<List<Prescription>> onSuccess,
                             @Nullable Consumer<Throwable> onError);
+
+    void findPrescriptionByName(Account account, String name,
+                                @Nullable Consumer<List<Prescription>> onSuccess,
+                                @Nullable Consumer<Throwable> onError);
 }

@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="18dp"
             android:fontFamily="sans-serif"
-            android:text="Your Descriptions"
+            android:text="Your Prescriptions"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -44,8 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_title"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
+        android:paddingTop="64dp"
         tools:itemCount="5"
         tools:listitem="@layout/item_prescription" />
 

@@ -21,21 +21,23 @@ import java.util.List;
 public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.ViewHolder> {
 
     private List<Prescription> prescriptionsList;
-    private OnItemClickListener mOnItemClickListener;
+    private final OnItemClickListener mOnItemClickListener;
 
-    public PrescriptionAdapter( OnItemClickListener mOnItemClickListener) {
+    public PrescriptionAdapter(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setPrescriptionsList(List<Prescription> prescriptionsList){
+    public void setPrescriptionsList(List<Prescription> prescriptionsList) {
         this.prescriptionsList = prescriptionsList;
         notifyDataSetChanged();
     }
+
     public void addNewItemTrack(Prescription prescription) {
         prescriptionsList.add(0, prescription);
         notifyItemInserted(0);
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,7 +49,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Prescription prescription = prescriptionsList.get(position);
         holder.setData(prescription);
-        holder.itemView.setOnClickListener(v-> mOnItemClickListener.onItemCLick(prescription, holder.getAdapterPosition()));
+        holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemCLick(prescription, holder.getAdapterPosition()));
     }
 
     @Override
@@ -58,7 +60,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         return 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTitlePres, tvDateTime;
 
@@ -72,9 +74,9 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
             tvDateTime = itemView.findViewById(R.id.tv_date_time);
         }
 
-        private void setData(Prescription model){
+        private void setData(Prescription model) {
             tvTitlePres.setText(String.valueOf(model.getTitlePrescription()));
-                    tvDateTime.setText(DateFormat.getDateTimeInstance().format(new Date(model.getCreateAt())));
+            tvDateTime.setText(DateFormat.getDateTimeInstance().format(new Date(model.getCreateAt())));
         }
 
     }

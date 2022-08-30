@@ -1,13 +1,11 @@
 package com.csupporter.techwiz.presentation.presenter;
 
 import com.csupporter.techwiz.domain.model.Account;
-import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.BaseModel;
 import com.csupporter.techwiz.domain.model.HealthTracking;
-import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.domain.model.Prescription;
 import com.csupporter.techwiz.domain.model.PrescriptionDetail;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
-import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
 
 import java.util.List;
 
@@ -127,12 +125,23 @@ public abstract class MainViewCallBack {
     public interface GetUserCreatedPrescription {
         void getUserCreatedPrescription(Account account);
     }
-    public interface DeletePrescriptionDetail{
-        void deletePrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail,int pos);
+
+    public interface DeletePrescriptionDetail {
+        void deletePrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail, int pos);
+
         void deletePrescriptionDetailFail();
     }
-    public interface EditPrescriptionDetail{
+
+    public interface EditPrescriptionDetail {
         void editPrescriptionDetailSuccess(PrescriptionDetail prescriptionDetail);
+
         void editPrescriptionDetailFail();
     }
+
+    public interface SearchCallback {
+        void onSearchSuccess(List<?> result, Class<? extends BaseModel> clazz);
+
+        void onError(Throwable throwable);
+    }
+
 }

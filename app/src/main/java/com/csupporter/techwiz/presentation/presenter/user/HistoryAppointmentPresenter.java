@@ -1,4 +1,4 @@
-package com.csupporter.techwiz.presentation.presenter.authentication;
+package com.csupporter.techwiz.presentation.presenter.user;
 
 import android.util.Log;
 
@@ -7,7 +7,6 @@ import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.di.DataInjection;
-import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
 import com.csupporter.techwiz.domain.model.AppointmentSchedule;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
@@ -40,20 +39,19 @@ public class HistoryAppointmentPresenter extends BasePresenter {
                         for (Appointment appointment : appointments) {
                             DataInjection.provideRepository().account
                                     .findAccountById(App.getApp().getAccount().isUser() ? appointment.getDoctorId() : appointment.getUserId(), fillAcc -> {
-                                        ++count;
                                         if (fillAcc != null) {
                                             AppointmentDetail detail = new AppointmentDetail(appointment, fillAcc);
                                             appointmentDetails.add(detail);
                                         }
-                                        if (count == appointments.size()) {
-                                            callback.onGetHistorySuccess(appointmentDetails);
-                                        }
-                                    }, throwable -> {
-                                        ++count;
-                                        if (count == appointments.size()) {
-                                            callback.onGetHistorySuccess(appointmentDetails);
-                                        }
-                                    });
+                                        increaseAndCheck(appointments.size());
+                                    }, throwable -> increaseAndCheck(appointments.size()));
+                        }
+                    }
+
+                    private void increaseAndCheck(int size) {
+                        ++count;
+                        if (count == size) {
+                            callback.onGetHistorySuccess(appointmentDetails);
                         }
                     }
                 }, callback::onError);
@@ -121,26 +119,31 @@ public class HistoryAppointmentPresenter extends BasePresenter {
                             return;
                         }
                         for (Appointment appointment : appointments) {
-                            if(appointment.getTime() < System.currentTimeMillis()){
+                            if (appointment.getTime() < System.currentTimeMillis()) {
+                                increaseAndCheck(appointments.size());
+                                appointment.setStatus(5);
+                                AppointmentSchedule schedule = new AppointmentSchedule();
+                                schedule.setId(appointment.getId());
+                                schedule.setStatus(5);
+                                DataInjection.provideRepository().appointment.updateAppointment(appointment, schedule, null, null);
                                 continue;
                             }
                             DataInjection.provideRepository().account
                                     .findAccountById(App.getApp().getAccount().isUser() ? appointment.getDoctorId() : appointment.getUserId(), fillAcc -> {
                                         Log.d("TAG", "accept: " + fillAcc);
-                                        ++count;
                                         if (fillAcc != null) {
                                             AppointmentDetail detail = new AppointmentDetail(appointment, fillAcc);
                                             appointmentDetails.add(detail);
                                         }
-                                        if (count == appointments.size()) {
-                                            callback.onGetHistorySuccess(appointmentDetails);
-                                        }
-                                    }, throwable -> {
-                                        ++count;
-                                        if (count == appointments.size()) {
-                                            callback.onGetHistorySuccess(appointmentDetails);
-                                        }
-                                    });
+                                        increaseAndCheck(appointments.size());
+                                    }, throwable -> increaseAndCheck(appointments.size()));
+                        }
+                    }
+
+                    private void increaseAndCheck(int size) {
+                        ++count;
+                        if (count == size) {
+                            callback.onGetHistorySuccess(appointmentDetails);
                         }
                     }
                 }, callback::onError);

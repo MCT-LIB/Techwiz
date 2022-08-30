@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.NavUserInfoPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.NavUserInfoPresenter;
 import com.csupporter.techwiz.presentation.presenter.doctor.DoctorProfilePresenter;
 import com.csupporter.techwiz.presentation.view.activities.AuthenticateActivity;
 import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;

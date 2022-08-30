@@ -16,7 +16,7 @@ import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.HealthTracking;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
-import com.csupporter.techwiz.presentation.presenter.authentication.HealthyTrackingPresenter;
+import com.csupporter.techwiz.presentation.presenter.user.HealthyTrackingPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.HealthTrackItemAdapter;
 import com.csupporter.techwiz.presentation.view.dialog.AddNewHealthTracking;
 import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;
@@ -34,7 +34,6 @@ import com.mct.components.baseui.BaseFragment;
 import com.mct.components.baseui.BaseOverlayDialog;
 import com.mct.components.toast.ToastUtils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

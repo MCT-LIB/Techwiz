@@ -12,6 +12,9 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/app_logo_background.xml" value="0.1905" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/app_logo_background_gen.xml" value="0.1905" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/app_logo_foreground_gen.xml" value="0.1905" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_border.xml" value="0.1995" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_border_radius_16.xml" value="0.1995" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_custom_spinner.xml" value="0.241" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_fragment_nav.xml" value="0.1825" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_radius_20.xml" value="0.1825" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/drawable/bg_text_input_layout.xml" value="0.1965" />
@@ -63,6 +66,7 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/dialog_show_avatar.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/doctor_list_items.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/doctors_for_prescription_item.xml" value="0.3536458333333333" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/edit_health_tracking.xml" value="0.3536458333333333" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/edit_prescription_dialog.xml" value="0.3536458333333333" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_add_new_prescription.xml" value="0.3536458333333333" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_all_prescriotion.xml" value="0.22" />
@@ -82,7 +86,7 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_appointment.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_history.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_home.xml" value="0.33" />
-        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_search.xml" value="0.33" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_search.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_nav_user_info.xml" value="0.16822916666666668" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_note_detail.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_note_image.xml" value="0.25" />
@@ -90,9 +94,10 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/fragment_reset_password.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/history_appointment_items.xml" value="0.33" />
-        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/home_appointment_items.xml" value="0.33" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_history_meetiing.xml" value="0.3536458333333333" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_note.xml" value="0.25" />
-        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_prescription.xml" value="0.25" />
+        <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/item_prescription.xml" value="0.22" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/my_doctors_items.xml" value="0.33" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/layout/nav_home_category_items.xml" value="0.16822916666666668" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3536458333333333" />
@@ -103,6 +108,11 @@
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/mipmap-anydpi-v26/app_logo.xml" value="0.1905" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1905" />
         <entry key="..\:/Android/Projects/Work/Techwiz/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1905" />
+        <entry key="..\:/Android/SDK/platforms/android-32/android.jar!/res/layout/search_dropdown_item_icons_2line.xml" value="0.3536458333333333" />
+        <entry key="..\:/Android/SDK/platforms/android-32/android.jar!/res/layout/search_view.xml" value="0.3536458333333333" />
+        <entry key="..\:/Android/SDK/platforms/android-32/android.jar!/res/layout/select_dialog_material.xml" value="0.3536458333333333" />
+        <entry key="..\:/Android/SDK/platforms/android-32/android.jar!/res/layout/select_dialog_multichoice.xml" value="0.3536458333333333" />
+        <entry key="..\:/Android/SDK/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.3536458333333333" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.173" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.1715" />
         <entry key="..\:/Android/Techwiz/app/src/main/res/drawable/ic_baseline_change_circle_24.xml" value="0.173" />

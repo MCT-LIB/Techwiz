@@ -106,7 +106,7 @@
     <string name="track_blood_sugar">Blood sugar :</string>
 
     <!--    edit track fragment-->
-    <string name="edit_track_edit_new">Edit New</string>
+    <string name="edit_track_edit_new">Update</string>
 
 
     <!--    fragment dt home-->
