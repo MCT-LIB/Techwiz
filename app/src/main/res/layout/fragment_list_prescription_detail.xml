@@ -18,7 +18,7 @@
         android:id="@+id/rl_info_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="16dp">
 
         <androidx.cardview.widget.CardView
@@ -27,12 +27,12 @@
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/bg_border_bottom"
             android:elevation="12dp"
             app:cardCornerRadius="8dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -43,13 +43,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_marginStart="12dp"
             android:layout_toEndOf="@id/cv_avatar"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name_person"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:textColor="@color/primary"
@@ -58,21 +58,18 @@
 
             <TextView
                 android:id="@+id/tv_date_time"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif-medium"
-
                 android:textColor="@color/primary"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_phone_num"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif-medium"
-
                 android:textColor="@color/primary"
                 android:textSize="14sp" />
 

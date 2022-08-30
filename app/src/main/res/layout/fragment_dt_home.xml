@@ -94,7 +94,7 @@
                 tools:listitem="@layout/home_appointment_items" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_nothing"
+                android:id="@+id/ll_no_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

@@ -1,5 +1,6 @@
 package com.csupporter.techwiz.data.repository;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
@@ -24,7 +25,7 @@ public class PrescriptionDetailRepositoryImpl implements PrescriptionDetailRepos
     }
 
     @Override
-    public void deletePrescriptionDetail(PrescriptionDetail prescriptionDetail, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
+    public void deletePrescriptionDetail(@NonNull PrescriptionDetail prescriptionDetail, @Nullable Consumer<Void> onSuccess, @Nullable Consumer<Throwable> onError) {
         FirebaseUtils.deleteData(DEFAULT_PATH, prescriptionDetail.getId(), onSuccess, onError);
     }
 

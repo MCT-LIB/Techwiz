@@ -1,11 +1,15 @@
 package com.csupporter.techwiz.presentation.presenter.user;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
+import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
+import com.csupporter.techwiz.domain.model.AppointmentSchedule;
+import com.csupporter.techwiz.domain.model.MyDoctor;
 import com.csupporter.techwiz.domain.model.Prescription;
 import com.csupporter.techwiz.presentation.internalmodel.AppointmentDetail;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
@@ -86,6 +90,74 @@ public class NavSearchPresenter extends BasePresenter {
                     getBaseView().hideLoading();
                     callback.onError(throwable);
                 });
+    }
+
+    public void createMyDoctor(@NonNull Account doctor, MainViewCallBack.AddMyDoctor callBack) {
+        Account user = App.getApp().getAccount();
+        String userId = user.getId();
+        String doctorId = doctor.getId();
+
+        DataInjection.provideRepository().myDoctor.hasLinked(userId, doctorId, myDoctor -> {
+            if (myDoctor == null) {
+                MyDoctor dr = new MyDoctor(FirebaseUtils.uniqueId(), userId, doctorId);
+                DataInjection.provideRepository().myDoctor.createMyDoctor(dr, unused -> {
+                    callBack.addMyDoctorSuccess(doctor);
+                }, throwable -> {
+                    callBack.addMyDoctorFail();
+                });
+            } else {
+                callBack.addMyDoctorSuccess(doctor);
+            }
+        }, throwable -> callBack.addMyDoctorFail());
+
+    }
+
+    public void createAppointment(Appointment appointment, AppointmentSchedule schedule, @NonNull MainViewCallBack.CreateAppointmentCallback callback) {
+        getBaseView().showLoading();
+        DataInjection.provideRepository().appointment.addAppointment(appointment, schedule, unused -> {
+            getBaseView().hideLoading();
+            callback.onCreateSuccess();
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.onError(throwable);
+        });
+    }
+
+    public void updateAppointment(@NonNull Appointment appointment, boolean isConfirm, MainViewCallBack.UpdateAppointmentCallback callback) {
+        int currentStatus = appointment.getStatus();
+        if (currentStatus != 0 && currentStatus != 1) {
+            return;
+        }
+        if (isConfirm && currentStatus == 1) {
+            return;
+        }
+        int newStatus;
+        getBaseView().showLoading();
+        if (isConfirm) {
+            newStatus = 1;
+        } else {
+            boolean isUser = App.getApp().getAccount().isUser();
+            if (isUser) {
+                newStatus = 4;
+            } else {
+                if (currentStatus == 0) {
+                    newStatus = 2;
+                } else {
+                    newStatus = 3;
+                }
+            }
+        }
+        appointment.setStatus(newStatus);
+        AppointmentSchedule schedule = new AppointmentSchedule();
+        schedule.setId(appointment.getId());
+        schedule.setStatus(newStatus);
+        DataInjection.provideRepository().appointment.updateAppointment(appointment, schedule, unused -> {
+            getBaseView().hideLoading();
+            callback.onCreateSuccess();
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.onError(throwable);
+        });
     }
 
 }

@@ -81,7 +81,7 @@ public class DtHomeFragment extends BaseFragment implements View.OnClickListener
         imgAvatar = view.findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
         tvUserName = view.findViewById(R.id.tv_username);
-        llNothing = view.findViewById(R.id.ll_nothing);
+        llNothing = view.findViewById(R.id.ll_no_data);
         refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(() -> historyAppointmentPresenter.requestAppointmentsDoctor(this));
         homeListAppointmentOfDay = view.findViewById(R.id.home_list_appointment_of_day);

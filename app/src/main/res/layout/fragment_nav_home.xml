@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="19dp"
-            android:gravity="center|right"
+            android:gravity="center|end"
             android:text="@string/nav_home_fragment_be_healthy"
             android:textColor="@color/blue" />
 
@@ -38,10 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center|end"
-            android:text="Tran Trung"
             android:textColor="@color/blue"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Tran Trung" />
     </LinearLayout>
 
     <TextView
@@ -64,10 +64,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/doctor_category"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/nav_home_category_items" />
 
     <TextView
         android:id="@+id/nav_home_text"
@@ -102,7 +102,7 @@
                 tools:listitem="@layout/home_appointment_items" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_nothing"
+                android:id="@+id/ll_no_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

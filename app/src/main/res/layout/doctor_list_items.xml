@@ -13,10 +13,11 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/like_doctor"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="end"
-        android:layout_margin="7dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
         android:src="@drawable/ic_baseline_thumb_up_24"
         android:visibility="visible"
         app:tint="@color/yellow_dark" />

@@ -118,11 +118,11 @@ public class AddDoctorFragment extends BaseNavFragment implements MainViewCallBa
 
     @Override
     public void onClickLike(Account account, int position) {
-        userAppointmentPresenter.createMyDoctor(account, position, this);
+        userAppointmentPresenter.createMyDoctor(account, this);
     }
 
     @Override
-    public void addMyDoctorSuccess(Account doctor, int position) {
+    public void addMyDoctorSuccess(Account doctor) {
         showToast("Added a doctor in your favorites!", ToastUtils.SUCCESS);
     }
 

@@ -108,7 +108,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             }
 
             imgLike.setOnClickListener(view -> {
-
                 mOnItemCLickListener.onClickLike(doctorModel, position);
             });
 

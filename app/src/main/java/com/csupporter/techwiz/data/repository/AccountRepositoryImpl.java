@@ -1,8 +1,5 @@
 package com.csupporter.techwiz.data.repository;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 
@@ -10,8 +7,6 @@ import com.csupporter.techwiz.data.firebase_source.FirebaseUtils;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.repository.AccountRepository;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;

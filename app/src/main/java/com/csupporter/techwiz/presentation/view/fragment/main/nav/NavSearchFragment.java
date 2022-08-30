@@ -10,11 +10,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.csupporter.techwiz.App;
 import com.csupporter.techwiz.R;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Appointment;
@@ -35,7 +36,14 @@ import com.csupporter.techwiz.presentation.presenter.user.NavSearchPresenter;
 import com.csupporter.techwiz.presentation.view.adapter.DoctorListAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.HistoryAppointmentAdapter;
 import com.csupporter.techwiz.presentation.view.adapter.PrescriptionAdapter;
+import com.csupporter.techwiz.presentation.view.dialog.AddAppointmentDialog;
+import com.csupporter.techwiz.presentation.view.dialog.AlertDialog;
+import com.csupporter.techwiz.presentation.view.dialog.ConfirmDialog;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
+import com.csupporter.techwiz.presentation.view.fragment.main.prescription.ListPrescriptionDetailFragment;
+import com.mct.components.baseui.BaseActivity;
+import com.mct.components.baseui.BaseOverlayDialog;
+import com.mct.components.baseui.BaseOverlayLifecycle;
 import com.mct.components.toast.ToastUtils;
 
 import java.text.DateFormat;
@@ -52,7 +60,7 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
 
     private Spinner spinner;
     private RecyclerView rcvSearch;
-    private View layoutMsg;
+    private View layoutSearchHint, llNoData;
     private LoadingDialog dialog;
     private SearchView searchView;
     private TextView tvSearch;
@@ -103,7 +111,8 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         spinner = view.findViewById(R.id.spinner2);
         spinner.setOnItemSelectedListener(this);
         rcvSearch = view.findViewById(R.id.rcv_search_st);
-        layoutMsg = view.findViewById(R.id.layout_msg);
+        layoutSearchHint = view.findViewById(R.id.ll_search_hint);
+        llNoData = view.findViewById(R.id.ll_no_data);
         tvSearch = view.findViewById(R.id.tv_search);
         tvSearch.setOnClickListener(this);
         searchView = view.findViewById(R.id.search_bar);
@@ -125,6 +134,9 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
             searchView.setVisibility(View.VISIBLE);
             searchView.onActionViewCollapsed();
         }
+        layoutSearchHint.setVisibility(VISIBLE);
+        llNoData.setVisibility(GONE);
+        rcvSearch.setVisibility(GONE);
     }
 
     @Override
@@ -162,10 +174,10 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (currentType == SEARCH_TYPE_DOCTOR) {
-            navSearchPresenter.searchDoctor(query);
+            navSearchPresenter.searchDoctor(query.trim());
         }
         if (currentType == SEARCH_TYPE_PRESCRIPTION) {
-            navSearchPresenter.searchPrescription(query);
+            navSearchPresenter.searchPrescription(query.trim());
         }
         searchView.clearFocus();
         return true;
@@ -193,37 +205,121 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
 
     @Override
     public void onItemClick(Account account) {
-
+        if (App.getApp().getAccount().isUser()) {
+            Fragment fragment = DoctorInfoFragment.newInstance(account);
+            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
+        }
     }
 
     @Override
     public void onClickLike(Account account, int position) {
+        navSearchPresenter.createMyDoctor(account, new MainViewCallBack.AddMyDoctor() {
+            @Override
+            public void addMyDoctorSuccess(Account doctor) {
+                showToast("Added a doctor in your favorites!", ToastUtils.SUCCESS);
+            }
 
+            @Override
+            public void addMyDoctorFail() {
+                showToast("Add doctor fail!", ToastUtils.ERROR);
+            }
+        });
     }
 
     @Override
     public void onItemCLick(Prescription prescription, int pos) {
-
+        Fragment fragment = ListPrescriptionDetailFragment.newInstance(prescription);
+        replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
     }
 
     @Override
-    public void onClickSetAgain(AppointmentDetail detail, int position) {
+    public void onClickSetAgain(@NonNull AppointmentDetail detail, int position) {
+        new AddAppointmentDialog(requireContext(), detail.getAcc(), (dialog, appointment, appointmentSchedule) ->
+                navSearchPresenter.createAppointment(appointment, appointmentSchedule, new MainViewCallBack.CreateAppointmentCallback() {
+                    @Override
+                    public void onCreateSuccess() {
+                        dialog.dismiss();
+                        if (getContext() != null) {
+                            new AlertDialog(getContext(),
+                                    R.drawable.ic_check_circle,
+                                    "Appointment sent to doctor successfully!",
+                                    BaseOverlayLifecycle::dismiss).create(null);
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable throwable) {
+                        showToast("Book appointment error", ToastUtils.ERROR);
+                    }
+                })).create(null);
     }
 
     @Override
     public void onClickCancel(AppointmentDetail detail, int position) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_HOLD_USER,
+                R.drawable.ic_cancel_circle,
+                "Are you sure to cancel this appointment?",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                        navSearchPresenter.updateAppointment(detail.getAppointment(), false, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                appointmentAdapter.notifyItemChanged(position);
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
     }
 
     @Override
     public void onClickConfirm(AppointmentDetail detail, int position) {
+        new ConfirmDialog(requireContext(),
+                ConfirmDialog.LAYOUT_CONFIRM,
+                R.drawable.ic_check_circle,
+                "Click yes to confirm!",
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void onConfirm(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                        navSearchPresenter.updateAppointment(detail.getAppointment(), true, new MainViewCallBack.UpdateAppointmentCallback() {
+                            @Override
+                            public void onCreateSuccess() {
+                                appointmentAdapter.notifyItemChanged(position);
+                                showToast("Update success!", ToastUtils.SUCCESS);
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel(BaseOverlayDialog overlayDialog) {
+                        overlayDialog.dismiss();
+                    }
+                }).create(null);
     }
 
     @Override
     public void onClickItem(AppointmentDetail detail, int position) {
-
+        if (App.getApp().getAccount().isUser()) {
+            Fragment fragment = DoctorInfoFragment.newInstance(detail.getAcc());
+            replaceFragment(fragment, true, BaseActivity.Anim.TRANSIT_FADE);
+        }
     }
 
     @Override
@@ -232,9 +328,15 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
         if (getContext() == null) {
             return;
         }
-        showToast("" + result.size(), ToastUtils.SUCCESS);
+        if (result.isEmpty()) {
+            layoutSearchHint.setVisibility(GONE);
+            llNoData.setVisibility(VISIBLE);
+            rcvSearch.setVisibility(GONE);
+            return;
+        }
+        layoutSearchHint.setVisibility(GONE);
+        llNoData.setVisibility(GONE);
         rcvSearch.setVisibility(VISIBLE);
-        layoutMsg.setVisibility(GONE);
 
         doctorListAdapter.setDoctorList(null);
         prescriptionAdapter.setPrescriptionsList(null);
@@ -263,6 +365,6 @@ public class NavSearchFragment extends BaseNavFragment implements SearchView.OnQ
     @Override
     public void onError(Throwable throwable) {
         rcvSearch.setVisibility(GONE);
-        layoutMsg.setVisibility(VISIBLE);
+        layoutSearchHint.setVisibility(VISIBLE);
     }
 }

@@ -1,11 +1,13 @@
 package com.csupporter.techwiz.presentation.presenter.user;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.di.DataInjection;
 import com.csupporter.techwiz.domain.model.Account;
 import com.csupporter.techwiz.domain.model.Prescription;
 import com.csupporter.techwiz.domain.model.PrescriptionDetail;
+import com.csupporter.techwiz.domain.repository.ImageManager;
 import com.csupporter.techwiz.presentation.presenter.MainViewCallBack;
 import com.mct.components.baseui.BasePresenter;
 import com.mct.components.baseui.BaseView;
@@ -34,33 +36,26 @@ public class ListPrescriptionDetailPresenter extends BasePresenter {
                 });
     }
 
-    public void getUserCreatedPrescription(Prescription prescription, MainViewCallBack.GetUserCreatedPrescription callback) {
+    public void getUserCreatedPrescription(@NonNull Prescription prescription, MainViewCallBack.GetUserCreatedPrescription callback) {
         getBaseView().showLoading();
 
         DataInjection.provideRepository().account
-                .findAccountById(prescription.isUserCreate() ? prescription.getUserId() : prescription.getDoctorId(), account -> {
-
+                .findAccountById(prescription.getDoctorId() == null ? prescription.getUserId() : prescription.getDoctorId(), account -> {
                     getBaseView().hideLoading();
                     callback.getUserCreatedPrescription(account);
-
                 }, throwable -> getBaseView().hideLoading());
 
     }
 
-    public void deletePrescription(PrescriptionDetail prescriptionDetail, int pos, MainViewCallBack.DeletePrescriptionDetail callback) {
+    public void deletePrescription(@NonNull PrescriptionDetail prescriptionDetail, int pos, MainViewCallBack.DeletePrescriptionDetail callback) {
         getBaseView().showLoading();
-        DataInjection.provideRepository().prescriptionDetail.deletePrescriptionDetail(prescriptionDetail, new Consumer<Void>() {
-            @Override
-            public void accept(Void unused) {
-                getBaseView().hideLoading();
-                callback.deletePrescriptionDetailSuccess(prescriptionDetail, pos);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                getBaseView().hideLoading();
-                callback.deletePrescriptionDetailFail();
-            }
+        DataInjection.provideRepository().imageManager.delete(ImageManager.Type.MEDICINE, prescriptionDetail.getId());
+        DataInjection.provideRepository().prescriptionDetail.deletePrescriptionDetail(prescriptionDetail, unused -> {
+            getBaseView().hideLoading();
+            callback.deletePrescriptionDetailSuccess(prescriptionDetail, pos);
+        }, throwable -> {
+            getBaseView().hideLoading();
+            callback.deletePrescriptionDetailFail();
         });
     }
 

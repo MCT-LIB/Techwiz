@@ -3,6 +3,7 @@ package com.csupporter.techwiz.presentation.presenter.user;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.csupporter.techwiz.App;
@@ -21,25 +22,7 @@ public class AddNewPrescriptionPresenter extends BasePresenter {
         super(baseView);
     }
 
-//    public void createPrescriptionDetail(PrescriptionDetail prescriptionDetail, MainViewCallBack.CreatePrescriptionDetailCallBack callBack) {
-//        getBaseView().showLoading();
-//        DataInjection.provideRepository().prescriptionDetail.createPrescriptionDetail(prescriptionDetail.getPrescriptionId(), new Consumer<Void>() {
-//            @Override
-//            public void accept(Void unused) {
-//                getBaseView().hideLoading();
-//                callBack.createPrescriptionDetailSuccess();
-//            }
-//        }, new Consumer<Throwable>() {
-//            @Override
-//            public void accept(Throwable throwable) {
-//                getBaseView().hideLoading();
-//                callBack.createPrescriptionFail();
-//            }
-//        });
-//    }
-
-    public void createPrescriptionDetail(PrescriptionDetail prescriptionDetail, byte[] source, MainViewCallBack.CreatePrescriptionDetailCallBack callback) {
-
+    public void createPrescriptionDetail(@NonNull PrescriptionDetail prescriptionDetail, byte[] source, MainViewCallBack.CreatePrescriptionDetailCallBack callback) {
         getBaseView().showLoading();
         DataInjection.provideRepository().imageManager
                 .upload(ImageManager.Type.MEDICINE, prescriptionDetail.getId(), source,

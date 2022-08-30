@@ -37,7 +37,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ListPrescriptionDetailFragment extends BaseFragment implements View.OnClickListener,
+public class ListPrescriptionDetailFragment extends BaseFragment implements
         MainViewCallBack.ListPrescriptionDetailCallback,
         DetailPrescriptionAdapter.OnItemClickListener,
         MainViewCallBack.GetUserCreatedPrescription {
@@ -79,14 +79,20 @@ public class ListPrescriptionDetailFragment extends BaseFragment implements View
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (view != null) return view;
         view = inflater.inflate(R.layout.fragment_list_prescription_detail, container, false);
         initView(view);
         listPrescriptionDetailPresenter.getUserCreatedPrescription(prescription, this);
-        listPrescriptionDetailPresenter.getAllPrescriptionDetail(prescription, this);
         return view;
     }
 
-    private void initView(View view) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        listPrescriptionDetailPresenter.getAllPrescriptionDetail(prescription, this);
+    }
+
+    private void initView(@NonNull View view) {
 
         Toolbar toolbar = view.findViewById(R.id.tb_toolbar);
         toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
@@ -113,7 +119,7 @@ public class ListPrescriptionDetailFragment extends BaseFragment implements View
 
     @Override
     public void onClickDelete(PrescriptionDetail pressDetail, int pos) {
-        new ConfirmDialog(getActivity(), R.layout.dialog_cf_confirm, R.drawable.ic_delete, "Are you sure you want to delete it?",
+        new ConfirmDialog(requireContext(), R.layout.dialog_cf_confirm, R.drawable.ic_delete, "Are you sure you want to delete it?",
                 new ConfirmDialog.OnConfirmListener() {
                     @Override
                     public void onConfirm(BaseOverlayDialog overlayDialog) {
@@ -152,11 +158,6 @@ public class ListPrescriptionDetailFragment extends BaseFragment implements View
     }
 
     @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
     public void showLoading() {
         if (getContext() == null) return;
         if (dialog != null && dialog.isShowing()) {
@@ -182,9 +183,12 @@ public class ListPrescriptionDetailFragment extends BaseFragment implements View
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .into(imgAvatar);
-        tvNamePerson.setText(account.getFirstName() + " " + account.getLastName());
-        if (account.getPhone() == null) {
+        tvNamePerson.setText(account.getFullName());
+        if (account.getPhone() != null) {
             tvPhoneNum.setText(account.getPhone());
+            tvPhoneNum.setVisibility(View.VISIBLE);
+        } else {
+            tvPhoneNum.setVisibility(View.GONE);
         }
         tvDateTime.setText(DateFormat.getDateTimeInstance().format(new Date(prescription.getCreateAt())));
 

@@ -76,7 +76,7 @@ public class NavHomeFragment extends BaseNavFragment implements
     private void init(@NonNull View view) {
         categoryDoctor = view.findViewById(R.id.category_doctor_list);
         rclAppointmentList = view.findViewById(R.id.home_list_appointment_of_day);
-        llNothing = view.findViewById(R.id.ll_nothing);
+        llNothing = view.findViewById(R.id.ll_no_data);
         name = view.findViewById(R.id.tv_username);
 
         avatar = view.findViewById(R.id.img_avatar);
