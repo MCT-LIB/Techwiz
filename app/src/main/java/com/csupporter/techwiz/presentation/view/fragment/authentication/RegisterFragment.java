@@ -28,6 +28,7 @@ import com.mct.components.toast.ToastUtils;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, AuthenticationCallback.EnterOTPCallBack, AuthenticationCallback.VerifyAccountCallBack {
 
+    private View mView;
     private TextInputLayout txtFirstName;
     private TextInputLayout txtLastName;
     private TextInputLayout txtEmail;
@@ -55,13 +56,14 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         WindowUtils.setWindowBackground(getActivity(), R.drawable.background_register);
     }
 
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
-        init(view);
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (mView != null) {
+            return mView;
+        }
+        mView = inflater.inflate(R.layout.fragment_register, container, false);
+        init(mView);
+        return mView;
     }
 
     private void init(@NonNull View view) {

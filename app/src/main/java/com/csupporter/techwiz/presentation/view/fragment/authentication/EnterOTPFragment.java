@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.csupporter.techwiz.R;
@@ -26,7 +27,6 @@ import com.csupporter.techwiz.presentation.presenter.authentication.SendOtpPrese
 import com.csupporter.techwiz.presentation.view.activities.MainActivity;
 import com.csupporter.techwiz.presentation.view.common.OtpEditText;
 import com.csupporter.techwiz.presentation.view.dialog.LoadingDialog;
-import com.csupporter.techwiz.utils.EncryptUtils;
 import com.mct.components.baseui.BaseActivity;
 import com.mct.components.baseui.BaseFragment;
 import com.mct.components.toast.ToastUtils;
@@ -58,7 +58,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
         public void run() {
             tvDurationOfOtp.setText(--timeless + "s");
             if (timeless <= 0) {
-                ((View) btnResentOTP.getParent()).setVisibility(View.VISIBLE);
+//                ((View) btnResentOTP.getParent()).setVisibility(View.VISIBLE);
+                btnResentOTP.setEnabled(true);
+                btnResentOTP.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 btnVerifyCode.setEnabled(false);
                 handler.removeCallbacks(this);
             } else {
@@ -117,7 +119,7 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.btn_resent_otp:
                 if (from == FROM_FORGOT_PW) {
-                    Log.e("ddd", "onClick: Enter OTP frag" );
+                    Log.e("ddd", "onClick: Enter OTP frag");
                     sendOTPPresenter.sentForgotPassOtp(account, this);
                 }
                 if (from == FROM_REGISTER) {
@@ -158,7 +160,9 @@ public class EnterOTPFragment extends BaseFragment implements View.OnClickListen
 
     private void startTimer() {
         timeless = 60;
-        ((View) btnResentOTP.getParent()).setVisibility(View.INVISIBLE);
+//        ((View) btnResentOTP.getParent()).setVisibility(View.INVISIBLE);
+        btnResentOTP.setEnabled(false);
+        btnResentOTP.setTextColor(ContextCompat.getColor(requireContext(), R.color.textSubPrimary));
         btnVerifyCode.setEnabled(true);
         handler.post(r);
     }
