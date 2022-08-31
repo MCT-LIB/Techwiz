@@ -123,6 +123,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             case FIRST_NAME:
                 showSoftInput(txtFirstName.getEditText());
                 break;
+            case LAST_NAME:
+                showSoftInput(txtLastName.getEditText());
+                break;
             case EMAIL:
                 showSoftInput(txtEmail.getEditText());
                 break;
@@ -138,8 +141,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void verified() {
-            hideSoftInput();
-            sendOtpPresenter.sendVerificationOtp(account, this);
+        hideSoftInput();
+        sendOtpPresenter.sendVerificationOtp(account, this);
     }
 
     @Override
